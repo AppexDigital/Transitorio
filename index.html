@@ -12,6 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Montserrat:wght@300;400;700&family=Lato:wght@300;400;700&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -191,6 +194,37 @@
         }
         .animate-progress-fill { animation: progress-fill 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
+        /* Bloqueo de scroll principal para modo inmersivo */
+        body.admin-mode {
+            overflow: hidden !important;
+            height: 100vh;
+        }
+
+        /* Aseguramos que el panel lateral no genere scroll si no es necesario */
+        #view-admin aside nav {
+            scrollbar-width: none; /* Firefox */
+        }
+        #view-admin aside nav::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        /* Ajuste de precisión para el contenedor Admin */
+        #view-admin {
+            top: 0 !important; /* Forzamos el inicio en el pixel 0 */
+            height: 100vh !important;
+            position: fixed; /* Lo sacamos del flujo para que no lo empuje el menú */
+            z-index: 40;
+        }
+
+        /* Bloqueo total del cuerpo */
+        body.admin-mode {
+            overflow: hidden !important;
+            position: fixed;
+            width: 100%;
+        }
+
+
+
     </style>
 </head>
 <body class="flex flex-col min-h-screen font-sans antialiased selection:bg-gold selection:text-black">
@@ -229,12 +263,10 @@
 
         <div class="hidden lg:flex items-center gap-8">
             <div class="flex gap-6 text-sm font-bold uppercase tracking-widest text-gray-400" id="nav-links">
-
-                
-
-                <button id="nav-inicio" onclick="Router.go('inicio')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Inicio</button>
+                <button id="nav-inicio" onclick="Router.go('inicio')" class="text-gold border-b-2 border-gold px-2 py-1 transition-all duration-300">Inicio</button>
                 <button id="nav-nosotros" onclick="Router.go('nosotros')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Nosotros</button>
                 <button id="nav-clases" onclick="Router.go('clases')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Clases</button>
+                <button id="nav-membresias" onclick="Router.go('membresias')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Membresías</button>
                 <button id="nav-agenda" onclick="Router.go('agenda')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Agenda</button>
                 <button id="nav-alquiler" onclick="Router.go('alquiler')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Espacios</button>
                 <button id="nav-talento" onclick="Router.go('talento')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Talento</button>
@@ -259,7 +291,6 @@
         </button>
     </nav>
 
-    <!-- MENÚ MÓVIL FULLSCREEN -->
     <div id="mobile-menu" class="hidden fixed inset-0 z-[100] bg-void/95 backdrop-blur-xl flex-col overflow-y-auto transition-all duration-300 opacity-0">
         
         <div class="fixed top-6 right-6 z-50">
@@ -272,23 +303,28 @@
             <i class="fa-solid fa-crown text-[150px] text-white/5 animate-pulse-slow"></i>
         </div>
 
-        <div class="relative z-10 w-full min-h-screen flex flex-col items-center justify-center py-12 gap-3">
+        <div class="relative z-10 w-full min-h-screen flex flex-col items-center justify-center py-16">
             
-            <button onclick="Router.go('inicio'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors tracking-wide leading-tight" style="font-family: 'Playfair Display', serif !important;">Inicio</button>
-            <button onclick="Router.go('nosotros'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors tracking-wide leading-tight" style="font-family: 'Playfair Display', serif !important;">Nosotros</button>
-            <button onclick="Router.go('clases'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors tracking-wide leading-tight" style="font-family: 'Playfair Display', serif !important;">Clases</button>
-            <button onclick="Router.go('agenda'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors tracking-wide leading-tight" style="font-family: 'Playfair Display', serif !important;">Agenda</button>
-            <button onclick="Router.go('alquiler'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors tracking-wide leading-tight" style="font-family: 'Playfair Display', serif !important;">Espacios</button>
-            <button onclick="Router.go('talento'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors tracking-wide leading-tight" style="font-family: 'Playfair Display', serif !important;">Talento</button>
+            <div class="flex flex-col items-center gap-1 mb-2">
+                <button onclick="Router.go('inicio'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors leading-tight" style="font-family: 'Playfair Display', serif !important;">Inicio</button>
+                <button onclick="Router.go('nosotros'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors leading-tight" style="font-family: 'Playfair Display', serif !important;">Nosotros</button>
+                <button onclick="Router.go('clases'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors leading-tight" style="font-family: 'Playfair Display', serif !important;">Clases</button>
+                
+                <button onclick="Router.go('membresias'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors leading-tight" style="font-family: 'Playfair Display', serif !important;">Membresías</button>
+                
+                <button onclick="Router.go('agenda'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors leading-tight" style="font-family: 'Playfair Display', serif !important;">Agenda</button>
+                <button onclick="Router.go('alquiler'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors leading-tight" style="font-family: 'Playfair Display', serif !important;">Espacios</button>
+                <button onclick="Router.go('talento'); App.toggleMobileMenu()" class="text-4xl text-white hover:text-gold transition-colors leading-tight" style="font-family: 'Playfair Display', serif !important;">Talento</button>
+            </div>
 
-            <div class="flex items-center gap-6 mt-2">
-                <button onclick="App.toggleCurrency()" class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:border-gold transition-colors">
-                    <span class="w-2 h-2 rounded-full bg-gold"></span>
-                    <span class="text-xs font-bold text-white uppercase tracking-wider">CRC</span>
+            <div class="mt-2 mb-8">
+                <button onclick="App.toggleCurrency()" class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:border-gold transition-colors group">
+                    <span class="w-2 h-2 rounded-full bg-gold group-hover:scale-125 transition-transform"></span>
+                    <span class="text-xs font-bold text-white uppercase tracking-wider group-hover:text-gold">CRC</span>
                 </button>
             </div>
 
-            <button onclick="App.toggleLoginModal(); App.toggleMobileMenu()" class="btn-galaxy px-10 py-4 rounded-full text-sm font-bold shadow-lg mt-6 shrink-0 tracking-widest uppercase">
+            <button onclick="App.toggleLoginModal(); App.toggleMobileMenu()" class="btn-galaxy px-10 py-4 rounded-full text-xs font-bold shadow-lg shrink-0 tracking-widest uppercase transform hover:scale-105 transition-all">
                 Portal
             </button>
 
@@ -374,6 +410,17 @@
                 <div id="classes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Cards Generadas por JS -->
                 </div>
+            </div>
+        </section>
+
+        <section id="view-membresias" class="app-view px-6 py-20 bg-void">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">Planes & Inversión</h2>
+                    <div class="w-24 h-1 bg-gold mx-auto rounded-full"></div>
+                </div>
+                <div id="memberships-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    </div>
             </div>
         </section>
 
@@ -479,166 +526,117 @@
         </section>
 
         <!-- 8. CENTRO DE MANDO (ADMIN CMS TOTAL) -->
-        <section id="view-admin" class="app-view flex-grow h-[calc(100vh-80px)]">
-            <div class="flex h-full flex-col lg:flex-row">
-                <aside class="w-full lg:w-72 bg-panel border-r border-white/5 flex flex-col p-6 hidden lg:flex">
-                    <h2 class="text-gold font-serif font-bold text-xl mb-10 tracking-widest">COMMAND CENTER</h2>
-                    <div class="space-y-2" id="admin-nav">
-                        </div>
-                    <button onclick="App.logout()" class="mt-auto text-xs text-danger text-left px-4 py-2 hover:bg-danger/10 rounded transition-colors">Cerrar Sesión Segura</button>
+        <section id="view-admin" class="app-view hidden w-full h-screen bg-void text-white overflow-hidden pt-0">
+            <div class="flex h-full">
+                <aside class="w-64 bg-panel border-r border-white/10 flex flex-col hidden md:flex h-full overflow-hidden pt-24">
+                    <nav id="admin-nav" class="flex-1 overflow-y-auto pb-6 space-y-1 custom-scrollbar">
+                        <button onclick="Admin.switchTab('dash')" id="btn-tab-dash" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+                        </button>
+                        <button onclick="Admin.switchTab('web')" id="btn-tab-web" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-desktop w-5"></i> Web Editor
+                        </button>
+                        <button onclick="Admin.switchTab('clases')" id="btn-tab-clases" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-person-chalkboard w-5"></i> Clases
+                        </button>
+                        <button onclick="Admin.switchTab('membresias')" id="btn-tab-membresias" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-id-card w-5"></i> Membresías
+                        </button>
+                        <button onclick="Admin.switchTab('alumnos')" id="btn-tab-alumnos" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-users w-5"></i> Alumnos
+                        </button>
+                        <button onclick="Admin.switchTab('espacios')" id="btn-tab-espacios" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-building w-5"></i> Espacios
+                        </button> 
+                        <button onclick="Admin.switchTab('talento')" id="btn-tab-talento" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-star w-5"></i> Talento
+                        </button>
+                        <button onclick="Admin.switchTab('finanzas')" id="btn-tab-finanzas" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-coins w-5"></i> Finanzas
+                        </button>
+                        <button onclick="Admin.switchTab('config')" id="btn-tab-config" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-sliders w-5"></i> Ajustes
+                        </button>
+                    </nav>
+                    <div class="p-4 border-t border-white/10 bg-panel">
+                        <button onclick="App.logout()" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-400 hover:bg-red-950/30 rounded-xl transition-all duration-300">
+                            <i class="fa-solid fa-power-off"></i> <span>Cerrar Sesión</span>
+                        </button>
+                    </div>
                 </aside>
 
-                <div class="flex-grow p-8 overflow-y-auto bg-void relative">
-                    
+                <main class="flex-1 overflow-y-auto bg-void p-8 pt-24 relative custom-scrollbar">
                     <div id="admin-tab-dash" class="admin-tab">
-                        <h1 class="text-3xl font-serif text-white mb-8">Visión General</h1>
-                        <div class="grid grid-cols-4 gap-6 mb-8">
-                            <div class="glass-card p-6 rounded-xl border-l-4 border-l-neon">
-                                <p class="text-gray-500 text-xs font-bold uppercase">Alumnos Activos</p>
-                                <p class="text-3xl text-white font-bold mt-2" id="dash-alumnos-count">0</p>
-                            </div>
-                            <div class="glass-card p-6 rounded-xl border-l-4 border-l-gold">
-                                <p class="text-gray-500 text-xs font-bold uppercase">Ingresos Mes</p>
-                                <p class="text-3xl text-white font-bold mt-2" id="dash-ingresos-count">₡0</p>
-                            </div>
+                        <div class="flex justify-between items-end mb-8">
+                            <div><h1 class="text-3xl font-serif font-bold text-white">Centro de Mando</h1><p class="text-gray-400 text-sm mt-1">Resumen operativo</p></div>
                         </div>
-                    </div>
-
-                    <div id="admin-tab-web" class="admin-tab hidden">
-                        <h1 class="text-3xl font-serif text-white mb-8">Editor de Portada (Hero)</h1>
-                        
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            
-                            <div class="glass-card p-8 rounded-xl">
-                                <h3 class="text-gold font-bold mb-6 border-b border-white/10 pb-2">Mensaje Principal</h3>
-                                <div class="space-y-4">
-                                    <div class="input-group">
-                                        <input type="text" id="edit-hero-title" class="input-field" placeholder=" ">
-                                        <label class="input-label">Título Principal</label>
-                                    </div>
-                                    <div class="input-group hidden"> 
-                                        <input type="text" id="edit-hero-location" class="input-field" placeholder=" ">
-                                    </div>
-                                    <div class="input-group">
-                                        <textarea id="edit-hero-desc" class="input-field h-24" placeholder=" "></textarea>
-                                        <label class="input-label">Subtítulo / Promesa</label>
-                                    </div>
-                                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                            <div class="bg-panel p-6 rounded-2xl border border-white/5 shadow-lg relative overflow-hidden group hover:border-gold/30 transition-colors">
+                                <div class="flex justify-between mb-4"><i class="fa-solid fa-users text-blue-400 p-2 bg-blue-950/30 rounded-lg"></i></div>
+                                <h3 class="text-3xl font-bold text-white mb-1" id="kpi-alumnos">0</h3>
+                                <p class="text-xs text-gray-400 uppercase tracking-wider">Alumnos Activos</p>
                             </div>
-
-                            <div class="glass-card p-8 rounded-xl">
-                                <h3 class="text-neon font-bold mb-6 border-b border-white/10 pb-2">Fondo y Acciones</h3>
-                                <div class="space-y-4">
-                                    
-                                    <div class="input-group">
-                                        <input type="text" id="edit-hero-image" class="input-field" placeholder=" "> <label class="input-label">URL Imagen Fondo (Deja vacío para usar color)</label>
-                                    </div>
-                                    <input type="hidden" id="edit-hero-video">
-
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div class="input-group mb-0">
-                                            <input type="text" id="edit-btn1-text" class="input-field" placeholder=" ">
-                                            <label class="input-label">Texto Botón 1</label>
-                                        </div>
-                                        <div class="input-group mb-0">
-                                            <input type="text" id="edit-btn1-link" class="input-field" placeholder=" ">
-                                            <label class="input-label">Link Botón 1</label>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div class="input-group mb-0">
-                                            <input type="text" id="edit-btn2-text" class="input-field" placeholder=" ">
-                                            <label class="input-label">Texto Botón 2</label>
-                                        </div>
-                                        <div class="input-group mb-0">
-                                            <input type="text" id="edit-btn2-link" class="input-field" placeholder=" ">
-                                            <label class="input-label">Link Botón 2</label>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="bg-panel p-6 rounded-2xl border border-white/5 shadow-lg relative overflow-hidden group hover:border-gold/30 transition-colors">
+                                <div class="flex justify-between mb-4"><i class="fa-solid fa-coins text-green-400 p-2 bg-green-950/30 rounded-lg"></i></div>
+                                <h3 class="text-3xl font-bold text-white mb-1" id="kpi-ingresos">₡0</h3>
+                                <p class="text-xs text-gray-400 uppercase tracking-wider">Ingresos Mes</p>
+                            </div>
+                            <div class="bg-panel p-6 rounded-2xl border border-white/5 shadow-lg relative overflow-hidden group hover:border-gold/30 transition-colors">
+                                <div class="flex justify-between mb-4"><i class="fa-solid fa-id-card text-gold p-2 bg-gold/10 rounded-lg"></i></div>
+                                <h3 class="text-3xl font-bold text-white mb-1" id="kpi-membresias">0</h3>
+                                <p class="text-xs text-gray-400 uppercase tracking-wider">Planes Activos</p>
                             </div>
                         </div>
-
-                        <div class="mt-8 flex justify-end">
-                            <button onclick="Admin.saveHeroSettings()" class="btn-galaxy px-8 py-3 rounded-full shadow-lg">
-                                PUBLICAR CAMBIOS EN PORTADA
-                            </button>
+                        <div class="bg-panel p-6 rounded-2xl border border-white/5 shadow-lg h-80">
+                            <canvas id="chart-finanzas"></canvas>
                         </div>
                     </div>
 
-                    <div id="admin-tab-clases" class="admin-tab hidden">
-                        <div class="flex justify-between items-center mb-8">
-                            <h1 class="text-3xl font-serif text-white">Clases Activas</h1>
-                            <button class="btn-neon px-4 py-2 rounded text-xs" onclick="Admin.newClass()">+ Nueva Clase</button>
+                    <div id="admin-tab-web" class="admin-tab hidden"></div>
+                    <div id="admin-tab-clases" class="admin-tab hidden"></div>                    
+                    <div id="admin-tab-agenda" class="admin-tab hidden"></div>
+                    <div id="admin-tab-membresias" class="admin-tab hidden"></div>
+                    <div id="admin-tab-espacios" class="admin-tab hidden"></div> 
+                    <div id="admin-tab-talento" class="admin-tab hidden"></div>
+                    <div id="admin-tab-alumnos" class="admin-tab hidden"></div>
+                    <div id="admin-tab-finanzas" class="admin-tab hidden"></div>
+                    <div id="admin-tab-config" class="admin-tab hidden"></div>
+
+                </main>
+            </div>
+
+            <div id="admin-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+                <div class="absolute inset-0 bg-black/95 backdrop-blur-md transition-opacity opacity-0" id="modal-backdrop" onclick="Admin.closeModal()"></div>
+
+                <div id="modal-panel" class="w-full max-w-lg bg-[#050505] border border-white/10 hover:border-gold rounded-2xl shadow-2xl hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] transform scale-95 opacity-0 transition-all duration-500 relative z-10 flex flex-col max-h-[90vh] group">
+                    
+                    <div class="flex justify-between items-center p-6 pb-4 border-b border-white/5 group-hover:border-gold/10 transition-colors duration-500">
+                        <div class="text-center w-full">
+                            <h3 class="text-2xl font-serif font-bold text-white tracking-widest transition-colors duration-300 group-hover:text-gold" id="modal-title">TÍTULO</h3>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 group-hover:text-gold/80 transition-colors duration-300" id="modal-subtitle">SUBTÍTULO</p>
                         </div>
-                        <div id="admin-classes-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                        <button onclick="Admin.closeModal()" class="absolute top-4 right-4 text-gray-600 hover:text-red-500 transition-colors"><i class="fa-solid fa-xmark text-xl"></i></button>
                     </div>
 
-                    <div id="admin-tab-membresias" class="admin-tab hidden">
-                        <div class="flex justify-between items-center mb-8">
-                            <h1 class="text-3xl font-serif text-white">Planes y Precios</h1>
-                            <button class="btn-neon px-4 py-2 rounded text-xs" onclick="Admin.addItem('membresias')">+ Nuevo Plan</button>
-                        </div>
-                        <div id="admin-membresias-list" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                    <div id="modal-body" class="p-8 overflow-y-auto custom-scrollbar space-y-6"></div>
+
+                    <div class="p-6 pt-0 flex flex-col gap-3">
+                        <button id="modal-save-btn" class="w-full bg-gold text-black font-bold py-3 rounded-lg text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-lg hover:shadow-white/20">
+                            GUARDAR
+                        </button>
+                        <button onclick="Admin.closeModal()" class="w-full text-xs font-bold text-gray-600 hover:text-white uppercase tracking-wider py-2 transition-colors">
+                            CANCELAR
+                        </button>
                     </div>
-
-                    <div id="admin-tab-agenda" class="admin-tab hidden">
-                        <h1 class="text-3xl font-serif text-white mb-6">Constructor de Horarios</h1>
-                        <div class="glass-card p-6 rounded-xl mb-6 border-b border-gold/20">
-                            <form onsubmit="event.preventDefault(); Admin.addAgendaItem();" class="flex gap-4 items-end">
-                                <div class="input-group w-1/3 mb-0">
-                                    <select id="agenda-day" class="input-field bg-void"><option value="lunes">Lunes</option><option value="martes">Martes</option><option value="miercoles">Miércoles</option><option value="jueves">Jueves</option><option value="viernes">Viernes</option><option value="sabado">Sábado</option></select>
-                                    <label class="input-label">Día</label>
-                                </div>
-                                <div class="input-group w-1/4 mb-0"><input type="time" id="agenda-time" class="input-field"><label class="input-label">Hora</label></div>
-                                <div class="input-group flex-grow mb-0"><input type="text" id="agenda-class" class="input-field" placeholder="Ej: Salsa 1"><label class="input-label">Clase</label></div>
-                                <button class="btn-galaxy px-6 py-3 rounded">AÑADIR</button>
-                            </form>
-                        </div>
-                        <div id="admin-agenda-preview" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-                    </div>
-
-                    <div id="admin-tab-alquiler" class="admin-tab hidden">
-                        <h1 class="text-3xl font-serif text-white mb-6">Solicitudes de Espacio</h1>
-                        <div id="admin-alquiler-list" class="space-y-3"></div>
-                    </div>
-
-                    <div id="admin-tab-talento" class="admin-tab hidden">
-                        <h1 class="text-3xl font-serif text-white mb-6">Audiciones Recibidas</h1>
-                        <div id="admin-talento-list" class="space-y-3"></div>
-                    </div>
-
-                    <div id="admin-tab-alumnos" class="admin-tab hidden">
-                        <div class="flex justify-between items-center mb-6">
-                            <h1 class="text-3xl font-serif text-white">Base de Datos Alumnos</h1>
-                            <button class="btn-neon px-4 py-2 rounded text-xs" onclick="Admin.addItem('alumnos')">+ Registrar Alumno</button>
-                        </div>
-                        <div class="glass-card rounded-xl overflow-hidden overflow-x-auto">
-                            <table class="w-full text-left text-sm text-gray-400">
-                                <thead class="bg-white/5 text-gold uppercase text-xs"><tr><th class="p-4">Nombre</th><th class="p-4">Plan</th><th class="p-4">Estado</th><th class="p-4">Pago</th><th class="p-4">Acción</th></tr></thead>
-                                <tbody id="admin-alumnos-table" class="divide-y divide-white/5"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div id="admin-tab-pagos" class="admin-tab hidden">
-                        <div class="flex justify-between items-center mb-6">
-                            <h1 class="text-3xl font-serif text-white">Caja Chica</h1>
-                            <button class="btn-galaxy px-4 py-2 rounded text-xs" onclick="Admin.addFinance()">+ Movimiento</button>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 mb-6">
-                            <div class="p-4 rounded-lg bg-green-900/20 border border-green-500/30"><p class="text-xs text-green-400 uppercase font-bold">Ingresos Totales</p><h3 class="text-2xl text-white font-mono mt-1" id="fin-ingresos">₡0</h3></div>
-                            <div class="p-4 rounded-lg bg-red-900/20 border border-red-500/30"><p class="text-xs text-red-400 uppercase font-bold">Gastos Totales</p><h3 class="text-2xl text-white font-mono mt-1" id="fin-gastos">₡0</h3></div>
-                        </div>
-                        <div id="admin-finanzas-list" class="space-y-2"></div>
-                    </div>
-
-                    <div id="admin-tab-config" class="admin-tab hidden">
-                        </div>
-
                 </div>
             </div>
+
+            <button onclick="Admin.toggleMobileSidebar()" class="md:hidden fixed bottom-6 right-6 z-[110] w-12 h-12 bg-gold text-black rounded-full shadow-[0_0_20px_rgba(158,150,52,0.4)] flex items-center justify-center transition-transform active:scale-90 border-none">
+                <i class="fa-solid fa-screwdriver-wrench text-black"></i>
+            </button>
+
         </section>
+
     </main>
 
     <!-- LOGIN MODAL (FIXED CENTERED & DARK) -->
@@ -651,7 +649,7 @@
                 </div>
                 <h2 class="text-2xl font-serif font-bold text-white tracking-wide">Acceso Seguro</h2>
             </div>
-            <form onsubmit="App.handleLogin(event)">
+            <form onsubmit="App.handleLogin(event)" class="space-y-4">
                 <div class="input-group">
                     <input type="text" id="login-id" class="input-field" placeholder=" ">
                     <label class="input-label">ID Usuario</label>
@@ -660,7 +658,9 @@
                     <input type="password" id="login-pass" class="input-field" placeholder=" ">
                     <label class="input-label">Contraseña</label>
                 </div>
-                <button type="submit" class="w-full btn-galaxy py-3 rounded-lg shadow-lg mt-2">INGRESAR</button>
+                <button type="submit" class="btn-galaxy w-full py-4 rounded-xl font-bold">
+                    INGRESAR AL PORTAL
+                </button>
             </form>
             <div class="mt-8 text-center pt-6 border-t border-white/5 flex justify-center gap-6 text-[10px] text-gray-500 font-mono">
                 <span class="cursor-pointer hover:text-white" onclick="$('#login-id').value='alumno';$('#login-pass').value='1234'">alumno / 1234</span>
@@ -680,425 +680,529 @@
 
     <!-- LÓGICA DEL SISTEMA -->
     <script>
-
         const $ = (s) => document.querySelector(s);
 
         // =================================================================
-        // 1. ADN DEL PROYECTO (ESTRUCTURA DE DATOS MAESTRA)
+        // 1. ADN DEL PROYECTO (DATOS COMPLETOS Y REALISTAS)
         // =================================================================
         const DefaultData = {
             config: {
-                // Configuración Visual
-                colors: { gold: '#D4AF37', neon: '#00F3FF', void: '#020203', panel: '#08090B', surface: '#121418', textMain: '#E0E0E0', textMuted: '#9CA3AF' },
+                colors: { void: '#020203', panel: '#08090B', surface: '#121418', gold: '#D4AF37', neon: '#00F3FF', textMain: '#E0E0E0', textMuted: '#9CA3AF' },
                 fonts: { heading: 'Cinzel', body: 'Space Grotesk' },
-                
-                // Configuración PORTADA (HERO) - Aquí estaba el conflicto, ahora está corregido
                 hero: {
                     title: "Sensación Boogaloo",
                     subtitle: "La evolución del baile latino. Técnica de salón, alma caribeña y proyección internacional.",
-                    bgImage: "https://drive.google.com/thumbnail?id=1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE&sz=w2560",
-                    ctaPrimary: { text: "Explorar Nuentras Clases", link: "clases" },
+                    bgImage: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE",
+                    ctaPrimary: { text: "Explora nuestras Clases", link: "clases" },
                     ctaSecondary: { text: "Audiciones", link: "talento" }
                 }
             },
+
+
             clases: [
-                { id: 1, name: "Salsa Casino", level: "Básico", img: "https://images.unsplash.com/photo-1516650967733-5c7ab4d8e874?auto=format&fit=crop&w=600", desc: "Rueda cubana y figuras." },
-                { id: 2, name: "Bachata Flow", level: "Intermedio", img: "https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=600", desc: "Ondas y disociación." }
+                { id: 1, name: "Salsa Casino", level: "Principiante", schedule: "Lunes 7:00 PM", img: "https://images.unsplash.com/photo-1516650967733-5c7ab4d8e874?auto=format&fit=crop&w=600", desc: "Domina la rueda de casino, el tiempo y la guía básica." },
+                { id: 2, name: "Bachata Sensual", level: "Intermedio", schedule: "Miércoles 8:00 PM", img: "https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=600", desc: "Técnica de disociación, ondas y conexión en pareja." },
+                { id: 3, name: "Kizomba Fusion", level: "Open Level", schedule: "Jueves 7:00 PM", img: "https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?auto=format&fit=crop&w=600", desc: "Musicalidad y conexión suave con influencias modernas." },
+                { id: 4, name: "Lady Style", level: "Avanzado", schedule: "Sábado 10:00 AM", img: "https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?auto=format&fit=crop&w=600", desc: "Expresión corporal, brazos y técnica de giro para ellas." }
             ],
             agenda: {
-                lunes: [{t:"18:00", n:"Salsa 1"}, {t:"19:00", n:"Bachata"}],
-                martes: [{t:"18:00", n:"Kizomba"}, {t:"20:00", n:"Social"}],
-                miercoles: [{t:"19:00", n:"Salsa 2"}], jueves: [], viernes: [], sabado: []
+                lunes: [{t:"18:00", n:"Salsa Básico"}, {t:"19:00", n:"Salsa Intermedio"}, {t:"20:00", n:"Práctica Libre"}],
+                martes: [{t:"18:00", n:"Bachata Básico"}, {t:"19:30", n:"Team Coreográfico"}],
+                miercoles: [{t:"19:00", n:"Salsa On2"}, {t:"20:00", n:"Bachata Sensual"}], 
+                jueves: [{t:"18:00", n:"Kizomba"}, {t:"19:00", n:"Urban Kizz"}], 
+                viernes: [{t:"19:00", n:"Taller Especial"}, {t:"21:00", n:"Social Bailable"}], 
+                sabado: [{t:"10:00", n:"Lady Style"}, {t:"11:30", n:"Men Style"}]
+            
             },
             membresias: [
-                { id: 1, name: "Plan Semestral", price: "₡35,000/mes", features: "Acceso Ilimitado" },
-                { id: 2, name: "Tiquetera 8", price: "₡28,000", features: "8 Clases" }
+                { id: 1, name: "Plan Semestral", price: "₡35,000", features: "Acceso Ilimitado\nMatrícula Gratis\nDescuento en Eventos" },
+                { id: 2, name: "Tiquetera 8", price: "₡28,000", features: "8 Clases al mes\nVence en 45 días\nTransferible" },
+                { id: 3, name: "Clase Suelta", price: "₡5,000", features: "Pago por visita\nSujeto a espacio disponible" },
+                { id: 4, name: "Full Pass Pareja", price: "₡60,000", features: "2 Personas\nAcceso Total\nSin Matrícula" }
             ],
-            solicitudes: [
-                { id: 1, type: "Alquiler", name: "Grupo Coreográfico", date: "2025-08-20", status: "Pendiente", desc: "Ensayo general" }
+            alumnos: [
+                { id: 1, name: "Ana Sofía Méndez", plan: "Plan Semestral", status: "Activo" },
+                { id: 2, name: "Carlos Villalobos", plan: "Tiquetera 8", status: "Activo" },
+                { id: 3, name: "Elena Rojas", plan: "Clase Suelta", status: "Inactivo" },
+                { id: 4, name: "Marco Antonio Solís", plan: "Full Pass Pareja", status: "Activo" },
+                { id: 5, name: "Valentina Castro", plan: "Plan Semestral", status: "Pendiente" }
             ],
-            alumnos: [],
-            finanzas: []
+            espacios: [
+                { id: 1, name: "Salón Principal", capacity: "60", desc: "120m², Piso flotante, Espejos panorámicos, Aire Acondicionado.", img: "https://images.unsplash.com/photo-1519671482502-9759101d4561?auto=format&fit=crop&w=600" },
+                { id: 2, name: "Studio B", capacity: "15", desc: "Ideal para clases privadas, grabaciones y ensayos de grupos pequeños.", img: "https://images.unsplash.com/photo-1571216682227-e4bb00b3d87b?auto=format&fit=crop&w=600" }
+            ],
+            talento: [
+                { id: 1, name: "Georgzua", role: "Director Artístico", bio: "Campeón Nacional de Salsa 2022. 15 años de experiencia formando bailarines.", img: "https://images.unsplash.com/photo-1542596594-649edbc13630?auto=format&fit=crop&w=600" },
+                { id: 2, name: "Dania", role: "Instructora Senior", bio: "Especialista en Bachata Sensual y Lady Style. Coreógrafa internacional.", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600" },
+                { id: 3, name: "Javier", role: "Instructor Kizomba", bio: "Pionero del Urban Kizz en la región.", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600" }
+            ],
+            finanzas: [
+                { id: 1, concept: "Pago Mensualidad (Ana S.)", type: "ingreso", amount: "35000" },
+                { id: 2, concept: "Clase Suelta (Visita)", type: "ingreso", amount: "5000" },
+                { id: 3, concept: "Pago Alquiler Local", type: "gasto", amount: "-450000" },
+                { id: 4, concept: "Tiquetera (Carlos V.)", type: "ingreso", amount: "28000" },
+                { id: 5, concept: "Mantenimiento A/C", type: "gasto", amount: "-25000" }
+            ]
         };
-
-        // Variable Global de Estado
-        let Store = JSON.parse(JSON.stringify(DefaultData));
-
         // =================================================================
-        // 2. GESTOR DE DATOS (DATA MANAGER)
+        // 2. GESTOR DE DATOS (DATA MANAGER - CON PERSISTENCIA)
         // =================================================================
         const DataManager = {
-            config: { useCloud: false, storageKey: 'sensacion_boogaloo_v3' },
-
-            async init() {
-                // MODO VOLÁTIL: Siempre reinicia al refrescar para pruebas seguras
-                Store = JSON.parse(JSON.stringify(DefaultData));
+            KEY: 'SB_CLEAN_REPAIR_V1', 
+            init() {
+                // ACCIÓN QUIRÚRGICA: 
+                // Eliminamos cualquier dato previo para que el refresco sea un "borrón y cuenta nueva"
+                sessionStorage.removeItem(this.KEY); 
+                
+                // Cargamos SIEMPRE los datos originales de DefaultData
+                window.Store = JSON.parse(JSON.stringify(DefaultData));
+                
+                // Aplicamos la configuración inicial (colores y textos de fábrica)
                 this.applyConfig();
+                console.log("Arquitectura reiniciada: Estado original cargado.");
             },
-
             save(newData) {
-                Store = { ...newData }; // Guardar en RAM (Web cambia al instante)
+                window.Store = newData;
+                // Guardamos solo para mantener los cambios MIENTRAS navegamos entre pestañas del admin
+                sessionStorage.setItem(this.KEY, JSON.stringify(newData));
+                this.applyConfig();
                 
-                App.renderPublic();     // Refrescar Web
-                this.applyConfig();     // Refrescar Estilos
-                
-                // Si el admin está abierto, refrescar sus datos
-                if(document.getElementById('view-admin').classList.contains('active')) {
-                    Admin.renderAllModules();
-                }
+                // Refrescamos las vistas activas para ver el cambio inmediato
+                if(!$('#view-admin').classList.contains('hidden')) { Admin.refreshView(); }
+                App.renderPublic();
             },
-
+            reset() { localStorage.removeItem(this.KEY); location.reload(); },
             applyConfig() {
-                const r = document.documentElement; 
-                const c = Store.config.colors;
-                const f = Store.config.fonts;
+            
+                if (!window.Store || !window.Store.config) return;
+                const c = window.Store.config.colors;
+                const h = window.Store.config.hero; // Obtenemos la config del Hero
+                const root = document.documentElement;
                 
-                // Colores
-                r.style.setProperty('--color-gold', c.gold); r.style.setProperty('--color-neon', c.neon);
-                r.style.setProperty('--color-void', c.void); r.style.setProperty('--color-panel', c.panel);
-                r.style.setProperty('--color-surface', c.surface); r.style.setProperty('--color-text-main', c.textMain);
-                r.style.setProperty('--color-text-muted', c.textMuted);
+                // 1. Aplicación de colores
+                root.style.setProperty('--color-gold', c.gold);
+                root.style.setProperty('--color-void', c.void);
+                root.style.setProperty('--color-panel', c.panel);
                 
-                // Fuentes
-                r.style.setProperty('--font-serif', f.heading);
-                r.style.setProperty('--font-sans', f.body);
+                // 2. AJUSTE QUIRÚRGICO: Forzar la carga de la imagen de fondo
+                const heroBg = document.getElementById('hero-bg-image');
+                if (heroBg && h.bgImage) {
+                    heroBg.style.backgroundImage = `url('${h.bgImage}')`;
+                    heroBg.style.display = 'block'; // Aseguramos visibilidad
+                    heroBg.style.opacity = '0.6';   // Mantenemos la estética Dark Lux
+                }
 
-                // Estilos Base
-                document.body.style.backgroundColor = c.void; 
-                document.body.style.color = c.textMain;
-                document.body.style.fontFamily = f.body;
-                
-                // Forzar actualización de elementos específicos
-                document.querySelectorAll('.font-serif').forEach(el => el.style.fontFamily = f.heading);
-                document.querySelectorAll('.bg-panel').forEach(el => el.style.backgroundColor = c.panel);
+                if (window.tailwind) {
+                    tailwind.config.theme.extend.colors.gold = c.gold;
+                    tailwind.config.theme.extend.colors.void = c.void;
+                    tailwind.config.theme.extend.colors.panel = c.panel;
+                }
             }
         };
 
         // =================================================================
-        // 3. CONTROLADOR VISUAL (APP)
+        // 3. APP PRINCIPAL (PUBLIC VIEW)
         // =================================================================
         const App = {
+            currentRole: null,
+
+            // Archivo: IndexV5.html (DENTRO DE App.init)
             init() {
+                DataManager.init();
+                
+                const savedRole = sessionStorage.getItem('app_role');
+                if (savedRole) {
+                    this.currentRole = savedRole;
+                }
+                
                 this.renderPublic();
-                Admin.init();
-                Router.go('inicio');
+
+                // AJUSTE PUNTUAL: Disparamos la navegación inicial para que el Router pinte el botón
+                const startView = this.currentRole === 'admin' ? 'admin' : 'inicio';
+                Router.go(startView);
+            },
+
+            toggleMobileMenu() { 
+                $('#mobile-menu').classList.toggle('hidden'); 
+                $('#mobile-menu').classList.toggle('opacity-0'); 
+            },
+
+            
+            toggleCurrency() { 
+                const b=$('#currency-label'); 
+                b.innerText = b.innerText==='CRC'?'USD':'CRC'; 
+            },
+
+            toggleLoginModal() {
+                // Si ya hay sesión, vamos directo sin abrir modal
+                if (this.currentRole) {
+                    Router.go(this.currentRole);
+                    return;
+                }
+                const modal = $('#login-modal');
+                if (modal.classList.contains('hidden')) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => modal.classList.remove('opacity-0'), 10);
+                } else {
+                    modal.classList.add('opacity-0');
+                    setTimeout(() => modal.classList.add('hidden'), 300);
+                }
+            },
+
+            handleLogin(event) { 
+                event.preventDefault(); 
+                const u = $('#login-id').value; 
+                const p = $('#login-pass').value;
+                
+                // Usamos App directamente en lugar de 'this' para evitar errores de contexto
+                if (u === 'admin' && p === 'admin') { 
+                    App.currentRole = 'admin';
+                    App.finalizeLogin();
+                }
+                else if (u === 'alumno' && p === '1234') { 
+                    App.currentRole = 'alumno';
+                    App.finalizeLogin();
+                }
+                else { 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de Acceso',
+                        text: 'Credenciales incorrectas',
+                        background: '#08090B',
+                        color: '#E0E0E0',
+                        confirmButtonColor: '#9e9634'
+                    });
+                }
+            },
+
+            finalizeLogin() {
+                // Primero cerramos el modal
+                const modal = $('#login-modal');
+                modal.classList.add('opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    // Limpiamos campos
+                    $('#login-id').value = '';
+                    $('#login-pass').value = '';
+                    // Navegamos a la vista correspondiente
+                    Router.go(App.currentRole); 
+                }, 300);
+            },
+            
+            logout() { 
+                this.currentRole = null; 
+                sessionStorage.removeItem('app_role');
+                document.body.classList.remove('admin-mode'); // Liberamos el scroll
+                window.location.reload(); // Limpieza total de arquitectura
             },
 
             renderPublic() {
                 const h = Store.config.hero;
-
-                // --- 1. HERO RENDER ---
-                // Fondo
-                const bgContainer = $('#hero-bg-image');
-                if(bgContainer) {
-                    bgContainer.style.backgroundImage = h.bgImage ? `url('${h.bgImage}')` : 'none';
-                    bgContainer.style.opacity = h.bgImage ? '0.5' : '0';
+                // Lógica para resaltar y animar la segunda palabra del título
+                const words = h.title.split(' ');
+                if (words.length >= 2) {
+                    words[1] = `<span class="text-gold inline-block animate-pulse-slow" style="animation-duration: 2s;">${words[1]}</span>`;
+                    $('#hero-title-display').innerHTML = words.join(' ');
+                } else {
+                    $('#hero-title-display').innerText = h.title;
                 }
-
-                // Título con Formato Bicolor
-                const titleHtml = h.title.includes(' ') 
-                    ? h.title.replace(' ', '<br><span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold via-white to-gold animate-pulse-slow" style="padding-right: 0.1em; display: inline-block; margin-top: 0.1em;">') + '</span>'
-                    : h.title;
-                
-                $('#hero-title-display').innerHTML = titleHtml;
                 $('#hero-desc-display').innerText = h.subtitle;
 
-                // Botones Hero
+                // Renderizado y vinculación de botones
                 const btn1 = $('#hero-btn-primary');
-                if(btn1) { btn1.innerText = h.ctaPrimary.text; btn1.onclick = () => Router.go(h.ctaPrimary.link); }
-                
                 const btn2 = $('#hero-btn-secondary');
-                if(btn2) { btn2.innerText = h.ctaSecondary.text; btn2.onclick = () => Router.go(h.ctaSecondary.link); }
 
-                // --- 2. CLASES RENDER ---
-                const classesGrid = $('#classes-grid');
-                if(classesGrid) {
-                    classesGrid.innerHTML = Store.clases.map(c => `
-                        <div class="glass-card rounded-xl overflow-hidden group border border-white/5 hover:border-gold/50 transition-all duration-500">
-                            <div class="h-56 relative overflow-hidden">
-                                <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase border border-white/10 z-10 shadow-lg">${c.level}</div>
-                                <img src="${c.img}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-gradient-to-t from-panel via-transparent to-transparent opacity-90"></div>
-                            </div>
-                            <div class="p-6 relative">
-                                <h3 class="text-2xl font-serif font-bold text-white mb-2 group-hover:text-gold transition-colors">${c.name}</h3>
-                                <p class="text-xs text-gray-400 mb-6 line-clamp-2">${c.desc}</p>
-                                <button class="btn-neon w-full py-3 rounded text-xs font-bold tracking-widest hover:bg-neon hover:text-black transition-all" onclick="App.openModal('reserva', '${c.name}')">RESERVAR CUPO</button>
-                            </div>
-                        </div>`).join('');
-                }
-
-                // --- 3. AGENDA RENDER ---
-                const agendaContainer = $('#agenda-container');
-                if(agendaContainer) {
-                    let agendaHTML = '';
-                    for (const [day, events] of Object.entries(Store.agenda)) {
-                        const hasEvents = events.length > 0;
-                        agendaHTML += `
-                            <div class="glass-card p-6 rounded-xl h-full border-t-2 ${hasEvents ? 'border-t-gold bg-gradient-to-b from-white/5 to-transparent' : 'border-t-white/10 bg-white/0'} ${hasEvents ? 'opacity-100' : 'opacity-50'} hover:opacity-100 transition-all duration-300 group">
-                                <h4 class="text-center text-white font-bold text-xs uppercase mb-6 tracking-[0.2em] border-b border-white/5 pb-3 flex justify-between">
-                                    ${day} <i class="fa-solid fa-calendar-day text-white/20 group-hover:text-gold transition-colors"></i>
-                                </h4>
-                                <div class="space-y-4 relative before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-px before:bg-white/10">
-                                    ${events.length ? events.map(ev => `
-                                        <div class="pl-6 relative group/item">
-                                            <div class="absolute left-[4px] top-1.5 w-2 h-2 rounded-full bg-void border-2 border-neon group-hover/item:bg-neon transition-all"></div>
-                                            <p class="text-xs text-gold font-bold font-mono mb-0.5">${ev.t}</p>
-                                            <p class="text-sm text-white font-bold group-hover/item:translate-x-1 transition-transform cursor-default">${ev.n}</p>
-                                        </div>`).join('') : '<p class="text-[10px] text-gray-600 text-center italic pl-0">Sin clases</p>'}
-                                </div>
-                            </div>`;
-                    }
-                    agendaContainer.innerHTML = agendaHTML;
-                }
-            },
-
-            // --- UI HELPERS ---
-            toggleMobileMenu() { 
-                const m = $('#mobile-menu');
+                btn1.innerText = h.ctaPrimary.text;
+                btn1.onclick = () => Router.go(h.ctaPrimary.link);
                 
-                if (m.classList.contains('hidden')) {
-                    // ABRIR
-                    m.classList.remove('hidden');
-                    m.classList.add('flex');
-                    // Pequeño delay para permitir que el navegador procese el 'flex' antes de la opacidad
-                    setTimeout(() => {
-                        m.classList.remove('opacity-0');
-                    }, 10);
-                } else {
-                    // CERRAR
-                    m.classList.add('opacity-0');
-                    // Esperar a que termine la transición (300ms) antes de ocultar
-                    setTimeout(() => {
-                        m.classList.remove('flex');
-                        m.classList.add('hidden');
-                    }, 300);
-                }
-            },
-            toggleLoginModal() { 
-                const m = $('#login-modal'); 
-                if(m.classList.contains('hidden')) { m.classList.remove('hidden'); setTimeout(() => m.classList.remove('opacity-0'), 10); }
-                else { m.classList.add('opacity-0'); setTimeout(() => m.classList.add('hidden'), 300); }
-            },
-            handleLogin(e) {
-                e.preventDefault();
-                const u = $('#login-id').value;
-                if(u === 'admin') { this.toggleLoginModal(); Router.go('admin'); }
-                else if(u === 'alumno') { this.toggleLoginModal(); Router.go('alumno'); }
-                else alert('Prueba: admin / admin');
-            },
-            toggleCurrency() { 
-                const btn = $('#currency-label'); // Ajustado al ID correcto del HTML nuevo
-                if(btn) btn.innerText = btn.innerText === 'CRC' ? 'USD' : 'CRC';
-            },
-            openModal(type, titleText) { 
-                $('#modal-title').innerText = titleText; 
-                $('#modal-body').innerHTML = '<p class="text-center text-gray-400">Formulario simulado...</p>'; 
-                const m = $('#modal'); m.classList.remove('hidden'); m.classList.add('flex'); setTimeout(() => { m.classList.remove('opacity-0'); $('#modal-panel').classList.remove('scale-95'); }, 10);
-            },
-            closeModal() { 
-                const m = $('#modal'); m.classList.add('opacity-0'); $('#modal-panel').classList.add('scale-95'); setTimeout(() => { m.classList.add('hidden'); m.classList.remove('flex'); }, 300);
-            },
-            logout() { Router.go('inicio'); }
-        };
-
-        // =================================================================
-        // 4. ADMIN CONTROLLER (CEREBRO DEL BACKEND)
-        // =================================================================
-        const Admin = {
-            init() {
-                const tabs = [
-                    { id: 'dash', label: 'Dashboard' }, { id: 'web', label: 'Editor Web' },
-                    { id: 'clases', label: 'Gestor Clases' }, { id: 'membresias', label: 'Membresías' },
-                    { id: 'agenda', label: 'Agenda Builder' }, { id: 'alquiler', label: 'Alquileres' },
-                    { id: 'talento', label: 'Audiciones' }, { id: 'alumnos', label: 'Alumnos' },
-                    { id: 'pagos', label: 'Finanzas' }, { id: 'config', label: 'Config Global' }
-                ];
+                btn2.innerText = h.ctaSecondary.text;
+                btn2.onclick = () => Router.go(h.ctaSecondary.link);
                 
-                $('#admin-nav').innerHTML = tabs.map(t => `<button onclick="Admin.tab('${t.id}')" class="admin-tab-btn w-full text-left px-4 py-3 rounded-lg text-sm font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-colors" id="btn-tab-${t.id}">${t.label}</button>`).join('');
-                
-                // CARGAR DATOS EN FORMULARIOS
-                const h = Store.config.hero;
-                $('#edit-hero-title').value = h.title;
-                $('#edit-hero-desc').value = h.subtitle;
-                // $('#edit-hero-location').value = h.location; // Eliminado
-                $('#edit-hero-image').value = h.bgImage; // Campo Nuevo
-                $('#edit-btn1-text').value = h.ctaPrimary.text; $('#edit-btn1-link').value = h.ctaPrimary.link;
-                $('#edit-btn2-text').value = h.ctaSecondary.text; $('#edit-btn2-link').value = h.ctaSecondary.link;
-
-                this.tab('dash');
-                this.renderAllModules();
-            },
-
-            renderAllModules() {
-                this.renderClassList();
-                this.renderConfigPanel();
-                this.renderMembresias();
-                this.renderAgenda();
-                this.renderSolicitudes('alquiler', 'Alquiler');
-                this.renderSolicitudes('talento', 'Audición');
-                this.renderAlumnos();
-                this.renderFinanzas();
-                
-                // Dashboard KPIs
-                $('#dash-alumnos-count').innerText = Store.alumnos.length;
-                $('#dash-ingresos-count').innerText = `₡${Store.finanzas.reduce((acc, f) => f.type === 'ingreso' ? acc + f.amount : acc, 0).toLocaleString()}`;
-            },
-
-            tab(id) {
-                document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
-                $(`#admin-tab-${id}`).classList.remove('hidden');
-                document.querySelectorAll('.admin-tab-btn').forEach(b => { b.classList.remove('bg-white/5', 'text-white', 'border-l-2', 'border-gold'); b.classList.add('text-gray-400'); });
-                $(`#btn-tab-${id}`).classList.add('bg-white/5', 'text-white', 'border-l-2', 'border-gold');
-                $(`#btn-tab-${id}`).classList.remove('text-gray-400');
-            },
-
-            // --- ACCIONES DE GUARDADO (AQUÍ ESTABA EL ERROR) ---
-            
-            // Esta es la función que tu botón "Publicar Cambios" estaba buscando
-            saveHeroSettings() {
-                const ns = { ...Store };
-                const h = ns.config.hero;
-
-                h.title = $('#edit-hero-title').value;
-                h.subtitle = $('#edit-hero-desc').value;
-                h.bgImage = $('#edit-hero-image').value; // Guardar Imagen
-                
-                h.ctaPrimary.text = $('#edit-btn1-text').value; h.ctaPrimary.link = $('#edit-btn1-link').value;
-                h.ctaSecondary.text = $('#edit-btn2-text').value; h.ctaSecondary.link = $('#edit-btn2-link').value;
-
-                DataManager.save(ns);
-                alert('Portada Actualizada Correctamente');
-            },
-
-            saveConfigColors() {
-                const ns = { ...Store };
-                ['gold', 'neon', 'void', 'panel', 'surface', 'textMain', 'textMuted'].forEach(k => ns.config.colors[k] = $(`#color-${k}`).value);
-                ns.config.fonts.heading = $('#conf-font-heading').value;
-                ns.config.fonts.body = $('#conf-font-body').value;
-                DataManager.save(ns);
-                alert('Estética Global Actualizada');
-            },
-
-            // --- RENDERIZADORES DE MÓDULOS ---
-            
-            renderConfigPanel() {
-                const c = Store.config.colors;
-                const f = Store.config.fonts;
-                const serifOptions = ['Cinzel', 'Playfair Display', 'Bodoni Moda'].map(font => `<option value="${font}" ${f.heading === font ? 'selected' : ''}>${font}</option>`).join('');
-                const sansOptions = ['Space Grotesk', 'Inter', 'Montserrat', 'Lato'].map(font => `<option value="${font}" ${f.body === font ? 'selected' : ''}>${font}</option>`).join('');
-
-                $('#admin-tab-config').innerHTML = `
-                    <h1 class="text-3xl font-serif text-white mb-8">Configuración Global</h1>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="glass-card p-6 rounded-xl"><h3 class="text-gold font-bold mb-4 border-b border-white/10 pb-2">Marca</h3><div class="space-y-4">${this.createColorInput('Primario', 'gold', c.gold)}${this.createColorInput('Acento', 'neon', c.neon)}</div></div>
-                        <div class="glass-card p-6 rounded-xl border-t-4 border-t-white"><h3 class="text-white font-bold mb-4 border-b border-white/10 pb-2">Tipografía</h3><div class="space-y-4"><div class="input-group mb-0"><select id="conf-font-heading" class="input-field bg-void" onchange="Admin.previewFont('heading', this.value)">${serifOptions}</select><label class="input-label">Títulos</label></div><div class="input-group mb-0"><select id="conf-font-body" class="input-field bg-void" onchange="Admin.previewFont('body', this.value)">${sansOptions}</select><label class="input-label">Cuerpo</label></div></div></div>
-                        <div class="glass-card p-6 rounded-xl"><h3 class="text-white font-bold mb-4 border-b border-white/10 pb-2">Fondos</h3><div class="space-y-4">${this.createColorInput('Fondo', 'void', c.void)}${this.createColorInput('Paneles', 'panel', c.panel)}</div></div>
-                    </div>
-                    <div class="mt-8 flex justify-end"><button onclick="Admin.saveConfigColors()" class="btn-galaxy px-8 py-3 rounded-full shadow-lg">GUARDAR TODO</button></div>`;
-            },
-
-            renderClassList() {
-                $('#admin-classes-list').innerHTML = Store.clases.map(c => `
-                    <div class="glass-card p-4 rounded-lg flex justify-between items-center group hover:border-gold transition-colors">
-                        <div class="flex items-center gap-4"><img src="${c.img}" class="w-12 h-12 rounded object-cover"><div><p class="text-white font-bold text-sm">${c.name}</p><p class="text-xs text-gray-500">${c.level}</p></div></div>
-                        <button onclick="Admin.deleteItem('clases', ${c.id})" class="text-danger p-2"><i class="fa-solid fa-trash"></i></button>
+                $('#hero-btn-primary').innerText = h.ctaPrimary.text;
+                $('#hero-btn-primary').onclick = () => Router.go(h.ctaPrimary.link);
+                $('#classes-grid').innerHTML = Store.clases.map(c => `
+                    <div class="glass-card rounded-xl overflow-hidden group border border-white/5 hover:border-gold/50 transition-all duration-500">
+                        <div class="h-56 relative"><img src="${c.img}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110"><div class="absolute inset-0 bg-gradient-to-t from-panel via-transparent to-transparent opacity-90"></div><span class="absolute top-3 right-3 bg-black/60 px-3 py-1 rounded-full text-[10px] uppercase font-bold border border-white/10 z-10">${c.level}</span></div>
+                        <div class="p-6"><h3 class="text-2xl font-serif font-bold text-white mb-2 group-hover:text-gold transition-colors">${c.name}</h3><p class="text-xs text-gray-400 mb-6 line-clamp-2">${c.desc}</p><button class="btn-neon w-full py-3 rounded text-xs font-bold tracking-widest hover:bg-neon hover:text-black transition-all">VER DETALLES</button></div>
                     </div>`).join('');
             },
-
-            renderMembresias() {
-                $('#admin-membresias-list').innerHTML = Store.membresias.map(m => `<div class="glass-card p-4 rounded-lg border border-white/10 flex justify-between items-center"><div><h4 class="text-gold font-bold">${m.name}</h4><p class="text-white font-mono text-sm">${m.price}</p></div><button onclick="Admin.deleteItem('membresias', ${m.id})" class="text-danger"><i class="fa-solid fa-trash"></i></button></div>`).join('');
-            },
-
-            renderAgenda() {
-                let html = '';
-                for (const [day, events] of Object.entries(Store.agenda)) {
-                    html += `<div class="glass-card p-4 rounded-lg bg-white/5"><h4 class="text-gold font-bold uppercase text-xs mb-3 border-b border-white/10 pb-2">${day}</h4><div class="space-y-2">${events.map((ev, idx) => `<div class="flex justify-between items-center text-sm bg-black/20 p-2 rounded"><span><span class="text-neon font-mono text-xs">${ev.t}</span> ${ev.n}</span><button onclick="Admin.deleteAgendaItem('${day}', ${idx})" class="text-gray-600 hover:text-danger"><i class="fa-solid fa-xmark"></i></button></div>`).join('')}</div></div>`;
-                }
-                $('#admin-agenda-preview').innerHTML = html;
-            },
-
-            renderSolicitudes(typeId, filterType) {
-                const list = Store.solicitudes.filter(s => s.type === filterType);
-                $(`#admin-${typeId}-list`).innerHTML = list.map(s => `<div class="glass-card p-4 rounded-lg flex justify-between items-center border-l-2 ${s.status === 'Aprobado' ? 'border-success' : 'border-gold'}"><div><h4 class="text-white font-bold">${s.name}</h4><p class="text-[10px] text-gray-600 uppercase">${s.status}</p></div><div class="flex gap-2"><button onclick="Admin.updateStatus(${s.id}, 'Aprobado')" class="text-success"><i class="fa-solid fa-check"></i></button><button onclick="Admin.deleteItem('solicitudes', ${s.id})" class="text-danger"><i class="fa-solid fa-trash"></i></button></div></div>`).join('');
-            },
             
-            renderAlumnos() {
-                $('#admin-alumnos-table').innerHTML = Store.alumnos.map(a => `<tr class="hover:bg-white/5 border-b border-white/5"><td class="p-3 text-white font-bold">${a.name}</td><td class="p-3 text-xs text-gold">${a.plan}</td><td class="p-3 text-xs text-gray-400">${a.status}</td><td class="p-3 text-xs font-mono">${a.pago}</td><td class="p-3"><button onclick="Admin.deleteItem('alumnos', ${a.id})" class="text-gray-500 hover:text-white"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
-            },
-
-            renderFinanzas() {
-                $('#admin-finanzas-list').innerHTML = Store.finanzas.map(f => `<div class="flex justify-between items-center p-3 rounded bg-white/5 border-l-2 ${f.type === 'ingreso' ? 'border-success' : 'border-danger'} mb-2"><div><p class="text-white text-sm font-bold">${f.desc}</p><p class="text-[10px] text-gray-500">${f.date}</p></div><p class="font-mono font-bold ${f.type === 'ingreso' ? 'text-success' : 'text-danger'}">${f.type === 'ingreso' ? '+' : '-'}₡${Math.abs(f.amount).toLocaleString()}</p></div>`).join('');
-            },
-
-            // --- UTILIDADES ---
-            addAgendaItem() { const d=$('#agenda-day').value, t=$('#agenda-time').value, n=$('#agenda-class').value; if(t&&n){ const ns={...Store}; ns.agenda[d].push({t,n}); ns.agenda[d].sort((a,b)=>a.t.localeCompare(b.t)); DataManager.save(ns); $('#agenda-class').value=''; } },
-            deleteAgendaItem(d, i) { const ns={...Store}; ns.agenda[d].splice(i,1); DataManager.save(ns); },
-            addItem(c) { const n=prompt("Nombre:"); if(n){ const ns={...Store}, id=Date.now(); if(c==='membresias') ns[c].push({id, name:n, price:'₡0', features:'...'}); if(c==='alumnos') ns[c].push({id, name:n, plan:'Nuevo', status:'Activo', pago:'Hoy'}); DataManager.save(ns); } },
-            addFinance() { const d=prompt("Motivo:"); const m=prompt("Monto (+/-):"); if(d&&m){ const ns={...Store}; ns.finanzas.push({id:Date.now(), desc:d, amount:parseFloat(m), type:parseFloat(m)>=0?'ingreso':'gasto', date:new Date().toISOString().split('T')[0]}); DataManager.save(ns); } },
-            deleteItem(c, id) { if(confirm('¿Borrar?')) { const ns={...Store}; ns[c]=ns[c].filter(i=>i.id!==id); DataManager.save(ns); } },
-            updateStatus(id, s) { const ns={...Store}; const i=ns.solicitudes.find(x=>x.id===id); if(i){ i.status=s; DataManager.save(ns); } },
-            newClass() { const n=prompt("Nombre:"); if(n) { const ns={...Store}; ns.clases.push({id:Date.now(), name:n, level:'Nuevo', img:'https://via.placeholder.com/600', desc:'...'}); DataManager.save(ns); } },
-            
-            // HELPERS VISUALES
-            createColorInput(l, k, v) { return `<div class="flex justify-between items-center mb-2"><label class="text-xs text-gray-400">${l}</label><input type="color" id="color-${k}" value="${v}" class="bg-transparent border-none w-8 h-8 cursor-pointer" oninput="Admin.previewColor('${k}', this.value)"></div>`; },
-            previewFont(t, f) { document.documentElement.style.setProperty(t==='heading'?'--font-serif':'--font-sans', f); if(t==='heading') document.querySelectorAll('.font-serif').forEach(e=>e.style.fontFamily=f); else document.body.style.fontFamily=f; },
-            previewColor(k, v) { document.documentElement.style.setProperty(`--color-${k}`, v); if(k==='void') document.body.style.backgroundColor=v; if(k==='textMain') document.body.style.color=v; }
         };
 
-        // ROUTER (Control de Navegación y Estado Activo)
+        // 4. ROUTER
+        // Archivo: script_v2_router.js
+        // Archivo: script_v7_fix_navigation.js
         const Router = {
             go(id) {
-                // 1. Cambio de Vistas
-                document.querySelectorAll('.app-view').forEach(e => e.classList.remove('active'));
-                const target = document.getElementById(`view-${id}`);
-                if(target) { 
-                    window.scrollTo(0,0); 
-                    target.classList.add('active'); 
-                }
-
-                // 2. Gestión de Estado del Menú (AQUÍ ESTÁ EL AJUSTE)
-                // Primero: Apagamos todos
-                document.querySelectorAll('#nav-links button').forEach(btn => {
-                    btn.classList.remove('text-gold', 'border-gold', 'text-white'); // Quitamos activo
-                    btn.classList.add('text-gray-400', 'border-transparent'); // Estado inactivo
+                // 1. GESTIÓN DE SECCIONES (Saneamiento de visibilidad)
+                document.querySelectorAll('.app-view').forEach(e => {
+                    e.classList.remove('active');
+                    e.classList.add('hidden'); // Ocultamos todas
                 });
 
-                // Segundo: Encendemos el actual
-                const activeBtn = document.getElementById(`nav-${id}`);
-                if(activeBtn) {
-                    activeBtn.classList.remove('text-gray-400', 'border-transparent');
-                    activeBtn.classList.add('text-gold', 'border-gold'); // Usamos la variable GOLD dinámica
+                // 2. ACTIVACIÓN DEL MODO INMERSIVO (Bloqueo de scroll)
+                if (id === 'admin' || id === 'alumno') {
+                    document.body.classList.add('admin-mode');
+                } else {
+                    document.body.classList.remove('admin-mode');
                 }
 
-                // Lógica específica de vistas (Video Hero)
-                if(id === 'inicio') { 
-                    const v = document.querySelector('video'); 
-                    if(v) v.play().catch(e=>console.log(e)); 
+                // 3. MOSTRAR SECCIÓN OBJETIVO
+                if (id === 'admin') {
+                    const adminView = $('#view-admin');
+                    adminView.classList.remove('hidden');
+                    adminView.classList.add('active'); 
+                    Admin.init(); 
+                } else {
+                    const target = document.getElementById(`view-${id}`) || document.getElementById('view-inicio');
+                    if(target) {
+                        // Solo hacemos scroll al top si no es la zona privada inmersiva
+                        if (id !== 'admin' && id !== 'alumno') window.scrollTo(0,0);
+                        target.classList.remove('hidden');
+                        target.classList.add('active');
+                    }
+                }
+
+                // 4. ACTUALIZACIÓN VISUAL DE BOTONES (Tu lógica de acentos conservada)
+                document.querySelectorAll('#nav-links button, #mobile-menu button').forEach(btn => {
+                    btn.classList.remove('text-gold', 'border-gold');
+                    btn.classList.add('text-gray-400');
+                    btn.style.borderBottomColor = 'transparent';
+                });
+
+                const activeBtn = document.getElementById(`nav-${id}`);
+                if(activeBtn) {
+                    activeBtn.classList.add('text-gold', 'border-gold');
+                    activeBtn.classList.remove('text-gray-400');
+                    activeBtn.style.borderBottomColor = 'var(--color-gold)';
                 }
             }
         };
 
-    
-        // ARRANQUE CON PRELOADER
-        window.onload = async () => {
-            // 1. Carga de Datos (Invisible)
-            await DataManager.init();
-            App.init();
 
-            // 2. Transición de Cine (Visible)
-            // Esperamos un mínimo de 2.5 segundos para que se vea la animación de la barra
-            setTimeout(() => {
-                const preloader = document.getElementById('app-preloader');
-                if(preloader) {
-                    // Desvanecer
-                    preloader.style.opacity = '0';
-                    // Eliminar del DOM para liberar memoria
-                    setTimeout(() => preloader.remove(), 1000);
+        // 5. ADMIN CONTROLLER (CORREGIDO)
+        const Admin = {
+            currTab: 'dash',
+            modules: [
+                {id:'dash', l:'Dashboard', i:'fa-chart-pie'}, 
+                {id:'web', l:'Web Editor', i:'fa-desktop'}, 
+                {id:'nosotros', l:'Nosotros', i:'fa-users-gear'}, // NUEVO
+                {id:'clases', l:'Clases', i:'fa-person-chalkboard'}, 
+                {id:'membresias', l:'Membresías', i:'fa-id-card'},
+                {id:'agenda', l:'Agenda', i:'fa-calendar-check'}, // NUEVO
+                {id:'alumnos', l:'Alumnos', i:'fa-users'}, 
+                {id:'espacios', l:'Espacios', i:'fa-building'},
+                {id:'talento', l:'Talento', i:'fa-star'}, 
+                {id:'finanzas', l:'Finanzas', i:'fa-coins'}, 
+                {id:'config', l:'Ajustes', i:'fa-sliders'}
+            ],
+            init() { 
+                this.renderSidebar(); 
+                this.switchTab('dash'); 
+            },
+            renderSidebar() {
+                // Inyección de botones asegurando que el color sea el correcto (no negro)
+                $('#admin-nav').innerHTML = this.modules.map(m => `
+                    <button onclick="Admin.switchTab('${m.id}')" id="btn-tab-${m.id}" class="w-full flex items-center gap-3 px-6 py-4 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent rounded-r-xl group">
+                        <i class="fa-solid ${m.i} w-5 group-hover:text-gold transition-colors"></i> 
+                        <span class="group-hover:text-white transition-colors">${m.l}</span>
+                    </button>`).join('');
+            },
+            switchTab(id) {
+                this.currTab = id;
+                // 2. Cerrar el sidebar automáticamente en móvil tras elegir pestaña
+                if (window.innerWidth < 768) { 
+                    const sidebar = $('#view-admin aside');
+                    if (sidebar.classList.contains('fixed')) { // Solo si está expandido
+                        this.toggleMobileSidebar(); 
+                    }
                 }
-            }, 2500); // 2500ms = 2.5 segundos de marca en pantalla
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
+                let target = document.getElementById(`admin-tab-${id}`);
+                if(!target) { 
+                    const main = document.querySelector('#view-admin main');
+                    main.insertAdjacentHTML('beforeend', `<div id="admin-tab-${id}" class="admin-tab hidden"></div>`);
+                    target = document.getElementById(`admin-tab-${id}`);
+                }
+                target.classList.remove('hidden');
+                document.querySelectorAll('#admin-nav button').forEach(b => {
+                    b.classList.remove('bg-gold/10', 'text-gold', 'border-gold'); b.classList.add('text-textMuted');
+                    b.classList.add('text-textMuted');
+                });
+                const btn = document.getElementById(`btn-tab-${id}`);
+                if(btn) { 
+                    btn.classList.add('bg-gold/10', 'text-gold', 'border-gold'); 
+                    btn.classList.remove('text-textMuted'); 
+                }
+                this.refreshView();
+            },
+            refreshView() {
+                const id = this.currTab;
+                switch(id) {
+                    case 'dash': this.renderDashboard(); break;
+                    case 'web': this.renderWebEditor(); break;
+                    case 'config': this.renderConfigPanel(); break;
+                    case 'finanzas': this.renderFinanzas(); break;
+                    // Agregamos el renderizado genérico para las nuevas secciones
+                    default: this.renderGenericSection(id, id); break;
+                }
+            },
+            renderDashboard() {
+                $('#kpi-alumnos').innerText = Store.alumnos.length;
+                $('#kpi-membresias').innerText = Store.membresias.length;
+                const ing = (Store.finanzas || []).reduce((acc, f) => f.type === 'ingreso' ? acc + parseFloat(f.amount || 0) : acc, 0);
+                $('#kpi-ingresos').innerText = "₡" + ing.toLocaleString();
+            },
+            renderGenericSection(viewId, storeKey) {
+                const container = document.getElementById(`admin-tab-${viewId}`);
+                const titles = { clases:'Clases', membresias:'Planes', alumnos:'Alumnos', espacios:'Espacios', talento:'Talento' };
+                container.innerHTML = `
+                    <div class="flex justify-between items-center mb-6"><h1 class="text-2xl font-serif font-bold text-white">${titles[viewId]||'Gestión'}</h1>
+                    <button onclick="Admin.openModal('${storeKey}')" class="btn-galaxy px-6 py-2 rounded-full text-xs shadow-lg">Nuevo</button></div>
+                    <div class="bg-panel rounded-2xl border border-white/5 overflow-hidden"><table class="w-full text-left text-sm"><tbody class="divide-y divide-white/5">${this.getRows(storeKey)}</tbody></table></div>`;
+            },
+            getRows(key) {
+                const d = Store[key] || [];
+                if(!d.length) return `<tr><td class="p-8 text-center text-gray-500 italic">Sin registros.</td></tr>`;
+                return d.map(i => `<tr class="hover:bg-white/5 transition group"><td class="p-4"><span class="font-bold text-white">${i.name||i.concept}</span></td><td class="p-4 text-right"><button onclick="Admin.openModal('${key}',${i.id})" class="text-gray-400 hover:text-white mr-3"><i class="fa-solid fa-pen"></i></button><button onclick="Admin.deleteItem('${key}',${i.id})" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
+            },
+            renderWebEditor() {
+                const h = Store.config.hero;
+                const views = ['inicio', 'nosotros', 'clases', 'membresias', 'agenda', 'alquiler', 'talento'];
+                
+                const generateSelect = (id, current) => `
+                    <select id="${id}" class="w-full p-4 bg-white/10 border border-white/20 rounded-lg text-white focus:border-gold outline-none mt-2">
+                        ${views.map(v => `<option value="${v}" class="bg-panel text-white" ${v === current ? 'selected' : ''}>Ir a: ${v.toUpperCase()}</option>`).join('')}
+                    </select>
+                `;
+
+                $('#admin-tab-web').innerHTML = `
+                    <h1 class="text-2xl font-serif font-bold mb-6">Web Editor</h1>
+                    <div class="bg-panel p-6 rounded-2xl border border-white/10 space-y-6">
+                        <h3 class="text-gold font-bold uppercase text-xs">Contenido Principal</h3>
+                        ${this.input('ed-t','Título', h.title)}
+                        ${this.input('ed-s','Subtítulo', h.subtitle)}
+                        ${this.input('ed-img','Fondo URL', h.bgImage)}
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/10">
+                            <div>
+                                <h3 class="text-gold font-bold uppercase text-[10px] mb-2">Botón Principal (Galaxy)</h3>
+                                ${this.input('ed-b1-t', 'Texto Botón', h.ctaPrimary.text)}
+                                ${generateSelect('ed-b1-l', h.ctaPrimary.link)}
+                            </div>
+                            <div>
+                                <h3 class="text-neon font-bold uppercase text-[10px] mb-2">Botón Secundario (Neon)</h3>
+                                ${this.input('ed-b2-t', 'Texto Botón', h.ctaSecondary.text)}
+                                ${generateSelect('ed-b2-l', h.ctaSecondary.link)}
+                            </div>
+                        </div>
+
+                        <button onclick="Admin.saveHeroSettings()" class="btn-galaxy w-full py-4 rounded-lg mt-6 shadow-lg shadow-gold/20">
+                            PUBLICAR CAMBIOS EN PORTADA
+                        </button>
+                    </div>
+                `;
+            },
+            renderConfigPanel() {
+                const c = Store.config.colors;
+                $('#admin-tab-config').innerHTML = `<h1 class="text-2xl font-serif font-bold mb-6">Ajustes</h1><div class="bg-panel p-6 rounded-2xl border border-white/10 space-y-6"><h3 class="text-gold font-bold uppercase text-xs">Colores</h3><div class="grid grid-cols-2 gap-4">${Object.keys(c).map(k => `<div><label class="text-[10px] uppercase text-gray-500">${k}</label><div class="flex gap-2"><input type="color" value="${c[k]}" oninput="Admin.updateColor('${k}',this.value)" class="h-8 w-8 bg-transparent border-0 cursor-pointer"><input type="text" value="${c[k]}" class="w-full bg-white/5 border border-white/10 rounded text-xs px-2 text-white" readonly></div></div>`).join('')}</div></div>`;
+            },
+            updateColor(k, v) { Store.config.colors[k] = v; DataManager.save(Store); },
+            input(id, l, v='') { return `<div class="relative group mt-6"><span class="absolute -top-2 left-3 bg-[#050505] px-1 text-[10px] font-bold text-gold uppercase tracking-wider z-10">${l}</span><input type="text" id="${id}" class="w-full p-4 bg-white/5 border border-white/10 rounded-lg text-white focus:border-gold outline-none" value="${v}"></div>`; },
+            openModal(type, id=null) {
+                const data = id ? Store[type].find(i=>i.id===id) : {};
+                $('#modal-title').innerText = id ? 'EDITAR' : 'NUEVO';
+                $('#modal-body').innerHTML = this.input('f-name', 'Nombre', data.name || '');
+                $('#admin-modal').classList.remove('hidden');
+                setTimeout(()=>{$('#modal-backdrop').classList.remove('opacity-0'); $('#modal-panel').classList.remove('scale-95','opacity-0')},10);
+                $('#modal-save-btn').onclick = () => {
+                    const n = {...data, id: data.id||Date.now(), name: $('#f-name').value};
+                    if(!Store[type]) Store[type]=[];
+                    const idx = Store[type].findIndex(i=>i.id===n.id);
+                    if(idx>-1) Store[type][idx]=n; else Store[type].push(n);
+                    DataManager.save(Store); this.closeModal();
+                };
+            },
+            closeModal() { $('#modal-backdrop').classList.add('opacity-0'); $('#modal-panel').classList.add('scale-95','opacity-0'); setTimeout(()=>$('#admin-modal').classList.add('hidden'),300); },
+            deleteItem(t, id) { if(confirm('¿Eliminar?')){ Store[t]=Store[t].filter(i=>i.id!==id); DataManager.save(Store); } },
+            saveHeroSettings() {
+                Store.config.hero = {
+                    title: $('#ed-t').value,
+                    subtitle: $('#ed-s').value,
+                    bgImage: $('#ed-img').value,
+                    ctaPrimary: {
+                        text: $('#ed-b1-t').value,
+                        link: $('#ed-b1-l').value
+                    },
+                    ctaSecondary: {
+                        text: $('#ed-b2-t').value,
+                        link: $('#ed-b2-l').value
+                    }
+                };
+                DataManager.save(Store);
+                Swal.fire({
+                    title: '¡Arquitectura Actualizada!',
+                    text: 'Los cambios están en vivo.',
+                    icon: 'success',
+                    background: '#08090B',
+                    color: '#E0E0E0',
+                    confirmButtonColor: '#9e9634'
+                });
+            },
+
+            // Archivo: script_v6_admin_mobile_fix.js
+            // Archivo: script_v7_admin_mobile_fix.js
+            toggleMobileSidebar() {
+                const sidebar = $('#view-admin aside');
+                const isHidden = sidebar.classList.contains('hidden');
+
+                if (isHidden) {
+                    sidebar.classList.remove('hidden', 'md:flex');
+                    sidebar.classList.remove('pt-24'); // Eliminamos pt de escritorio
+                    
+                    sidebar.style.cssText = `
+                        display: flex;
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 280px;
+                        height: 100vh;
+                        z-index: 120;
+                        background: rgba(8, 9, 11, 0.98);
+                        backdrop-filter: blur(20px);
+                        transform: translateX(-100%);
+                        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                        padding-top: 5rem; /* AJUSTE: Aumentamos el espacio para evitar el corte */
+                    `;
+                    setTimeout(() => sidebar.style.transform = 'translateX(0)', 10);
+                } else {
+                    sidebar.style.transform = 'translateX(-100%)';
+                    setTimeout(() => {
+                        sidebar.classList.add('hidden', 'md:flex');
+                        sidebar.classList.add('pt-24'); // Restauramos pt de escritorio
+                        sidebar.style.cssText = '';
+                    }, 400);
+                }
+            }
+
         };
 
+        window.onload = () => { App.init(); setTimeout(() => { $('#app-preloader').style.opacity='0'; setTimeout(()=>$('#app-preloader').remove(),1000); }, 2000); };
+
+        // Escuchador de redimensionamiento para limpiar estados móviles al maximizar
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                const sidebar = $('#view-admin aside');
+                // Si el sidebar tiene estilos en línea (indicativo de modo móvil activo)
+                if (sidebar.style.position === 'fixed') {
+                    sidebar.classList.add('hidden', 'md:flex');
+                    sidebar.classList.add('pt-20'); 
+                    sidebar.style.cssText = ''; // Limpieza total de estilos inyectados
+                }
+            }
+        });
+    
+    
     </script>
 </body>
 </html>
