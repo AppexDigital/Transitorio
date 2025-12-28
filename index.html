@@ -406,8 +406,8 @@
         <!-- 2. VISTA NOSOTROS (DARK & PREMIUM) -->
         <section id="view-nosotros" class="app-view px-6 py-24 bg-void relative overflow-hidden">
             
-            <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-                <h2 class="text-[12rem] md:text-[20rem] font-serif font-black text-white/5 whitespace-nowrap absolute -top-20 -left-20 rotate-[-5deg] select-none">
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0 flex items-center justify-center">
+                <h2 id="nos-bg-text" class="text-[18vw] lg:text-[22rem] font-serif font-black text-white/5 whitespace-nowrap absolute top-20 lg:-top-20 left-1/2 -translate-x-1/2 -rotate-6 select-none transition-all duration-500">
                     BOOGALOO
                 </h2>
                 <div class="absolute top-1/4 right-0 w-[500px] h-[500px] bg-gold/10 rounded-full blur-[120px]"></div>
@@ -1153,6 +1153,7 @@
                 setHtml('nos-title', data.title);
                 setText('nosotros-historia-txt', data.historia);
                 setText('nosotros-filosofia-txt', `"${data.cita}"`);
+                setText('nos-bg-text', data.bgText || 'BOOGALOO');
 
                 // 3. VIDEOTECA (Miniaturas)
                 const vidCont = document.getElementById('video-thumbnails');
@@ -1358,7 +1359,7 @@
                 if (videoFrame && videoFrame.contentWindow) {
                     videoFrame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
                 }
-                
+
                 // 1. GESTIÓN DE SECCIONES (Saneamiento de visibilidad)
                 document.querySelectorAll('.app-view').forEach(e => {
                     e.classList.remove('active');
@@ -1665,6 +1666,10 @@
                                 </div>
                             </div>
                             <div>
+                                <label class="text-xs text-gray-500 uppercase font-bold">Texto Gigante de Fondo</label>
+                                <input type="text" id="ed-nos-bg" value="${data.bgText || 'BOOGALOO'}" style="${blackStyle} letter-spacing: 5px; text-transform: uppercase;">
+                            </div>
+                            <div>
                                 <label class="text-xs text-gray-500 uppercase font-bold">Historia Principal</label>
                                 <textarea id="ed-nos-hist" style="${blackStyle} height:100px;">${data.historia || ''}</textarea>
                             </div>
@@ -1875,6 +1880,8 @@
                 d.config.nosotrosContent.title    = val('ed-nos-tit');
                 d.config.nosotrosContent.historia = val('ed-nos-hist');
                 d.config.nosotrosContent.cita     = val('ed-nos-cita');
+                d.config.nosotrosContent.bgText   = val('ed-nos-bg');
+
 
                 // Las listas (galería, videos) ya se actualizaron en memoria con 'update...Array'
                 // así que solo guardamos el estado final.
