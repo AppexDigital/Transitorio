@@ -1352,6 +1352,13 @@
         // Archivo: script_v8_router_refactored.js
         const Router = {
             go(id) {
+
+                // Buscamos el iframe principal y le enviamos la orden de pausa
+                const videoFrame = document.getElementById('main-video-frame');
+                if (videoFrame && videoFrame.contentWindow) {
+                    videoFrame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                }
+                
                 // 1. GESTIÓN DE SECCIONES (Saneamiento de visibilidad)
                 document.querySelectorAll('.app-view').forEach(e => {
                     e.classList.remove('active');
@@ -1635,6 +1642,7 @@
                 if(!container) container = document.getElementById('admin-tab-nosotros');
                 if(!container) return;
 
+                // FORZAMOS LECTURA FRESCA DESDE LA MEMORIA PERSISTENTE
                 const data = DataManager.get().config.nosotrosContent;
                 
                 // ESTILO NEGRO FORZADO (Para eliminar los cuadros blancos)
@@ -1675,8 +1683,8 @@
                                 ${data.videos.map((v, i) => `
                                     <div class="flex gap-2 items-center bg-black/40 p-2 rounded-lg border border-white/5">
                                         <span class="text-gray-500 text-xs w-4">${i+1}</span>
-                                        <input type="text" class="flex-1 bg-transparent text-xs text-white p-1 outline-none" value="${v.id}" onchange="Admin.updateVideoArray()" placeholder="ID Youtube">
-                                        <input type="text" class="flex-1 bg-transparent text-xs text-gray-400 p-1 outline-none" value="${v.label}" onchange="Admin.updateVideoArray()" placeholder="Etiqueta">
+                                        <input type="text" class="flex-1 bg-transparent text-xs text-white p-1 outline-none" value="${v.id}" oninput="Admin.updateVideoArray()" placeholder="ID Youtube">
+                                        <input type="text" class="flex-1 bg-transparent text-xs text-gray-400 p-1 outline-none" value="${v.label}" oninput="Admin.updateVideoArray()" placeholder="Etiqueta">
                                         <button onclick="Admin.removeVideoItem(${i})" class="text-rose hover:text-white px-2"><i class="fa-solid fa-trash"></i></button>
                                     </div>
                                 `).join('')}
@@ -1736,11 +1744,28 @@
             // --- HELPERS ---
             
             addVideoItem() {
+                const rows = document.querySelectorAll('#video-list-editor > div');
                 const d = DataManager.get();
-                // IMPORTANTE: Ponemos un ID real por defecto para evitar error 404 de imagen
-                d.config.nosotrosContent.videos.push({id: "dQw4w9WgXcQ", label: "Nuevo Video"});
+                
+                // 1. CAPTURAR: Guardamos lo que el usuario ya escribió antes de borrar nada
+                const currentVideos = Array.from(rows).map(row => {
+                    const inputs = row.querySelectorAll('input');
+                    return {
+                        id: inputs[0].value,
+                        label: inputs[1].value,
+                        // Mantenemos la miniatura existente o generamos una por defecto si está vacía
+                        thumb: inputs[0].value ? `https://img.youtube.com/vi/${inputs[0].value}/0.jpg` : 'https://via.placeholder.com/100'
+                    };
+                });
+
+                // 2. AGREGAR: Añadimos el nuevo video
+                currentVideos.push({id: "dQw4w9WgXcQ", label: "Nuevo Video", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg"});
+                
+                // 3. ACTUALIZAR ESTADO
+                d.config.nosotrosContent.videos = currentVideos;
+                
                 DataManager.save(d);
-                this.renderNosotrosEditor(); // Recargar editor
+                this.renderNosotrosEditor(); // Recargar editor con datos preservados
                 App.renderNosotros();        // Recargar web
             },
 
