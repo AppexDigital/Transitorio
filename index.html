@@ -2559,8 +2559,21 @@
 
             removeClaseImg(classIdx, imgIdx) {
                 const d = DataManager.get();
-                if(d.clases[classIdx].gallery && d.clases[classIdx].gallery.length > 1) {
+                // Verificamos que exista la galería
+                if(d.clases[classIdx].gallery) {
+                    // 1. Eliminar la imagen seleccionada del array
                     d.clases[classIdx].gallery.splice(imgIdx, 1);
+                    
+                    // 2. LÓGICA DE RELEVO:
+                    // Si quedan imágenes, la nueva portada (img) es AUTOMÁTICAMENTE la primera de la lista
+                    if (d.clases[classIdx].gallery.length > 0) {
+                        d.clases[classIdx].img = d.clases[classIdx].gallery[0];
+                    } else {
+                        // Si borró todas, ponemos un placeholder o vacío
+                        d.clases[classIdx].img = "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE"; 
+                    }
+
+                    // 3. Guardar y Re-renderizar todo para ver el cambio visual al instante
                     DataManager.save(d);
                     this.renderClasesEditor(document.getElementById('admin-tab-clases'));
                     App.renderPublic();
@@ -2569,41 +2582,53 @@
 
             updateClasesArray() {
                 const container = document.getElementById('clases-edit-list');
-                const cards = container.querySelectorAll('.bg-panel'); // Seleccionamos cada tarjeta individualmente
+                const cards = container.querySelectorAll('.bg-panel'); 
                 const d = DataManager.get();
                 
                 d.clases = Array.from(cards).map((card, index) => {
                     const originalId = d.clases[index] ? d.clases[index].id : Date.now();
                     
                     // 1. CAPTURA DE IMÁGENES
-                    const imgVal = card.querySelector('.main-img-input').value;
                     const galInputs = card.querySelectorAll('.gal-url-input');
                     const galleryArr = Array.from(galInputs).map(inp => inp.value).filter(s => s.trim() !== "");
+                    
+                    // LÓGICA MAESTRA: La imagen principal es SIEMPRE la foto #1 de la galería
+                    // Si la galería está vacía, usamos el valor del input oculto como respaldo
+                    const mainImg = galleryArr.length > 0 ? galleryArr[0] : card.querySelector('.main-img-input').value;
 
-                    // 2. CAPTURA DE TEXTOS Y SELECTS (Usando las nuevas clases)
+                    // --- ACTUALIZACIÓN VISUAL EN TIEMPO REAL (ADMIN) ---
+                    // Buscamos la primera etiqueta <img> de la tarjeta (que es la preview grande)
+                    const previewImg = card.querySelector('img'); 
+                    // Si la imagen cambió, actualizamos el SRC visualmente ahora mismo
+                    if(previewImg && previewImg.src !== mainImg) {
+                        previewImg.src = mainImg;
+                    }
+                    // ---------------------------------------------------
+
+                    // 2. RETORNO DE DATOS
                     return {
                         id: originalId,
-                        img: imgVal,
-                        gallery: galleryArr.length > 0 ? galleryArr : [imgVal],
+                        img: mainImg,
+                        gallery: galleryArr,
                         
-                        name: card.querySelector('.name-input').value,          // Nombre
-                        level: card.querySelector('.level-select').value,       // Nivel
-                        schedule: card.querySelector('.schedule-input').value,  // Horario
+                        name: card.querySelector('.name-input').value,
+                        level: card.querySelector('.level-select').value,
+                        schedule: card.querySelector('.schedule-input').value,
                         
-                        priceCRC: card.querySelector('.price-crc-input').value, // Precio Colones
-                        priceUSD: card.querySelector('.price-usd-input').value, // Precio Dólares
+                        priceCRC: card.querySelector('.price-crc-input').value,
+                        priceUSD: card.querySelector('.price-usd-input').value,
                         
-                        showSchedule: card.querySelector('.toggle-schedule').checked, // Checkbox Horario
-                        showPrice: card.querySelector('.toggle-price').checked,       // Checkbox Precio
+                        showSchedule: card.querySelector('.toggle-schedule').checked,
+                        showPrice: card.querySelector('.toggle-price').checked,
                         
-                        desc: card.querySelector('.desc-input').value,      // Descripción Corta
-                        details: card.querySelector('.detail-input').value  // Detalles Largos
+                        desc: card.querySelector('.desc-input').value,
+                        details: card.querySelector('.detail-input').value
                     };
                 });
                 
                 // 3. GUARDADO Y REFRESCO
-                DataManager.save(d); // Guarda en memoria persistente
-                App.renderPublic();  // Actualiza la web pública al instante
+                DataManager.save(d); 
+                App.renderPublic();  
             },
 
             // --- GESTIÓN DE MEMBRESÍAS (NUEVO MÓDULO PREMIUM) ---
