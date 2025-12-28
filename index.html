@@ -7,7 +7,7 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     <!-- Fuentes Premium -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Montserrat:wght@300;400;700&family=Lato:wght@300;400;700&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -94,7 +94,7 @@
         /* Botones Galácticos */
         .btn-galaxy {
             background: linear-gradient(135deg, var(--color-gold) 0%, #B8860B 100%);
-            color: #000;
+            color: #000000 !important;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.15em;
@@ -194,6 +194,43 @@
         }
         .animate-progress-fill { animation: progress-fill 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
+
+        /* Animación del reflejo metálico */
+        @keyframes gold-reflection {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Efecto de Oro Estático con brillo metálico */
+        .gold-metal-effect {
+            /* CAPA 1: Reflejo blanco traslúcido (arriba) */
+            /* CAPA 2: Color Gold sólido de la base (abajo) */
+            background-image: 
+                linear-gradient(
+                    135deg, 
+                    transparent 25%, 
+                    rgba(255, 255, 255, 0.638) 50%, 
+                    transparent 75%
+                ),
+                linear-gradient(
+                    var(--color-gold), 
+                    var(--color-gold)
+                );
+            
+            /* El tamaño del fondo debe ser suficiente para que el reflejo sea ancho y suave */
+            background-size: 100% 100%;
+            
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            
+            /* Mantenemos la palpitación original */
+            animation: pulse-slow 3s infinite ease-in-out;
+            
+            /* Sombra para dar relieve metálico */
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+        }
+
         /* Bloqueo de scroll principal para modo inmersivo */
         body.admin-mode {
             overflow: hidden !important;
@@ -216,7 +253,7 @@
             z-index: 40;
         }
 
-        /* Bloqueo total del cuerpo*/
+        /* Bloqueo total del cuerpo */
         body.admin-mode {
             overflow: hidden !important;
             position: fixed;
@@ -264,7 +301,7 @@
         <div class="hidden lg:flex items-center gap-8">
             <div class="flex gap-6 text-sm font-bold uppercase tracking-widest text-gray-400" id="nav-links">
                 <button id="nav-inicio" onclick="Router.go('inicio')" class="text-gold border-b-2 border-gold px-2 py-1 transition-all duration-300">Inicio</button>
-                <button id="nav-nosotros" onclick="Router.go('nosotros')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Nosotros</button>
+                <button id="nav-nosotros" onclick="Router.go('nosotros')" class="hover:text-white py-2 transition-all border-b-2">Nosotros</button>
                 <button id="nav-clases" onclick="Router.go('clases')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Clases</button>
                 <button id="nav-membresias" onclick="Router.go('membresias')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Membresías</button>
                 <button id="nav-agenda" onclick="Router.go('agenda')" class="hover:text-white py-2 transition-all border-b-2 border-transparent">Agenda</button>
@@ -324,8 +361,8 @@
                 </button>
             </div>
 
-            <button onclick="App.toggleLoginModal(); App.toggleMobileMenu()" class="btn-galaxy px-10 py-4 rounded-full text-xs font-bold shadow-lg shrink-0 tracking-widest uppercase transform hover:scale-105 transition-all">
-                Portal
+            <button onclick="App.toggleLoginModal(); App.toggleMobileMenu()" class="btn-galaxy px-10 py-4 rounded-full text-xs font-bold shadow-lg shrink-0 tracking-widest uppercase transform hover:scale-105 transition-all text-black">
+                PORTAL
             </button>
 
         </div>
@@ -367,30 +404,152 @@
         </section>
 
         <!-- 2. VISTA NOSOTROS (DARK & PREMIUM) -->
-        <section id="view-nosotros" class="app-view px-6 py-20 bg-void">
-            <div class="container mx-auto max-w-7xl">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-                    <div class="relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-gold/30 to-neon/30 rounded-2xl blur opacity-30 group-hover:opacity-60 transition-opacity duration-700"></div>
-                        <img src="https://images.pexels.com/photos/2774941/pexels-photo-2774941.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="relative rounded-2xl shadow-2xl w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 h-[600px]">
-                    </div>
+        <section id="view-nosotros" class="app-view px-6 py-24 bg-void relative overflow-hidden">
+            
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <h2 class="text-[12rem] md:text-[20rem] font-serif font-black text-white/5 whitespace-nowrap absolute -top-20 -left-20 rotate-[-5deg] select-none">
+                    BOOGALOO
+                </h2>
+                <div class="absolute top-1/4 right-0 w-[500px] h-[500px] bg-gold/10 rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-0 left-10 w-[300px] h-[300px] bg-rose/10 rounded-full blur-[100px]"></div>
+            </div>
+
+            <div class="container mx-auto max-w-7xl relative z-10">
+                
+                <div class="grid lg:grid-cols-2 gap-16 items-start mb-32">
                     
-                    <div>
-                        <span class="text-neon text-xs font-bold uppercase tracking-[0.3em] mb-4 block">Dirección Artística</span>
-                        <h2 class="text-5xl lg:text-6xl font-serif font-bold text-white mb-8 leading-none">Georgzua & <span class="italic text-gold">Dania</span></h2>
-                        
-                        <div class="space-y-6 text-gray-400 font-light text-lg leading-relaxed">
-                            <p>Tras una década conquistando escenarios internacionales, regresamos a nuestras raíces. Sensación Boogaloo nace de la necesidad de profesionalizar el talento bruto de Limón.</p>
-                            <p>Fusionamos la disciplina académica con el sabor innato de nuestra tierra. No somos solo instructores; somos mentores forjando la próxima generación de artistas.</p>
+                    <div class="space-y-8 pt-10">
+                        <div>
+                            <span id="nos-pre" class="text-neon text-xs font-bold uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
+                                <span class="w-12 h-[2px] bg-neon"></span> IDENTIDAD
+                            </span>
+                            <h2 id="nos-tit" class="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9]">
+                                RITMO CON <br>PROPÓSITO
+                            </h2>
                         </div>
-                        
-                        <div class="grid grid-cols-3 gap-8 border-t border-white/10 pt-10 mt-8">
-                            <div><span class="block text-4xl font-serif text-white mb-1">12</span><span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Años Exp.</span></div>
-                            <div><span class="block text-4xl font-serif text-gold mb-1">500+</span><span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Alumnos</span></div>
-                            <div><span class="block text-4xl font-serif text-neon mb-1">15</span><span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Trofeos</span></div>
+
+                        <div class="relative">
+                            <div class="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-rose to-transparent"></div>
+                            <p id="nosotros-historia-txt" class="pl-8 text-xl text-gray-300 font-light leading-relaxed">
+                                Sensación Boogaloo no es solo una academia...
+                            </p>
+                        </div>
+
+                        <div class="glass-card p-8 bg-white/5 border border-white/10 rounded-br-3xl rounded-tl-3xl relative mt-8 group hover:border-gold/30 transition-colors">
+                            <i class="fa-solid fa-quote-right absolute top-4 right-4 text-white/10 text-4xl group-hover:text-gold/20 transition-colors"></i>
+                            <p id="nosotros-filosofia-txt" class="text-white font-serif italic text-lg relative z-10">
+                                "El bailarín caribeño tiene algo que no se enseña..."
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-6">
+                        <div id="video-container" class="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black group">
+                            <iframe id="main-video-frame" class="w-full h-full object-cover" src="..." ...></iframe>
+                            <div class="absolute inset-0 border-2 border-transparent group-hover:border-gold/50 rounded-2xl transition-colors pointer-events-none"></div>
+                        </div>
+
+                        <div class="flex gap-4 overflow-x-auto pb-4 custom-scrollbar" id="video-thumbnails">
+                            <button class="w-40 aspect-video rounded-lg border-2 border-gold overflow-hidden relative group shrink-0 transition-all transform hover:-translate-y-1" onclick="App.changeVideo('dQw4w9WgXcQ', this)">
+                                <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                                <div class="absolute inset-0 flex items-center justify-center"><i class="fa-solid fa-play text-white drop-shadow-md"></i></div>
+                            </button>
+                            <button class="w-40 aspect-video rounded-lg border-2 border-white/10 overflow-hidden relative group shrink-0 transition-all transform hover:-translate-y-1 hover:border-white/50" onclick="App.changeVideo('tgbNymZ7vqY', this)">
+                                <img src="https://img.youtube.com/vi/tgbNymZ7vqY/0.jpg" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity">
+                                <div class="absolute inset-0 flex items-center justify-center"><i class="fa-solid fa-play text-white/70 group-hover:text-white drop-shadow-md"></i></div>
+                            </button>
+                            <button class="w-40 aspect-video rounded-lg border-2 border-white/10 overflow-hidden relative group shrink-0 transition-all transform hover:-translate-y-1 hover:border-white/50" onclick="App.changeVideo('dQw4w9WgXcQ', this)">
+                                <img src="https://images.unsplash.com/photo-1545959570-a9477eb37265?q=80&w=400" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity">
+                                <div class="absolute bottom-0 left-0 w-full p-1 text-[10px] bg-black/60 text-white text-center">Clase Abierta</div>
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <div class="mb-32">
+                    <div class="text-center mb-12">
+                        <h3 class="text-4xl font-serif text-white">Galería <span class="text-neon italic">En Movimiento</span></h3>
+                        <div class="w-16 h-1 bg-neon mx-auto mt-4 rounded-full shadow-[0_0_15px_var(--color-neon)]"></div>
+                    </div>
+
+                    <div id="galeria-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 h-[600px] md:h-[500px]">
+                        
+                        <div class="col-span-1 row-span-2 relative group overflow-hidden rounded-2xl border border-white/5 cursor-pointer">
+                            <img src="https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <span class="text-neon text-xs font-bold uppercase">Social Dance</span>
+                                <p class="text-white font-serif">Conexión</p>
+                            </div>
+                        </div>
+
+                        <div class="col-span-2 row-span-1 relative group overflow-hidden rounded-2xl border border-white/5 cursor-pointer">
+                            <img src="https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-90 group-hover:brightness-100">
+                            <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                                <span class="text-gold text-xs font-bold uppercase">Shows en Vivo</span>
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 row-span-1 relative group overflow-hidden rounded-2xl border border-white/5 cursor-pointer">
+                            <img src="https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        </div>
+
+                        <div class="col-span-1 row-span-1 relative group overflow-hidden rounded-2xl border border-white/5 cursor-pointer">
+                            <img src="https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        </div>
+
+                        <div class="col-span-2 row-span-1 relative group overflow-hidden rounded-2xl border border-white/5 cursor-pointer">
+                            <img src="https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 object-center">
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
+                                    <i class="fa-solid fa-plus text-white text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-white/10 pt-16">
+                    <h3 class="text-center text-4xl font-serif text-white mb-12">Nuestra <span class="text-gold">Trayectoria</span></h3>
+                    
+                    <div id="premios-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="glass-card p-8 rounded-xl border border-white/5 relative overflow-hidden group hover:border-gold transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] hover:-translate-y-2">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-4xl font-black text-white group-hover:text-gold transition-colors">2023</span>
+                                <i class="fa-solid fa-trophy text-3xl text-white/10 group-hover:text-gold transition-colors duration-500 group-hover:rotate-12"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-200 mb-1">Campeones Nacionales</h4>
+                            <p class="text-[10px] text-rose font-bold uppercase tracking-widest">Salsa Casino • FECOBADE</p>
+                        </div>
+
+                        <div class="glass-card p-8 rounded-xl border border-white/5 relative overflow-hidden group hover:border-neon transition-all duration-300 hover:shadow-[0_0_30px_rgba(3,236,217,0.2)] hover:-translate-y-2">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-4xl font-black text-white group-hover:text-neon transition-colors">INTL</span>
+                                <i class="fa-solid fa-globe text-3xl text-white/10 group-hover:text-neon transition-colors duration-500 group-hover:scale-110"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-200 mb-1">Gira Europea</h4>
+                            <p class="text-[10px] text-rose font-bold uppercase tracking-widest">Representación CR</p>
+                        </div>
+
+                        <div class="glass-card p-8 rounded-xl border border-white/5 relative overflow-hidden group hover:border-gold transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] hover:-translate-y-2">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-4xl font-black text-white group-hover:text-gold transition-colors">100%</span>
+                                <i class="fa-solid fa-certificate text-3xl text-white/10 group-hover:text-gold transition-colors duration-500"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-200 mb-1">Certificación</h4>
+                            <p class="text-[10px] text-rose font-bold uppercase tracking-widest">Instructores Titulados</p>
+                        </div>
+
+                        <div class="glass-card p-8 rounded-xl border border-white/5 relative overflow-hidden group hover:border-neon transition-all duration-300 hover:shadow-[0_0_30px_rgba(3,236,217,0.2)] hover:-translate-y-2">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-4xl font-black text-white group-hover:text-neon transition-colors">500+</span>
+                                <i class="fa-solid fa-users text-3xl text-white/10 group-hover:text-neon transition-colors duration-500"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-200 mb-1">Alumnos Graduados</h4>
+                            <p class="text-[10px] text-rose font-bold uppercase tracking-widest">Comunidad Activa</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -536,6 +695,9 @@
                         <button onclick="Admin.switchTab('web')" id="btn-tab-web" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
                             <i class="fa-solid fa-desktop w-5"></i> Web Editor
                         </button>
+                        <button onclick="Admin.switchTab('nosotros')" id="btn-tab-nosotros" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
+                            <i class="fa-solid fa-users-gear w-5"></i> Nosotros
+                        </button>
                         <button onclick="Admin.switchTab('clases')" id="btn-tab-clases" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent">
                             <i class="fa-solid fa-person-chalkboard w-5"></i> Clases
                         </button>
@@ -592,7 +754,9 @@
                         </div>
                     </div>
 
+                    <div id="admin-tab-dash" class="admin-tab"></div>
                     <div id="admin-tab-web" class="admin-tab hidden"></div>
+                    <div id="admin-tab-nosotros" class="admin-tab hidden"></div> 
                     <div id="admin-tab-clases" class="admin-tab hidden"></div>                    
                     <div id="admin-tab-agenda" class="admin-tab hidden"></div>
                     <div id="admin-tab-membresias" class="admin-tab hidden"></div>
@@ -687,7 +851,7 @@
         // =================================================================
         const DefaultData = {
             config: {
-                colors: { void: '#020203', panel: '#08090B', surface: '#121418', gold: '#D4AF37', neon: '#00F3FF', textMain: '#E0E0E0', textMuted: '#9CA3AF' },
+                colors: { void: '#020203', panel: '#08090B', surface: '#121418', gold: '#D4AF37', neon: '#00F3FF', rose: '#FF2D55', textMain: '#E0E0E0', textMuted: '#9CA3AF' },
                 fonts: { heading: 'Cinzel', body: 'Space Grotesk' },
                 hero: {
                     title: "Sensación Boogaloo",
@@ -695,15 +859,43 @@
                     bgImage: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE",
                     ctaPrimary: { text: "Explora nuestras Clases", link: "clases" },
                     ctaSecondary: { text: "Audiciones", link: "talento" }
+                },
+                nosotrosContent: {
+                    pretitle: "IDENTIDAD",
+                    title: "RITMO CON PROPÓSITO",
+                    historia: "Sensación Boogaloo no es solo una academia, es la custodia del sabor limonense. Fusionamos la disciplina académica global con el movimiento innato del Caribe.",
+                    cita: "El bailarín caribeño tiene algo que no se enseña en aulas tradicionales: tiene el mar en el movimiento.",
+                    autorCita: "Dirección Artística",
+                    // Videoteca: ID de Youtube y URL de la imagen miniatura
+                    videos: [
+                        { id: "dQw4w9WgXcQ", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg", label: "Video Principal" },
+                        { id: "tgbNymZ7vqY", thumb: "https://img.youtube.com/vi/tgbNymZ7vqY/0.jpg", label: "Clase Abierta" }
+                    ],
+                    // Galería: 5 Imágenes fijas para el Bento Grid (Orden: Vertical, Horizontal, Cuadro 1, Cuadro 2, Horizontal Abajo)
+                    galeria: [
+                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", // 1. Vertical Grande
+                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", // 2. Horizontal Superior
+                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", // 3. Cuadro Izq
+                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", // 4. Cuadro Der
+                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE"  // 5. Horizontal Inferior
+                    ],
+                    // Logros: Ahora incluye el icono como dato editable
+                    logros: [
+                        { id: 1, year: "2023", title: "Campeones Nacionales", sub: "Salsa Casino • FECOBADE", icon: "fa-trophy", color: "gold" },
+                        { id: 2, year: "INTL", title: "Gira Europea", sub: "Representación CR", icon: "fa-globe", color: "neon" },
+                        { id: 3, year: "100%", title: "Certificación", sub: "Instructores Titulados", icon: "fa-certificate", color: "gold" },
+                        { id: 4, year: "500+", title: "Alumnos Graduados", sub: "Comunidad Activa", icon: "fa-users", color: "neon" }
+                    ]
                 }
             },
 
+            
 
             clases: [
-                { id: 1, name: "Salsa Casino", level: "Principiante", schedule: "Lunes 7:00 PM", img: "https://images.unsplash.com/photo-1516650967733-5c7ab4d8e874?auto=format&fit=crop&w=600", desc: "Domina la rueda de casino, el tiempo y la guía básica." },
-                { id: 2, name: "Bachata Sensual", level: "Intermedio", schedule: "Miércoles 8:00 PM", img: "https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=600", desc: "Técnica de disociación, ondas y conexión en pareja." },
-                { id: 3, name: "Kizomba Fusion", level: "Open Level", schedule: "Jueves 7:00 PM", img: "https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?auto=format&fit=crop&w=600", desc: "Musicalidad y conexión suave con influencias modernas." },
-                { id: 4, name: "Lady Style", level: "Avanzado", schedule: "Sábado 10:00 AM", img: "https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?auto=format&fit=crop&w=600", desc: "Expresión corporal, brazos y técnica de giro para ellas." }
+                { id: 1, name: "Salsa Casino", level: "Principiante", schedule: "Lunes 7:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE?auto=format&fit=crop&w=600", desc: "Domina la rueda de casino, el tiempo y la guía básica." },
+                { id: 2, name: "Bachata Sensual", level: "Intermedio", schedule: "Miércoles 8:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE?auto=format&fit=crop&w=600", desc: "Técnica de disociación, ondas y conexión en pareja." },
+                { id: 3, name: "Kizomba Fusion", level: "Open Level", schedule: "Jueves 7:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE?auto=format&fit=crop&w=600", desc: "Musicalidad y conexión suave con influencias modernas." },
+                { id: 4, name: "Lady Style", level: "Avanzado", schedule: "Sábado 10:00 AM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE?auto=format&fit=crop&w=600", desc: "Expresión corporal, brazos y técnica de giro para ellas." }
             ],
             agenda: {
                 lunes: [{t:"18:00", n:"Salsa Básico"}, {t:"19:00", n:"Salsa Intermedio"}, {t:"20:00", n:"Práctica Libre"}],
@@ -747,56 +939,45 @@
         // =================================================================
         // 2. GESTOR DE DATOS (DATA MANAGER - CON PERSISTENCIA)
         // =================================================================
+        
         const DataManager = {
-            KEY: 'SB_CLEAN_REPAIR_V1', 
+            KEY: 'SB_DATA_V2',
+            state: null, // Estado interno explícito
+
             init() {
-                // ACCIÓN QUIRÚRGICA: 
-                // Eliminamos cualquier dato previo para que el refresco sea un "borrón y cuenta nueva"
-                sessionStorage.removeItem(this.KEY); 
-                
-                // Cargamos SIEMPRE los datos originales de DefaultData
-                window.Store = JSON.parse(JSON.stringify(DefaultData));
-                
-                // Aplicamos la configuración inicial (colores y textos de fábrica)
-                this.applyConfig();
-                console.log("Arquitectura reiniciada: Estado original cargado.");
+                // AL REFRESCAR: Ignoramos la memoria guardada y cargamos siempre los datos de fábrica
+                sessionStorage.clear(); 
+                this.state = JSON.parse(JSON.stringify(DefaultData));
+                window.Store = this.state; 
+                this.applyStyles();
             },
-            save(newData) {
-                window.Store = newData;
-                // Guardamos solo para mantener los cambios MIENTRAS navegamos entre pestañas del admin
-                sessionStorage.setItem(this.KEY, JSON.stringify(newData));
-                this.applyConfig();
-                
-                // Refrescamos las vistas activas para ver el cambio inmediato
-                if(!$('#view-admin').classList.contains('hidden')) { Admin.refreshView(); }
-                App.renderPublic();
+
+            get() {
+                // Protección contra llamadas antes de init
+                if (!this.state) this.init();
+                return this.state; 
             },
-            reset() { localStorage.removeItem(this.KEY); location.reload(); },
-            applyConfig() {
-            
-                if (!window.Store || !window.Store.config) return;
-                const c = window.Store.config.colors;
-                const h = window.Store.config.hero; // Obtenemos la config del Hero
+
+            save(newState) {
+                this.state = newState;
+                sessionStorage.setItem(this.KEY, JSON.stringify(this.state));
+                this.applyStyles();
+                // Si App existe, renderizamos. Si no, esperamos.
+                if (typeof App !== 'undefined' && App.renderAll) App.renderAll();
+            },
+
+            applyStyles() {
+                if (!this.state || !this.state.config) return;
+                const c = this.state.config.colors;
                 const root = document.documentElement;
-                
-                // 1. Aplicación de colores
-                root.style.setProperty('--color-gold', c.gold);
                 root.style.setProperty('--color-void', c.void);
                 root.style.setProperty('--color-panel', c.panel);
-                
-                // 2. AJUSTE QUIRÚRGICO: Forzar la carga de la imagen de fondo
-                const heroBg = document.getElementById('hero-bg-image');
-                if (heroBg && h.bgImage) {
-                    heroBg.style.backgroundImage = `url('${h.bgImage}')`;
-                    heroBg.style.display = 'block'; // Aseguramos visibilidad
-                    heroBg.style.opacity = '0.6';   // Mantenemos la estética Dark Lux
-                }
-
-                if (window.tailwind) {
-                    tailwind.config.theme.extend.colors.gold = c.gold;
-                    tailwind.config.theme.extend.colors.void = c.void;
-                    tailwind.config.theme.extend.colors.panel = c.panel;
-                }
+                root.style.setProperty('--color-surface', c.surface);
+                root.style.setProperty('--color-gold', c.gold);
+                root.style.setProperty('--color-neon', c.neon);
+                root.style.setProperty('--color-rose', c.rose);
+                root.style.setProperty('--color-text-main', c.textMain);
+                root.style.setProperty('--color-text-muted', c.textMuted);
             }
         };
 
@@ -816,6 +997,7 @@
                 }
                 
                 this.renderPublic();
+                this.renderNosotros();
 
                 // AJUSTE PUNTUAL: Disparamos la navegación inicial para que el Router pinte el botón
                 const startView = this.currentRole === 'admin' ? 'admin' : 'inicio';
@@ -896,48 +1078,284 @@
                 window.location.reload(); // Limpieza total de arquitectura
             },
 
+
+            // --- PEGAR DENTRO DE APP (Reemplaza la anterior) ---
             renderPublic() {
                 const h = Store.config.hero;
-                // Lógica para resaltar y animar la segunda palabra del título
-                const words = h.title.split(' ');
-                if (words.length >= 2) {
-                    words[1] = `<span class="text-gold inline-block animate-pulse-slow" style="animation-duration: 2s;">${words[1]}</span>`;
-                    $('#hero-title-display').innerHTML = words.join(' ');
-                } else {
-                    $('#hero-title-display').innerText = h.title;
+                
+                // 1. Textos
+                const titleEl = document.getElementById('hero-title-display');
+                if(titleEl) {
+                    // Mantenemos tu efecto de palabras doradas si hay más de 1 palabra
+                    const words = h.title.split(' ');
+                    if (words.length >= 2) {
+                        words[1] = `<span class="gold-metal-effect">${words[1]}</span>`;
+                        titleEl.innerHTML = words.join(' ');
+                    } else {
+                        titleEl.innerText = h.title;
+                    }
                 }
-                $('#hero-desc-display').innerText = h.subtitle;
-
-                // Renderizado y vinculación de botones
-                const btn1 = $('#hero-btn-primary');
-                const btn2 = $('#hero-btn-secondary');
-
-                btn1.innerText = h.ctaPrimary.text;
-                btn1.onclick = () => Router.go(h.ctaPrimary.link);
                 
-                btn2.innerText = h.ctaSecondary.text;
-                btn2.onclick = () => Router.go(h.ctaSecondary.link);
+                const subEl = document.getElementById('hero-desc-display');
+                if(subEl) subEl.innerText = h.subtitle;
+
+                // 2. IMAGEN DE FONDO (ESTO ES LO QUE FALTABA)
+                const bgEl = document.getElementById('hero-bg-image');
+                if(bgEl && h.bgImage) {
+                    // Forzamos el cambio de imagen via CSS inline
+                    bgEl.style.backgroundImage = `url('${h.bgImage}')`;
+                    bgEl.style.opacity = "0.6"; // Aseguramos visibilidad
+                }
+
+                // 3. Botones (Actualizar textos y links)
+                const btn1 = document.getElementById('hero-btn-primary');
+                if(btn1) {
+                    btn1.innerText = h.ctaPrimary.text;
+                    btn1.onclick = () => Router.go(h.ctaPrimary.link);
+                }
                 
-                $('#hero-btn-primary').innerText = h.ctaPrimary.text;
-                $('#hero-btn-primary').onclick = () => Router.go(h.ctaPrimary.link);
-                $('#classes-grid').innerHTML = Store.clases.map(c => `
-                    <div class="glass-card rounded-xl overflow-hidden group border border-white/5 hover:border-gold/50 transition-all duration-500">
-                        <div class="h-56 relative"><img src="${c.img}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110"><div class="absolute inset-0 bg-gradient-to-t from-panel via-transparent to-transparent opacity-90"></div><span class="absolute top-3 right-3 bg-black/60 px-3 py-1 rounded-full text-[10px] uppercase font-bold border border-white/10 z-10">${c.level}</span></div>
-                        <div class="p-6"><h3 class="text-2xl font-serif font-bold text-white mb-2 group-hover:text-gold transition-colors">${c.name}</h3><p class="text-xs text-gray-400 mb-6 line-clamp-2">${c.desc}</p><button class="btn-neon w-full py-3 rounded text-xs font-bold tracking-widest hover:bg-neon hover:text-black transition-all">VER DETALLES</button></div>
-                    </div>`).join('');
+                const btn2 = document.getElementById('hero-btn-secondary');
+                if(btn2) {
+                    btn2.innerText = h.ctaSecondary.text;
+                    btn2.onclick = () => Router.go(h.ctaSecondary.link);
+                }
+                
+                // 4. Clases (Grid) - Mantenemos tu lógica existente
+                const classesGrid = document.getElementById('classes-grid');
+                if(classesGrid && Store.clases) {
+                    classesGrid.innerHTML = Store.clases.map(c => `
+                        <div class="glass-card rounded-xl overflow-hidden group border border-white/5 hover:border-gold/50 transition-all duration-500">
+                            <div class="h-56 relative"><img src="${c.img}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110"><div class="absolute inset-0 bg-gradient-to-t from-panel via-transparent to-transparent opacity-90"></div><span class="absolute top-3 right-3 bg-black/60 px-3 py-1 rounded-full text-[10px] uppercase font-bold border border-white/10 z-10">${c.level}</span></div>
+                            <div class="p-6"><h3 class="text-2xl font-serif font-bold text-white mb-2 group-hover:text-gold transition-colors">${c.name}</h3><p class="text-xs text-gray-400 mb-6 line-clamp-2">${c.desc}</p><button class="btn-neon w-full py-3 rounded text-xs font-bold tracking-widest hover:bg-neon hover:text-black transition-all">VER DETALLES</button></div>
+                        </div>`).join('');
+                }
             },
             
+        
+            // --- PEGAR DENTRO DE APP (Reemplaza la función anterior) ---
+            renderNosotros() {
+                const data = DataManager.get().config.nosotrosContent;
+                if (!data) return;
+
+                // 1. FILTRO INDUSTRIAL DE URLS (La solución definitiva)
+                const getCleanId = (url) => {
+                    if (!url) return "";
+                    // Esta fórmula matemática extrae el ID exacto de cualquier tipo de link de YouTube
+                    const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
+                    return (match && match[2].length === 11) ? match[2] : url;
+                };
+
+                // 1. Textos
+                const setHtml = (id, v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
+                const setText = (id, v) => { const e=document.getElementById(id); if(e) e.innerText=v; };
+
+                setHtml('nos-pre', `<span class="w-12 h-[2px] bg-neon"></span> ${data.pretitle || 'IDENTIDAD'}`);
+                setHtml('nos-title', data.title);
+                setText('nosotros-historia-txt', data.historia);
+                setText('nosotros-filosofia-txt', `"${data.cita}"`);
+
+                // 3. VIDEOTECA (Miniaturas)
+                const vidCont = document.getElementById('video-thumbnails');
+                if(vidCont && data.videos) {
+                    vidCont.innerHTML = data.videos.map((v, i) => {
+                        const cleanId = getCleanId(v.id); 
+                        const thumb = cleanId ? `https://img.youtube.com/vi/${cleanId}/0.jpg` : '';
+                        
+                        // Pasamos el ID LIMPIO a la función de cambio
+                        return `<button class="w-40 aspect-video rounded-lg border-2 ${i===0?'border-gold':'border-white/10'} overflow-hidden relative group shrink-0 transition-all transform hover:-translate-y-1" onclick="App.changeVideo('${cleanId}', this)">
+                            <img src="${thumb}" class="w-full h-full object-cover ${i===0?'opacity-100':'opacity-60'} group-hover:opacity-100 transition-opacity">
+                            <div class="absolute inset-0 flex items-center justify-center"><i class="fa-solid fa-play text-white drop-shadow-md"></i></div>
+                            <div class="absolute bottom-0 left-0 w-full p-1 text-[10px] bg-black/60 text-white text-center truncate">${v.label}</div>
+                        </button>`;
+                    }).join('');
+                    
+                    // 4. VIDEO PRINCIPAL (Carga Inicial Limpia)
+                    const container = document.getElementById('video-container'); // Usamos el contenedor, no el iframe directo
+                    if(container && data.videos.length > 0) {
+                        const firstId = getCleanId(data.videos[0].id);
+                        if(firstId) {
+                            // Inyectamos HTML limpio desde el principio
+                            container.innerHTML = `
+                                <iframe id="main-video-frame" class="w-full h-full object-cover" 
+                                    src="https://www.youtube.com/embed/${firstId}?enablejsapi=1&rel=0" 
+                                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                                </iframe>
+                                <div class="absolute inset-0 border-2 border-transparent group-hover:border-gold/50 rounded-2xl transition-colors pointer-events-none"></div>
+                            `;
+                        }
+                    }
+                }
+
+                // 3. GALERÍA INTELIGENTE (Sin huecos negros + Lightbox)
+                const galeriaGrid = document.getElementById('galeria-grid');
+                if(galeriaGrid && data.galeria) {
+                    // Grid denso para rellenar
+                    galeriaGrid.className = "grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[220px] grid-flow-dense";
+                    const total = data.galeria.length;
+
+                    galeriaGrid.innerHTML = data.galeria.map((img, i) => {
+                        // LÓGICA ANTI-HUECOS:
+                        // Si estamos en los últimos 2 elementos, forzamos tamaño 1x1 para tapar agujeros.
+                        const isEnd = i >= total - 2; 
+                        
+                        let clase = "col-span-1 row-span-1"; // Normal
+                        
+                        if (!isEnd) {
+                            if (i % 8 === 0) clase = "col-span-2 row-span-2";      // Gigante
+                            else if (i % 8 === 4) clase = "col-span-2 row-span-1"; // Panorámica
+                            else if (i % 8 === 5) clase = "col-span-1 row-span-2"; // Vertical
+                        }
+
+                        return `
+                        <div class="${clase} relative group overflow-hidden rounded-xl border border-white/5 cursor-pointer" onclick="App.openLightbox(${i})">
+                            <img src="${img}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <i class="fa-solid fa-expand text-white drop-shadow-lg text-2xl"></i>
+                            </div>
+                        </div>`;
+                    }).join('');
+                }
+
+                // 4. Logros
+                const logGrid = document.getElementById('premios-grid');
+                if(logGrid && data.logros) {
+                    logGrid.innerHTML = data.logros.map(l => `
+                        <div class="glass-card p-8 rounded-xl border border-white/5 relative group hover:border-gold/50 transition-all hover:-translate-y-2">
+                            <div class="absolute top-4 right-4 opacity-20"><i class="fa-solid ${l.icon} text-5xl text-gold"></i></div>
+                            <span class="text-3xl font-black text-white block mb-2 text-gold">${l.year}</span>
+                            <h4 class="text-lg font-bold text-gray-200">${l.title}</h4>
+                            <p class="text-[10px] text-rose font-bold uppercase tracking-widest mt-1">${l.sub}</p>
+                        </div>
+                    `).join('');
+                }
+
+                // 5. INYECCIÓN DEL VISOR (LIGHTBOX)
+                if(!document.getElementById('app-lightbox')) {
+                    document.body.insertAdjacentHTML('beforeend', `
+                        <div id="app-lightbox" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+                            <button onclick="App.closeLightbox()" class="absolute top-6 right-6 text-white/50 hover:text-white text-4xl z-50"><i class="fa-solid fa-xmark"></i></button>
+                            
+                            <button onclick="App.slide(-1)" class="absolute left-4 text-white/50 hover:text-gold text-4xl p-4 z-50"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button onclick="App.slide(1)" class="absolute right-4 text-white/50 hover:text-gold text-4xl p-4 z-50"><i class="fa-solid fa-chevron-right"></i></button>
+                            
+                            <img id="lb-img" src="" class="max-h-[85vh] max-w-[90vw] object-contain rounded-lg shadow-[0_0_50px_rgba(0,0,0,0.5)] transform scale-95 transition-transform duration-300">
+                            <p id="lb-count" class="absolute bottom-6 text-xs text-gray-500 font-mono tracking-widest">1 / 1</p>
+                        </div>
+                    `);
+                }
+
+
+
+            },
+
+
+            changeVideo(rawInput, btnElement) {
+                const container = document.getElementById('video-container');
+                if (!container) return;
+
+                // 1. FILTRO INDUSTRIAL (Repetimos la lógica para seguridad total)
+                const getCleanId = (url) => {
+                    if (!url) return "";
+                    const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
+                    return (match && match[2].length === 11) ? match[2] : url;
+                };
+
+                const cleanId = getCleanId(rawInput); // Obtenemos el ID puro (ej: DV4O3xjWnRc)
+
+                // 2. HARD RESET: Borrar y Crear
+                // Esto es vital. Al destruir el iframe viejo, matamos cualquier error previo.
+                container.innerHTML = `
+                    <iframe id="main-video-frame" class="w-full h-full object-cover" 
+                        src="https://www.youtube.com/embed/${cleanId}?enablejsapi=1&autoplay=1&rel=0" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                    <div class="absolute inset-0 border-2 border-transparent group-hover:border-gold/50 rounded-2xl transition-colors pointer-events-none"></div>
+                `;
+
+                // 3. ESTILOS VISUALES
+                document.querySelectorAll('#video-thumbnails button').forEach(b => {
+                    b.classList.remove('border-gold');
+                    b.classList.add('border-white/10');
+                    const img = b.querySelector('img');
+                    if(img) { img.classList.remove('opacity-100'); img.classList.add('opacity-60'); }
+                });
+
+                if(btnElement) {
+                    btnElement.classList.remove('border-white/10');
+                    btnElement.classList.add('border-gold');
+                    const img = btnElement.querySelector('img');
+                    if(img) { img.classList.remove('opacity-60'); img.classList.add('opacity-100'); }
+                }
+            },
+
+            // --- FUNCIONES DEL LIGHTBOX (Pegar dentro de App) ---
+            
+            lightboxIdx: 0,
+
+            openLightbox(index) {
+                const gallery = DataManager.get().config.nosotrosContent.galeria;
+                if(!gallery || gallery.length === 0) return;
+                
+                this.lightboxIdx = index;
+                this.updateLightbox();
+                
+                const lb = document.getElementById('app-lightbox');
+                lb.classList.remove('hidden');
+                // Pequeño delay para la animación de opacidad
+                setTimeout(() => {
+                    lb.classList.remove('opacity-0');
+                    document.getElementById('lb-img').classList.remove('scale-95');
+                    document.getElementById('lb-img').classList.add('scale-100');
+                }, 10);
+                document.body.style.overflow = 'hidden'; // Bloquear scroll
+            },
+
+            closeLightbox() {
+                const lb = document.getElementById('app-lightbox');
+                lb.classList.add('opacity-0');
+                document.getElementById('lb-img').classList.remove('scale-100');
+                document.getElementById('lb-img').classList.add('scale-95');
+                
+                setTimeout(() => {
+                    lb.classList.add('hidden');
+                    document.body.style.overflow = ''; // Liberar scroll
+                }, 300);
+            },
+
+            slide(dir) {
+                const gallery = DataManager.get().config.nosotrosContent.galeria;
+                // Matemática para loop infinito (si llega al final vuelve al inicio)
+                this.lightboxIdx = (this.lightboxIdx + dir + gallery.length) % gallery.length;
+                
+                // Efecto visual rápido de cambio
+                const img = document.getElementById('lb-img');
+                img.style.opacity = '0.5';
+                setTimeout(() => {
+                    this.updateLightbox();
+                    img.style.opacity = '1';
+                }, 150);
+            },
+
+            updateLightbox() {
+                const gallery = DataManager.get().config.nosotrosContent.galeria;
+                const imgUrl = gallery[this.lightboxIdx];
+                document.getElementById('lb-img').src = imgUrl;
+                document.getElementById('lb-count').innerText = `${this.lightboxIdx + 1} / ${gallery.length}`;
+            }
+
         };
 
         // 4. ROUTER
-        // Archivo: script_v2_router.js
-        // Archivo: script_v7_fix_navigation.js
+        // Archivo: script_v8_router_refactored.js
         const Router = {
             go(id) {
                 // 1. GESTIÓN DE SECCIONES (Saneamiento de visibilidad)
                 document.querySelectorAll('.app-view').forEach(e => {
                     e.classList.remove('active');
-                    e.classList.add('hidden'); // Ocultamos todas
+                    e.classList.add('hidden'); // Ocultamos todas para evitar solapamientos
                 });
 
                 // 2. ACTIVACIÓN DEL MODO INMERSIVO (Bloqueo de scroll)
@@ -960,10 +1378,28 @@
                         if (id !== 'admin' && id !== 'alumno') window.scrollTo(0,0);
                         target.classList.remove('hidden');
                         target.classList.add('active');
+
+                        // AJUSTE: Forzamos el renderizado y aplicamos el asento de color manualmente
+                        if (id === 'nosotros') {
+                            App.renderNosotros();
+                        }
+
+                        if (id === 'agenda') {
+                            App.renderAgenda(); 
+                        }
+
+                        // Lógica de asento de color para el borde inferior
+                        const activeBtn = document.getElementById(`nav-${id}`);
+                        if(activeBtn) {
+                            activeBtn.classList.add('text-gold', 'border-gold');
+                            activeBtn.classList.remove('text-gray-400');
+                            // Forzamos el color de la variable CSS para el borde
+                            activeBtn.style.borderBottom = `2px solid var(--color-gold)`;
+                        }
                     }
                 }
 
-                // 4. ACTUALIZACIÓN VISUAL DE BOTONES (Tu lógica de acentos conservada)
+                // 4. ACTUALIZACIÓN VISUAL DE BOTONES (Acento de color dinámico)
                 document.querySelectorAll('#nav-links button, #mobile-menu button').forEach(btn => {
                     btn.classList.remove('text-gold', 'border-gold');
                     btn.classList.add('text-gray-400');
@@ -974,216 +1410,583 @@
                 if(activeBtn) {
                     activeBtn.classList.add('text-gold', 'border-gold');
                     activeBtn.classList.remove('text-gray-400');
+                    // Aseguramos que el asento tome la variable definida en DataManager
                     activeBtn.style.borderBottomColor = 'var(--color-gold)';
                 }
             }
         };
 
+        
 
-        // 5. ADMIN CONTROLLER (CORREGIDO)
+ 
+        // ==========================================
+        // 5. ADMIN PANEL (CÓDIGO COMPLETO SIN RECORTES)
+        // ==========================================
+
         const Admin = {
-            currTab: 'dash',
-            modules: [
-                {id:'dash', l:'Dashboard', i:'fa-chart-pie'}, 
-                {id:'web', l:'Web Editor', i:'fa-desktop'}, 
-                {id:'nosotros', l:'Nosotros', i:'fa-users-gear'}, // NUEVO
-                {id:'clases', l:'Clases', i:'fa-person-chalkboard'}, 
-                {id:'membresias', l:'Membresías', i:'fa-id-card'},
-                {id:'agenda', l:'Agenda', i:'fa-calendar-check'}, // NUEVO
-                {id:'alumnos', l:'Alumnos', i:'fa-users'}, 
-                {id:'espacios', l:'Espacios', i:'fa-building'},
-                {id:'talento', l:'Talento', i:'fa-star'}, 
-                {id:'finanzas', l:'Finanzas', i:'fa-coins'}, 
-                {id:'config', l:'Ajustes', i:'fa-sliders'}
-            ],
+            currentTab: 'dash',
+            
             init() { 
-                this.renderSidebar(); 
-                this.switchTab('dash'); 
+                this.renderNav(); 
+                // Pequeño delay para asegurar que el DOM del admin está listo
+                setTimeout(() => this.renderTab(this.currentTab), 50);
             },
-            renderSidebar() {
-                // Inyección de botones asegurando que el color sea el correcto (no negro)
-                $('#admin-nav').innerHTML = this.modules.map(m => `
-                    <button onclick="Admin.switchTab('${m.id}')" id="btn-tab-${m.id}" class="w-full flex items-center gap-3 px-6 py-4 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent rounded-r-xl group">
-                        <i class="fa-solid ${m.i} w-5 group-hover:text-gold transition-colors"></i> 
-                        <span class="group-hover:text-white transition-colors">${m.l}</span>
-                    </button>`).join('');
+
+            renderNav() {
+                const tabs = [
+                    { id: 'dash', icon: 'fa-chart-pie', label: 'Dashboard' },
+                    { id: 'web', icon: 'fa-pen-ruler', label: 'Editor Web' },
+                    { id: 'nosotros', icon: 'fa-users-gear', label: 'Nosotros' },
+                    { id: 'clases', icon: 'fa-person-chalkboard', label: 'Clases' },
+                    { id: 'membresias', icon: 'fa-id-card', label: 'Planes' },
+                    { id: 'agenda', icon: 'fa-calendar-check', label: 'Agenda' },
+                    { id: 'alumnos', icon: 'fa-users', label: 'Alumnos' },
+                    { id: 'espacios', icon: 'fa-building', label: 'Espacios' },
+                    { id: 'talento', icon: 'fa-star', label: 'Talento' },
+                    { id: 'finanzas', icon: 'fa-coins', label: 'Finanzas' },
+                    { id: 'config', icon: 'fa-sliders', label: 'Ajustes' }
+                ];
+                
+                const navContainer = $('#admin-nav');
+                if(navContainer) {
+                    navContainer.innerHTML = tabs.map(t => `
+                        <button onclick="Admin.renderTab('${t.id}')" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:bg-white/5 transition-all border-l-4 border-transparent ${this.currentTab === t.id ? 'border-gold text-white bg-white/5' : ''}">
+                            <i class="fa-solid ${t.icon} w-5"></i> ${t.label}
+                        </button>
+                    `).join('');
+                }
             },
+
+
             switchTab(id) {
                 this.currTab = id;
-                // 2. Cerrar el sidebar automáticamente en móvil tras elegir pestaña
+                
+                // 1. Sidebar Móvil
                 if (window.innerWidth < 768) { 
                     const sidebar = $('#view-admin aside');
-                    if (sidebar.classList.contains('fixed')) { // Solo si está expandido
-                        this.toggleMobileSidebar(); 
-                    }
+                    if (sidebar && sidebar.style.position === 'fixed') this.toggleMobileSidebar(); 
                 }
+
+                // 2. Ocultar todas las tabs
                 document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
+                
+                // 3. Buscar o Crear el contenedor del Tab
                 let target = document.getElementById(`admin-tab-${id}`);
-                if(!target) { 
+                
+                if (!target) { 
+                    // AQUÍ ESTÁ LA CORRECCIÓN: Buscamos tu 'main' existente
                     const main = document.querySelector('#view-admin main');
-                    main.insertAdjacentHTML('beforeend', `<div id="admin-tab-${id}" class="admin-tab hidden"></div>`);
-                    target = document.getElementById(`admin-tab-${id}`);
+                    if (main) {
+                        main.insertAdjacentHTML('beforeend', `<div id="admin-tab-${id}" class="admin-tab hidden fade-in"></div>`);
+                        target = document.getElementById(`admin-tab-${id}`);
+                        // Si es nuevo, forzamos el renderizado inicial
+                        this.refreshView(id, target); // Pasamos el target para asegurar que pinte
+                    } else {
+                        console.error("Error Crítico: No se encuentra la etiqueta <main> dentro de #view-admin");
+                        return;
+                    }
+                } else {
+                    // Si ya existe, refrescamos el contenido por si hubo cambios
+                    this.refreshView(id, target);
                 }
-                target.classList.remove('hidden');
+                
+                // 4. Mostrar
+                if(target) target.classList.remove('hidden');
+
+                // 5. Estilos Botones
                 document.querySelectorAll('#admin-nav button').forEach(b => {
-                    b.classList.remove('bg-gold/10', 'text-gold', 'border-gold'); b.classList.add('text-textMuted');
-                    b.classList.add('text-textMuted');
+                    b.classList.remove('bg-gold/10', 'text-gold', 'border-gold');
+                    b.classList.add('text-gray-400');
                 });
                 const btn = document.getElementById(`btn-tab-${id}`);
-                if(btn) { 
+                if (btn) { 
                     btn.classList.add('bg-gold/10', 'text-gold', 'border-gold'); 
-                    btn.classList.remove('text-textMuted'); 
-                }
-                this.refreshView();
-            },
-            refreshView() {
-                const id = this.currTab;
-                switch(id) {
-                    case 'dash': this.renderDashboard(); break;
-                    case 'web': this.renderWebEditor(); break;
-                    case 'config': this.renderConfigPanel(); break;
-                    case 'finanzas': this.renderFinanzas(); break;
-                    // Agregamos el renderizado genérico para las nuevas secciones
-                    default: this.renderGenericSection(id, id); break;
+                    btn.classList.remove('text-gray-400'); 
                 }
             },
-            renderDashboard() {
-                $('#kpi-alumnos').innerText = Store.alumnos.length;
-                $('#kpi-membresias').innerText = Store.membresias.length;
-                const ing = (Store.finanzas || []).reduce((acc, f) => f.type === 'ingreso' ? acc + parseFloat(f.amount || 0) : acc, 0);
-                $('#kpi-ingresos').innerText = "₡" + ing.toLocaleString();
-            },
-            renderGenericSection(viewId, storeKey) {
-                const container = document.getElementById(`admin-tab-${viewId}`);
-                const titles = { clases:'Clases', membresias:'Planes', alumnos:'Alumnos', espacios:'Espacios', talento:'Talento' };
-                container.innerHTML = `
-                    <div class="flex justify-between items-center mb-6"><h1 class="text-2xl font-serif font-bold text-white">${titles[viewId]||'Gestión'}</h1>
-                    <button onclick="Admin.openModal('${storeKey}')" class="btn-galaxy px-6 py-2 rounded-full text-xs shadow-lg">Nuevo</button></div>
-                    <div class="bg-panel rounded-2xl border border-white/5 overflow-hidden"><table class="w-full text-left text-sm"><tbody class="divide-y divide-white/5">${this.getRows(storeKey)}</tbody></table></div>`;
-            },
-            getRows(key) {
-                const d = Store[key] || [];
-                if(!d.length) return `<tr><td class="p-8 text-center text-gray-500 italic">Sin registros.</td></tr>`;
-                return d.map(i => `<tr class="hover:bg-white/5 transition group"><td class="p-4"><span class="font-bold text-white">${i.name||i.concept}</span></td><td class="p-4 text-right"><button onclick="Admin.openModal('${key}',${i.id})" class="text-gray-400 hover:text-white mr-3"><i class="fa-solid fa-pen"></i></button><button onclick="Admin.deleteItem('${key}',${i.id})" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
-            },
-            renderWebEditor() {
-                const h = Store.config.hero;
-                const views = ['inicio', 'nosotros', 'clases', 'membresias', 'agenda', 'alquiler', 'talento'];
-                
-                const generateSelect = (id, current) => `
-                    <select id="${id}" class="w-full p-4 bg-white/10 border border-white/20 rounded-lg text-white focus:border-gold outline-none mt-2">
-                        ${views.map(v => `<option value="${v}" class="bg-panel text-white" ${v === current ? 'selected' : ''}>Ir a: ${v.toUpperCase()}</option>`).join('')}
-                    </select>
-                `;
 
-                $('#admin-tab-web').innerHTML = `
-                    <h1 class="text-2xl font-serif font-bold mb-6">Web Editor</h1>
-                    <div class="bg-panel p-6 rounded-2xl border border-white/10 space-y-6">
-                        <h3 class="text-gold font-bold uppercase text-xs">Contenido Principal</h3>
-                        ${this.input('ed-t','Título', h.title)}
-                        ${this.input('ed-s','Subtítulo', h.subtitle)}
-                        ${this.input('ed-img','Fondo URL', h.bgImage)}
+
+
+
+
+            renderTab(tabId) {
+                this.currentTab = tabId; 
+                this.renderNav(); // Actualizar estilos del menú
+                
+                // Ocultar todas las tabs primero
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
+                
+                // Buscar el contenedor específico
+                let target = document.getElementById(`admin-tab-${tabId}`);
+                
+                // Si no existe, intentar crearlo dentro del main (Fallback de seguridad)
+                if (!target) {
+                    const main = document.querySelector('#view-admin main');
+                    if(main) {
+                        main.insertAdjacentHTML('beforeend', `<div id="admin-tab-${tabId}" class="admin-tab hidden"></div>`);
+                        target = document.getElementById(`admin-tab-${tabId}`);
+                    }
+                }
+
+                if (target) {
+                    // Mostrar el contenedor
+                    target.classList.remove('hidden');
+                    
+                    // Renderizar contenido solo si está vacío o es dinámico
+                    try {
+                        if(tabId === 'dash') target.innerHTML = this.genDashboard();
+                        else if(tabId === 'web') target.innerHTML = this.renderWebEditor();
+                        else if(tabId === 'nosotros') this.renderNosotrosEditor(target); // Pasamos el target directo
+                        else if(tabId === 'config') target.innerHTML = this.genConfig();
+                        else if(tabId === 'agenda') target.innerHTML = `<h2 class="text-3xl font-display font-bold mb-6">Agenda</h2><p class="text-gray-500">Edición compleja próximamente.</p>`;
+                        else target.innerHTML = this.genGenericTable(tabId);
+                    } catch (e) {
+                        console.error(`Error renderizando ${tabId}:`, e);
+                        target.innerHTML = `<div class="p-4 text-red-500 border border-red-500 rounded">Error: ${e.message}</div>`;
+                    }
+                }
+            },
+
+            // --- VISTAS GENÉRICAS ---
+            genDashboard() {
+                const d = DataManager.get().alumnos || [];
+                const f = DataManager.get().finanzas || [];
+                const totalAlumnos = d.length; 
+                const ingresos = f.filter(x => x.type === 'ingreso').reduce((a, b) => a + parseFloat(b.amount || 0), 0);
+                return `<h2 class="text-3xl font-display font-bold mb-8">Dashboard</h2><div class="grid md:grid-cols-3 gap-6"><div class="bg-panel p-6 rounded-xl border border-white/10"><div class="text-xs uppercase text-gray-400 font-bold mb-2">Total Alumnos</div><div class="text-4xl font-bold text-white">${totalAlumnos}</div></div><div class="bg-panel p-6 rounded-xl border border-white/10"><div class="text-xs uppercase text-gray-400 font-bold mb-2">Ingresos Mes</div><div class="text-4xl font-bold text-gold">₡${ingresos.toLocaleString()}</div></div><div class="bg-panel p-6 rounded-xl border border-white/10"><div class="text-xs uppercase text-gray-400 font-bold mb-2">Estado</div><div class="text-xl font-bold text-neon">ONLINE</div></div></div>`;
+            },
+
+            genGenericTable(key) {
+                const data = DataManager.get()[key];
+                if(!data || !Array.isArray(data) || data.length === 0) return `<h2 class="text-3xl font-display capitalize mb-6">${key}</h2><p class="text-gray-500">Sin datos.</p><button onclick="Admin.openModal('${key}')" class="btn-galaxy px-4 py-2 rounded text-xs mt-4">CREAR PRIMERO</button>`;
+                const cols = Object.keys(data[0]).filter(k => typeof data[0][k] !== 'object');
+                return `<div class="flex justify-between items-center mb-6"><h2 class="text-3xl font-display font-bold capitalize">${key}</h2><button class="btn-galaxy px-4 py-2 rounded text-xs" onclick="Admin.openModal('${key}')">AÑADIR</button></div><div class="bg-panel rounded-xl border border-white/10 overflow-hidden overflow-x-auto"><table class="w-full text-left text-sm text-gray-400"><thead class="bg-white/5 text-xs uppercase text-gold"><tr>${cols.map(c=>`<th class="p-4 whitespace-nowrap">${c}</th>`).join('')}<th class="p-4 text-center">Acciones</th></tr></thead><tbody class="divide-y divide-white/5">${data.map(row=>`<tr class="hover:bg-white/5 transition">${cols.map(c=>`<td class="p-4 whitespace-nowrap">${row[c]}</td>`).join('')}<td class="p-4 text-center flex justify-center gap-2"><button onclick="Admin.openModal('${key}',${row.id})" class="text-gray-400 hover:text-white"><i class="fa-solid fa-pen"></i></button><button onclick="Admin.deleteItem('${key}',${row.id})" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
+            },
+
+            genConfig() {
+                const c = DataManager.get().config.colors;
+                return `<h2 class="text-3xl font-display mb-8">Paleta de Colores</h2><div class="grid md:grid-cols-2 gap-8">${Object.keys(c).map(k=>`<div><label class="admin-label">${k}</label><div class="flex gap-2"><input type="color" value="${c[k]}" oninput="Admin.updColor('${k}',this.value)" class="h-10 w-10 bg-transparent border-none cursor-pointer"><input type="text" class="admin-input uppercase" value="${c[k]}" readonly></div></div>`).join('')}</div>`;
+            },
+            updColor(k,v) { const d = DataManager.get(); d.config.colors[k]=v; DataManager.save(d); },
+
+            // 1. HELPER DE INPUTS (Negro y IDs correctos)
+            inp(id, label, val, area=false) {
+                // Estilo negro forzado
+                const style = "w-full p-3 bg-[#05060b] border border-white/20 rounded-lg text-white focus:border-gold outline-none text-sm font-mono";
+                return `
+                    <div class="mb-4">
+                        <label class="block text-xs uppercase font-bold text-gray-500 mb-2 tracking-wider">${label}</label>
+                        ${area ? 
+                            `<textarea id="${id}" class="${style} h-24">${val}</textarea>` : 
+                            `<input type="text" id="${id}" class="${style}" value="${val}">`
+                        }
+                    </div>
+                `;
+            },
+
+            
+
+
+            
+
+            // --- PEGAR DENTRO DE ADMIN (Reemplaza la anterior) ---
+            saveHeroSettings() {
+                // 1. Obtener datos actuales
+                const data = DataManager.get();
+                
+                // 2. Función segura para leer inputs
+                const getVal = (id) => {
+                    const el = document.getElementById(id);
+                    return el ? el.value : '';
+                };
+
+                // 3. Actualizar objeto con los IDs DEL PASO 2
+                data.config.hero.title = getVal('ed-hero-title');
+                data.config.hero.subtitle = getVal('ed-hero-sub');
+                data.config.hero.bgImage = getVal('ed-hero-img');
+                
+                data.config.hero.ctaPrimary.text = getVal('ed-btn1-txt');
+                data.config.hero.ctaPrimary.link = getVal('ed-btn1-link');
+                
+                data.config.hero.ctaSecondary.text = getVal('ed-btn2-txt');
+                data.config.hero.ctaSecondary.link = getVal('ed-btn2-link');
+
+                // 4. Guardar y Refrescar
+                DataManager.save(data);
+
+                // 2. AGREGA ESTA LÍNEA AQUÍ (Esto fuerza la actualización visual inmediata)
+                App.renderPublic();
+                
+                Swal.fire({
+                    title: '¡Guardado!',
+                    icon: 'success',
+                    background: '#05060b',
+                    color: '#fff',
+                    confirmButtonColor: '#D4AF37',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            },
+
+
+           
+           
+            renderNosotrosEditor(container) {
+                if(!container) container = document.getElementById('admin-tab-nosotros');
+                if(!container) return;
+
+                const data = DataManager.get().config.nosotrosContent;
+                
+                // ESTILO NEGRO FORZADO (Para eliminar los cuadros blancos)
+                const blackStyle = "width: 100%; background-color: #05060b !important; color: white !important; border: 1px solid rgba(255,255,255,0.2); padding: 12px; border-radius: 8px; outline: none; margin-top: 5px;";
+
+                container.innerHTML = `
+                    <div class="max-w-5xl mx-auto space-y-8 pb-20 fade-in">
+                        <h1 class="text-3xl font-serif font-bold text-white text-center">Gestión "Nosotros"</h1>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/10">
-                            <div>
-                                <h3 class="text-gold font-bold uppercase text-[10px] mb-2">Botón Principal (Galaxy)</h3>
-                                ${this.input('ed-b1-t', 'Texto Botón', h.ctaPrimary.text)}
-                                ${generateSelect('ed-b1-l', h.ctaPrimary.link)}
+                        <div class="bg-panel p-8 rounded-2xl border border-white/10 space-y-6">
+                            <h3 class="text-gold font-bold uppercase text-xs border-b border-white/10 pb-2">Narrativa</h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="text-xs text-gray-500 uppercase font-bold">Pre-título</label>
+                                    <input type="text" id="ed-nos-pre" value="${data.pretitle || ''}" style="${blackStyle}">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-500 uppercase font-bold">Título Principal</label>
+                                    <input type="text" id="ed-nos-tit" value="${data.title || ''}" style="${blackStyle}">
+                                </div>
                             </div>
                             <div>
-                                <h3 class="text-neon font-bold uppercase text-[10px] mb-2">Botón Secundario (Neon)</h3>
-                                ${this.input('ed-b2-t', 'Texto Botón', h.ctaSecondary.text)}
-                                ${generateSelect('ed-b2-l', h.ctaSecondary.link)}
+                                <label class="text-xs text-gray-500 uppercase font-bold">Historia Principal</label>
+                                <textarea id="ed-nos-hist" style="${blackStyle} height:100px;">${data.historia || ''}</textarea>
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-500 uppercase font-bold">Cita Destacada</label>
+                                <textarea id="ed-nos-cita" style="${blackStyle} height:80px;">${data.cita || ''}</textarea>
                             </div>
                         </div>
 
-                        <button onclick="Admin.saveHeroSettings()" class="btn-galaxy w-full py-4 rounded-lg mt-6 shadow-lg shadow-gold/20">
-                            PUBLICAR CAMBIOS EN PORTADA
+                        <div class="bg-panel p-8 rounded-2xl border border-white/10 space-y-4">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-neon font-bold uppercase text-xs">Videoteca</h3>
+                                <button onclick="Admin.addVideoItem()" class="btn-galaxy px-3 py-1 rounded text-[10px]">+ VIDEO</button>
+                            </div>
+                            <div class="space-y-3" id="video-list-editor">
+                                ${data.videos.map((v, i) => `
+                                    <div class="flex gap-2 items-center bg-black/40 p-2 rounded-lg border border-white/5">
+                                        <span class="text-gray-500 text-xs w-4">${i+1}</span>
+                                        <input type="text" class="flex-1 bg-transparent text-xs text-white p-1 outline-none" value="${v.id}" onchange="Admin.updateVideoArray()" placeholder="ID Youtube">
+                                        <input type="text" class="flex-1 bg-transparent text-xs text-gray-400 p-1 outline-none" value="${v.label}" onchange="Admin.updateVideoArray()" placeholder="Etiqueta">
+                                        <button onclick="Admin.removeVideoItem(${i})" class="text-rose hover:text-white px-2"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="bg-panel p-8 rounded-2xl border border-white/10 space-y-4">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-gold font-bold uppercase text-xs">Galería (${data.galeria.length} Fotos)</h3>
+                                <button onclick="Admin.addGaleriaItem()" class="btn-galaxy px-3 py-1 rounded text-[10px]">+ FOTO</button>
+                            </div>
+                            <div class="grid grid-cols-1 gap-3" id="galeria-edit-list">
+                                ${data.galeria.map((img, i) => `
+                                    <div class="flex gap-3 items-center bg-black/40 p-2 rounded-lg border border-white/5">
+                                        <img src="${img}" class="w-10 h-10 rounded object-cover border border-white/10 shrink-0">
+                                        <input type="text" class="flex-1 bg-transparent text-xs text-white p-1 outline-none" 
+                                            value="${img}" 
+                                            oninput="this.previousElementSibling.src = this.value; Admin.updateGaleriaArray()">
+                                        <button onclick="Admin.removeGaleriaItem(${i})" class="text-rose hover:text-white px-2"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="bg-panel p-8 rounded-2xl border border-white/10 space-y-4">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-rose font-bold uppercase text-xs">Logros</h3>
+                                <button onclick="Admin.addLogroItem()" class="btn-galaxy px-3 py-1 rounded text-[10px]">+ LOGRO</button>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="logros-edit-list">
+                                ${data.logros.map((l, i) => `
+                                    <div class="bg-black/40 p-4 rounded-xl border border-white/5 relative group hover:border-gold/30">
+                                        <button onclick="Admin.removeLogroItem(${i})" class="absolute top-2 right-2 text-gray-600 hover:text-rose"><i class="fa-solid fa-xmark"></i></button>
+                                        <div class="grid grid-cols-2 gap-2 mb-2">
+                                            <input type="text" class="bg-transparent border-b border-white/10 text-gold font-bold text-sm" value="${l.year}" onchange="Admin.updateLogrosArray()">
+                                            <select class="bg-black text-gray-400 text-xs text-right border-none outline-none cursor-pointer" onchange="Admin.updateLogrosArray()">
+                                                <option value="fa-trophy" ${l.icon==='fa-trophy'?'selected':''}>Trofeo</option>
+                                                <option value="fa-globe" ${l.icon==='fa-globe'?'selected':''}>Mundo</option>
+                                                <option value="fa-certificate" ${l.icon==='fa-certificate'?'selected':''}>Certificado</option>
+                                                <option value="fa-users" ${l.icon==='fa-users'?'selected':''}>Usuarios</option>
+                                            </select>
+                                        </div>
+                                        <input type="text" class="w-full bg-transparent border-b border-white/10 text-white text-sm mb-1" value="${l.title}" onchange="Admin.updateLogrosArray()">
+                                        <input type="text" class="w-full bg-transparent border-none text-gray-500 text-xs uppercase" value="${l.sub}" onchange="Admin.updateLogrosArray()">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <button onclick="Admin.saveNosotrosSettings()" class="btn-galaxy w-full py-4 rounded-xl font-bold shadow-2xl uppercase tracking-widest mt-8">
+                            GUARDAR CAMBIOS
                         </button>
                     </div>
                 `;
             },
-            renderConfigPanel() {
-                const c = Store.config.colors;
-                $('#admin-tab-config').innerHTML = `<h1 class="text-2xl font-serif font-bold mb-6">Ajustes</h1><div class="bg-panel p-6 rounded-2xl border border-white/10 space-y-6"><h3 class="text-gold font-bold uppercase text-xs">Colores</h3><div class="grid grid-cols-2 gap-4">${Object.keys(c).map(k => `<div><label class="text-[10px] uppercase text-gray-500">${k}</label><div class="flex gap-2"><input type="color" value="${c[k]}" oninput="Admin.updateColor('${k}',this.value)" class="h-8 w-8 bg-transparent border-0 cursor-pointer"><input type="text" value="${c[k]}" class="w-full bg-white/5 border border-white/10 rounded text-xs px-2 text-white" readonly></div></div>`).join('')}</div></div>`;
+            
+            // --- HELPERS ---
+            
+            addVideoItem() {
+                const d = DataManager.get();
+                // IMPORTANTE: Ponemos un ID real por defecto para evitar error 404 de imagen
+                d.config.nosotrosContent.videos.push({id: "dQw4w9WgXcQ", label: "Nuevo Video"});
+                DataManager.save(d);
+                this.renderNosotrosEditor(); // Recargar editor
+                App.renderNosotros();        // Recargar web
             },
-            updateColor(k, v) { Store.config.colors[k] = v; DataManager.save(Store); },
-            input(id, l, v='') { return `<div class="relative group mt-6"><span class="absolute -top-2 left-3 bg-[#050505] px-1 text-[10px] font-bold text-gold uppercase tracking-wider z-10">${l}</span><input type="text" id="${id}" class="w-full p-4 bg-white/5 border border-white/10 rounded-lg text-white focus:border-gold outline-none" value="${v}"></div>`; },
-            openModal(type, id=null) {
-                const data = id ? Store[type].find(i=>i.id===id) : {};
-                $('#modal-title').innerText = id ? 'EDITAR' : 'NUEVO';
-                $('#modal-body').innerHTML = this.input('f-name', 'Nombre', data.name || '');
-                $('#admin-modal').classList.remove('hidden');
-                setTimeout(()=>{$('#modal-backdrop').classList.remove('opacity-0'); $('#modal-panel').classList.remove('scale-95','opacity-0')},10);
-                $('#modal-save-btn').onclick = () => {
-                    const n = {...data, id: data.id||Date.now(), name: $('#f-name').value};
-                    if(!Store[type]) Store[type]=[];
-                    const idx = Store[type].findIndex(i=>i.id===n.id);
-                    if(idx>-1) Store[type][idx]=n; else Store[type].push(n);
-                    DataManager.save(Store); this.closeModal();
-                };
+
+            removeVideoItem(i) {
+                const d = DataManager.get();
+                d.config.nosotrosContent.videos.splice(i, 1);
+                DataManager.save(d);
+                this.renderNosotrosEditor();
             },
-            closeModal() { $('#modal-backdrop').classList.add('opacity-0'); $('#modal-panel').classList.add('scale-95','opacity-0'); setTimeout(()=>$('#admin-modal').classList.add('hidden'),300); },
-            deleteItem(t, id) { if(confirm('¿Eliminar?')){ Store[t]=Store[t].filter(i=>i.id!==id); DataManager.save(Store); } },
-            saveHeroSettings() {
-                Store.config.hero = {
-                    title: $('#ed-t').value,
-                    subtitle: $('#ed-s').value,
-                    bgImage: $('#ed-img').value,
-                    ctaPrimary: {
-                        text: $('#ed-b1-t').value,
-                        link: $('#ed-b1-l').value
-                    },
-                    ctaSecondary: {
-                        text: $('#ed-b2-t').value,
-                        link: $('#ed-b2-l').value
-                    }
+
+            // --- PEGAR DENTRO DE ADMIN (Reemplaza updateVideoArray) ---
+            updateVideoArray() {
+                const rows = document.querySelectorAll('#video-list-editor > div');
+                const d = DataManager.get();
+                
+                // MAGIA: Extrae el ID limpio de cualquier link de Youtube
+                const getId = (url) => {
+                    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                    const match = url.match(regExp);
+                    return (match && match[2].length === 11) ? match[2] : url;
                 };
-                DataManager.save(Store);
+
+                d.config.nosotrosContent.videos = Array.from(rows).map(row => {
+                    const inputs = row.querySelectorAll('input');
+                    const rawVal = inputs[0].value; 
+                    const vidId = getId(rawVal); // Limpiamos el link aquí mismo
+
+                    return {
+                        id: vidId,
+                        label: inputs[1].value,
+                        // Generamos la miniatura usando el ID limpio
+                        thumb: vidId ? `https://img.youtube.com/vi/${vidId}/0.jpg` : 'https://via.placeholder.com/100' 
+                    };
+                });
+                
+                DataManager.save(d);
+                App.renderNosotros();
+            },
+            
+            
+            addGaleriaItem() {
+                const d = DataManager.get();
+                // Agregamos una imagen de relleno
+                d.config.nosotrosContent.galeria.push("https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE");
+                DataManager.save(d);
+                this.renderNosotrosEditor(); // Recargamos el editor para que aparezca el nuevo campo
+                App.renderNosotros(); // Refrescamos la web pública
+            },
+
+            removeGaleriaItem(i) {
+                const d = DataManager.get();
+                d.config.nosotrosContent.galeria.splice(i, 1); // Eliminamos la foto en la posición i
+                DataManager.save(d);
+                this.renderNosotrosEditor();
+                App.renderNosotros();
+            },
+
+            // --- PEGAR DENTRO DE ADMIN ---
+            updateGaleriaArray() {
+                // Selecciona todos los inputs de texto dentro de la lista de galería
+                const inputs = document.querySelectorAll('#galeria-edit-list input[type="text"]');
+                const d = DataManager.get();
+                
+                // Crea un nuevo array con los valores actuales
+                d.config.nosotrosContent.galeria = Array.from(inputs).map(inp => inp.value);
+                
+                // Guarda en memoria RAM (sin alerta, guardado silencioso)
+                DataManager.save(d);
+                
+                // IMPORTANTE: No llamamos a renderNosotrosEditor() aquí para no perder el foco del input mientras escribes
+                // Solo actualizamos la vista pública
+                App.renderNosotros();
+            },
+
+            addLogroItem() { const d=DataManager.get(); d.config.nosotrosContent.logros.push({year:"2024",title:"Nuevo",sub:"Detalle",icon:"fa-star",color:"gold"}); DataManager.save(d); this.renderTab('nosotros'); },
+            removeLogroItem(i) { const d=DataManager.get(); d.config.nosotrosContent.logros.splice(i,1); DataManager.save(d); this.renderTab('nosotros'); },
+            
+            // 3. CAPTURA DE DATOS (Adaptada al Select)
+            updateLogrosArray() { 
+                const containers = document.querySelectorAll('#logros-edit-list > div'); 
+                DataManager.get().config.nosotrosContent.logros = Array.from(containers).map(div => { 
+                    const inputs = div.querySelectorAll('input');
+                    const select = div.querySelector('select'); // Capturamos el select
+                    return {
+                        year: inputs[0].value, 
+                        icon: select.value,     // Leemos del select, no del input
+                        title: inputs[1].value, 
+                        sub: inputs[2].value, 
+                        color: "gold"
+                    }; 
+                }); 
+            },
+            
+
+            // --- PEGAR DENTRO DE ADMIN (Reemplaza la función anterior) ---
+            saveNosotrosSettings() {
+                const d = DataManager.get();
+                
+                // Función segura para leer
+                const val = (id) => { 
+                    const el = document.getElementById(id); 
+                    return el ? el.value : ''; 
+                };
+
+                // Guardar Narrativa (Usando los IDs seguros del AJUSTE 1)
+                d.config.nosotrosContent.pretitle = val('ed-nos-pre');
+                d.config.nosotrosContent.title    = val('ed-nos-tit');
+                d.config.nosotrosContent.historia = val('ed-nos-hist');
+                d.config.nosotrosContent.cita     = val('ed-nos-cita');
+
+                // Las listas (galería, videos) ya se actualizaron en memoria con 'update...Array'
+                // así que solo guardamos el estado final.
+
+                DataManager.save(d);
+                App.renderNosotros(); // Refresco inmediato
+
                 Swal.fire({
-                    title: '¡Arquitectura Actualizada!',
-                    text: 'Los cambios están en vivo.',
+                    title: '¡Guardado!',
+                    text: 'La sección se ha actualizado correctamente.',
                     icon: 'success',
-                    background: '#08090B',
-                    color: '#E0E0E0',
-                    confirmButtonColor: '#9e9634'
+                    background: '#05060b',
+                    color: '#fff',
+                    confirmButtonColor: '#D4AF37',
+                    timer: 1500,
+                    showConfirmButton: false
                 });
             },
 
-            // Archivo: script_v6_admin_mobile_fix.js
-            // Archivo: script_v7_admin_mobile_fix.js
+            // --- TU FUNCIÓN DE SIDEBAR MÓVIL ---
             toggleMobileSidebar() {
                 const sidebar = $('#view-admin aside');
                 const isHidden = sidebar.classList.contains('hidden');
 
                 if (isHidden) {
                     sidebar.classList.remove('hidden', 'md:flex');
-                    sidebar.classList.remove('pt-24'); // Eliminamos pt de escritorio
-                    
-                    sidebar.style.cssText = `
-                        display: flex;
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 280px;
-                        height: 100vh;
-                        z-index: 120;
-                        background: rgba(8, 9, 11, 0.98);
-                        backdrop-filter: blur(20px);
-                        transform: translateX(-100%);
-                        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                        padding-top: 5rem; /* AJUSTE: Aumentamos el espacio para evitar el corte */
-                    `;
+                    sidebar.classList.remove('pt-24'); 
+                    sidebar.style.cssText = `display: flex; position: fixed; top: 0; left: 0; width: 280px; height: 100vh; z-index: 120; background: rgba(8, 9, 11, 0.98); backdrop-filter: blur(20px); transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding-top: 5rem;`;
                     setTimeout(() => sidebar.style.transform = 'translateX(0)', 10);
                 } else {
                     sidebar.style.transform = 'translateX(-100%)';
                     setTimeout(() => {
                         sidebar.classList.add('hidden', 'md:flex');
-                        sidebar.classList.add('pt-24'); // Restauramos pt de escritorio
+                        sidebar.classList.add('pt-24'); 
                         sidebar.style.cssText = '';
                     }, 400);
                 }
-            }
+            },
+            
+            // CRUD Genérico (MODAL)
+            openModal(type, id=null) {
+                const data = id ? Store[type].find(i=>i.id===id) : {};
+                $('#modal-title').innerText = id ? 'EDITAR' : 'NUEVO';
+                const sample = Store[type] && Store[type].length > 0 ? Store[type][0] : { name: '' }; 
+                const fields = Object.keys(sample).filter(k => typeof sample[k] !== 'object' && k !== 'id').map(k => 
+                    `<div class="mb-4"><label class="admin-label">${k}</label><input type="text" class="admin-input" id="field-${k}" value="${data[k]||''}"></div>`
+                ).join('');
+                $('#modal-body').innerHTML = fields || `<div class="mb-4"><label class="admin-label">Nombre</label><input type="text" class="admin-input" id="field-name" value=""></div>`;
+                $('#admin-modal').classList.remove('hidden');
+                setTimeout(()=>{$('#modal-backdrop').classList.remove('opacity-0'); $('#modal-panel').classList.remove('scale-95','opacity-0')},10);
+                $('#modal-save-btn').onclick = () => {
+                    const newItem = { id: data.id || Date.now() };
+                    const keysToCollect = fields ? Object.keys(sample).filter(k => typeof sample[k] !== 'object' && k !== 'id') : ['name'];
+                    keysToCollect.forEach(k => { const el = $(`#field-${k}`); if(el) newItem[k] = el.value; });
+                    if(!Store[type]) Store[type]=[];
+                    const idx = Store[type].findIndex(i=>i.id===newItem.id);
+                    if(idx>-1) Store[type][idx]=newItem; else Store[type].push(newItem);
+                    DataManager.save(Store); this.closeModal(); this.renderTab(this.currentTab);
+                };
+            },
+            closeModal() { $('#modal-backdrop').classList.add('opacity-0'); $('#modal-panel').classList.add('scale-95','opacity-0'); setTimeout(()=>$('#admin-modal').classList.add('hidden'),300); },
+            deleteItem(t, id) { 
+                Swal.fire({ title: '¿Eliminar?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#3085d6', confirmButtonText: 'Sí, borrar' }).then((result) => {
+                    if (result.isConfirmed) { Store[t]=Store[t].filter(i=>i.id!==id); DataManager.save(Store); this.renderTab(this.currentTab); }
+                });
+            },
+
+            // 1. HELPER DE INPUTS (Negro y IDs correctos)
+            input(id, label, value = '') {
+                return `
+                    <div class="mb-4">
+                        <label class="block text-xs uppercase font-bold text-gray-500 mb-2 tracking-wider">${label}</label>
+                        <input type="text" id="${id}" value="${value}" 
+                            style="width: 100%; padding: 12px; background-color: #000 !important; color: white !important; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; outline: none;">
+                    </div>
+                `;
+            },
+
+            // 2. EDITOR WEB (Con Listas Desplegables)
+            renderWebEditor() {
+                const conf = DataManager.get().config;
+                // Estilos Negros Forzados
+                const blackInput = "width:100%; padding:12px; background-color:#05060b !important; color:#fff !important; border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;";
+                
+                // Helper para Selects Negros
+                const sections = ['inicio', 'nosotros', 'clases', 'membresias', 'agenda', 'alquiler', 'talento'];
+                const makeSelect = (id, val) => `
+                    <div class="mb-4">
+                        <label class="block text-xs uppercase font-bold text-gray-500 mb-2 tracking-wider">Acción</label>
+                        <select id="${id}" style="${blackInput} cursor:pointer;">
+                            ${sections.map(s => `<option value="${s}" ${s === val ? 'selected' : ''}>Ir a: ${s.toUpperCase()}</option>`).join('')}
+                        </select>
+                    </div>
+                `;
+
+                // Helper para Inputs Negros (Local para esta función)
+                const inp = (id, label, value) => `
+                    <div class="mb-4">
+                        <label class="block text-xs uppercase font-bold text-gray-500 mb-2 tracking-wider">${label}</label>
+                        <input type="text" id="${id}" value="${value}" style="${blackInput}">
+                    </div>
+                `;
+
+                return `
+                    <div class="max-w-4xl mx-auto space-y-12 pb-20 fade-in">
+                        <h2 class="text-3xl font-display font-bold mb-6 text-white">Editor de Contenido</h2>
+                        <div class="bg-panel p-8 rounded-2xl border border-white/10 space-y-6">
+                            <h3 class="text-gold font-bold uppercase text-xs mb-6 border-b border-white/10 pb-2">Portada (Hero Section)</h3>
+
+                            ${inp('ed-hero-title', 'Título Principal', conf.hero.title)}
+                            ${inp('ed-hero-sub', 'Subtítulo', conf.hero.subtitle)}
+                            ${inp('ed-hero-img', 'URL Imagen de Fondo', conf.hero.bgImage)}
+
+                            <div class="grid md:grid-cols-2 gap-6 pt-6 border-t border-white/10 mt-6">
+                                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                                    <h4 class="text-gold text-[10px] font-bold uppercase mb-3">Botón Principal</h4>
+                                    ${inp('ed-btn1-txt', 'Texto', conf.hero.ctaPrimary.text)}
+                                    ${makeSelect('ed-btn1-link', conf.hero.ctaPrimary.link)}
+                                </div>
+                                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                                    <h4 class="text-neon text-[10px] font-bold uppercase mb-3">Botón Secundario</h4>
+                                    ${inp('ed-btn2-txt', 'Texto', conf.hero.ctaSecondary.text)}
+                                    ${makeSelect('ed-btn2-link', conf.hero.ctaSecondary.link)}
+                                </div>
+                            </div>
+
+                            <button onclick="Admin.saveHeroSettings()" class="btn-galaxy w-full py-4 rounded-lg font-bold mt-6 uppercase tracking-widest shadow-lg text-black hover:scale-[1.01] transition-transform">
+                                GUARDAR CAMBIOS
+                            </button>
+                        </div>
+                    </div>
+                `;
+            },
+
+
+
+
 
         };
 
