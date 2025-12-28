@@ -1470,12 +1470,6 @@
             switchTab(id) {
                 this.currTab = id;
                 
-                // 1. Sidebar Móvil
-                if (window.innerWidth < 768) { 
-                    const sidebar = $('#view-admin aside');
-                    if (sidebar && sidebar.style.position === 'fixed') this.toggleMobileSidebar(); 
-                }
-
                 // 2. Ocultar todas las tabs
                 document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
                 
@@ -1519,6 +1513,14 @@
 
 
             renderTab(tabId) {
+
+                if (window.innerWidth < 768) {
+                    const sidebar = document.querySelector('#view-admin aside');
+                    if (sidebar && !sidebar.classList.contains('hidden')) {
+                        this.toggleMobileSidebar();
+                    }
+                }
+
                 this.currentTab = tabId; 
                 this.renderNav(); // Actualizar estilos del menú
                 
