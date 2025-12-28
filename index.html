@@ -889,14 +889,29 @@
                 }
             },
 
-            
-
             clases: [
-                { id: 1, name: "Salsa Casino", level: "Principiante", schedule: "Lunes 7:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE?auto=format&fit=crop&w=600", desc: "Domina la rueda de casino, el tiempo y la guía básica." },
-                { id: 2, name: "Bachata Sensual", level: "Intermedio", schedule: "Miércoles 8:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE?auto=format&fit=crop&w=600", desc: "Técnica de disociación, ondas y conexión en pareja." },
-                { id: 3, name: "Kizomba Fusion", level: "Open Level", schedule: "Jueves 7:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE?auto=format&fit=crop&w=600", desc: "Musicalidad y conexión suave con influencias modernas." },
-                { id: 4, name: "Lady Style", level: "Avanzado", schedule: "Sábado 10:00 AM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE?auto=format&fit=crop&w=600", desc: "Expresión corporal, brazos y técnica de giro para ellas." }
+                { 
+                    id: 1, 
+                    name: "Salsa Casino", 
+                    level: "Principiante", 
+                    schedule: "Lunes 7:00 PM", 
+                    img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE",
+                    gallery: [
+                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE",
+                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE"
+                    ],
+                    priceCRC: "25000",
+                    priceUSD: "50",
+                    showPrice: true,
+                    showSchedule: true,
+                    desc: "Domina la rueda de casino, el tiempo y la guía básica.",
+                    details: "* TEMARIO DEL CURSO\n- Paso base y tiempo musical\n- Figuras fundamentales (Dile que no, Enchufla)\n- Dinámica de Rueda de Casino\n\n* REQUISITOS\n- Ropa cómoda\n- No se requiere pareja\n- Hidratación"
+                },
+                { id: 2, name: "Bachata Sensual", level: "Intermedio", schedule: "Miércoles 8:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", desc: "Técnica de disociación, ondas y conexión en pareja." },
+                { id: 3, name: "Kizomba Fusion", level: "Open Level", schedule: "Jueves 7:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", desc: "Musicalidad y conexión suave con influencias modernas." },
+                { id: 4, name: "Lady Style", level: "Avanzado", schedule: "Sábado 10:00 AM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", desc: "Expresión corporal, brazos y técnica de giro para ellas." }
             ],
+
             agenda: {
                 lunes: [{t:"18:00", n:"Salsa Básico"}, {t:"19:00", n:"Salsa Intermedio"}, {t:"20:00", n:"Práctica Libre"}],
                 martes: [{t:"18:00", n:"Bachata Básico"}, {t:"19:30", n:"Team Coreográfico"}],
@@ -1012,7 +1027,22 @@
             
             toggleCurrency() { 
                 const b=$('#currency-label'); 
-                b.innerText = b.innerText==='CRC'?'USD':'CRC'; 
+                const isCRC = b.innerText === 'CRC';
+                b.innerText = isCRC ? 'USD' : 'CRC';
+                
+                // Busca los elementos con la nueva clase 'currency-dynamic'
+                document.querySelectorAll('.currency-dynamic').forEach(el => {
+                    // Si estamos en CRC, muestra el precio en Dólares (dataset.usd)
+                    // Si estamos en USD, muestra el precio en Colones (dataset.crc)
+                    // (La lógica es inversa al botón: si el botón dice CRC, estoy viendo Colones, al hacer click paso a USD)
+                    
+                    const price = isCRC ? el.dataset.usd : el.dataset.crc;
+                    const symbol = isCRC ? '$' : '₡';
+                    
+                    // Evita mostrar "NaN" si no hay precio definido
+                    const finalPrice = price ? parseInt(price).toLocaleString() : '0';
+                    el.innerText = `${symbol}${finalPrice}`;
+                });
             },
 
             toggleLoginModal() {
@@ -1120,14 +1150,74 @@
                     btn2.onclick = () => Router.go(h.ctaSecondary.link);
                 }
                 
-                // 4. Clases (Grid) - Mantenemos tu lógica existente
+                
+                // 4. Clases (Grid) - Renderizado Dinámico 2.0
                 const classesGrid = document.getElementById('classes-grid');
-                if(classesGrid && Store.clases) {
-                    classesGrid.innerHTML = Store.clases.map(c => `
-                        <div class="glass-card rounded-xl overflow-hidden group border border-white/5 hover:border-gold/50 transition-all duration-500">
-                            <div class="h-56 relative"><img src="${c.img}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110"><div class="absolute inset-0 bg-gradient-to-t from-panel via-transparent to-transparent opacity-90"></div><span class="absolute top-3 right-3 bg-black/60 px-3 py-1 rounded-full text-[10px] uppercase font-bold border border-white/10 z-10">${c.level}</span></div>
-                            <div class="p-6"><h3 class="text-2xl font-serif font-bold text-white mb-2 group-hover:text-gold transition-colors">${c.name}</h3><p class="text-xs text-gray-400 mb-6 line-clamp-2">${c.desc}</p><button class="btn-neon w-full py-3 rounded text-xs font-bold tracking-widest hover:bg-neon hover:text-black transition-all">VER DETALLES</button></div>
-                        </div>`).join('');
+                // Usamos DataManager.get() para asegurar datos frescos
+                const clasesData = DataManager.get().clases || [];
+                
+                if(classesGrid) {
+                    if (clasesData.length === 0) {
+                        classesGrid.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10">No hay clases activas en este momento.</div>`;
+                    } else {
+                        classesGrid.innerHTML = clasesData.map(c => `
+                            <div class="glass-card rounded-xl overflow-hidden group border border-white/5 hover:border-gold/50 transition-all duration-500 flex flex-col h-full">
+                               
+                               
+                               
+                                <div class="h-56 relative overflow-hidden">
+                                    <div class="flex w-full h-full transition-transform duration-1000" style="width:${(c.gallery||[c.img]).length}00%; animation: slideX ${(c.gallery||[c.img]).length * 3}s infinite alternate ease-in-out;">
+                                        ${(c.gallery || [c.img]).map(img => `<img src="${img}" class="w-full h-full object-cover filter brightness-75 group-hover:brightness-100">`).join('')}
+                                    </div>
+                                    <style> @keyframes slideX { 0% { transform: translateX(0); } 100% { transform: translateX(-${(c.gallery||[c.img]).length > 1 ? ((c.gallery||[c.img]).length - 1) * (100 / (c.gallery||[c.img]).length) : 0}%); } } </style>
+                                    
+                                    <div class="absolute inset-0 bg-gradient-to-t from-panel via-transparent to-transparent opacity-90"></div>
+                                    
+                                    <span class="absolute top-3 right-3 px-3 py-1 rounded-full text-[10px] uppercase font-black border z-10 backdrop-blur-md shadow-xl
+                                        ${c.level.includes('Principiante') ? 'bg-emerald-950/80 text-emerald-400 border-emerald-500/50' : 
+                                          c.level.includes('Intermedio') ? 'bg-amber-950/80 text-amber-400 border-amber-500/50' : 
+                                          c.level.includes('Avanzado') ? 'bg-rose-950/80 text-rose-400 border-rose-500/50' :
+                                          'bg-blue-950/80 text-blue-400 border-blue-500/50'}">
+                                        ${c.level}
+                                    </span>
+                                </div>
+
+                                <div class="p-6 flex-1 flex flex-col relative overflow-hidden">
+                                    
+                                    
+                                    <div class="mb-auto z-10">
+                                        <div class="flex justify-between items-start mb-2 gap-2">
+                                            <h3 class="text-2xl font-serif font-bold text-white group-hover:text-gold transition-colors leading-tight">${c.name}</h3>
+                                            
+                                            ${c.showPrice ? `
+                                            <span class="text-xs font-mono font-bold text-gold bg-gold/10 px-3 py-1.5 rounded-lg border border-gold/20 whitespace-nowrap currency-dynamic" 
+                                                  data-crc="${c.priceCRC || 0}" 
+                                                  data-usd="${c.priceUSD || 0}">
+                                                ₡${parseInt(c.priceCRC || 0).toLocaleString()}
+                                            </span>` : ''}
+
+                                        </div>
+                                        
+
+
+                                        ${c.showSchedule !== false ? `
+                                        <div class="flex items-center gap-2 mb-4 text-xs font-mono text-gold/80 border-b border-white/5 pb-3">
+                                            <i class="fa-regular fa-clock"></i> ${c.schedule}
+                                        </div>` : '<div class="mb-4"></div>'}
+                                        
+                                        <p class="text-sm text-gray-400 leading-relaxed font-light line-clamp-3">${c.desc}</p>
+                                    </div>
+                                    
+                                    <button onclick="App.openClassDetails(${c.id})" class="btn-galaxy w-full py-3 rounded-full text-[10px] font-bold tracking-[0.25em] mt-6 shadow-lg z-10 hover:scale-105 transition-transform">
+                                        DESCUBRIR MÁS
+                                    </button>
+                                    
+                                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-gold/5 rounded-full blur-2xl group-hover:bg-gold/10 transition-colors"></div>
+                                </div>
+
+
+                            </div>`).join('');
+                    }
                 }
             },
             
@@ -1346,7 +1436,130 @@
                 const imgUrl = gallery[this.lightboxIdx];
                 document.getElementById('lb-img').src = imgUrl;
                 document.getElementById('lb-count').innerText = `${this.lightboxIdx + 1} / ${gallery.length}`;
-            }
+            },
+
+
+            // --- NUEVO SISTEMA DE EXPERIENCIA DE CLASE ---
+
+            openClassDetails(id) {
+                const c = DataManager.get().clases.find(x => x.id == id);
+                if(!c) return;
+                const images = c.gallery || [c.img];
+
+
+                // 1. Procesamiento de Texto Rico (* Título ORO)
+                const formatDetails = (text) => {
+                    if(!text) return '<p class="text-gray-500 italic">Más detalles próximamente...</p>';
+                    return text.split('\n').map(line => {
+                        const l = line.trim();
+                        // CAMBIO: text-neon a text-gold y border-neon a border-gold
+                        if(l.startsWith('*')) return `<h4 class="text-gold font-display font-bold text-lg mt-6 mb-3 border-l-4 border-gold pl-3">${l.substring(1)}</h4>`;
+                        if(l.startsWith('-')) return `<li class="flex items-start gap-2 mb-2 ml-1"><span class="text-gold mt-1.5 text-[10px]">●</span> <span class="text-gray-300">${l.substring(1)}</span></li>`;
+                        if(l === '') return '<br>';
+                        return `<p class="mb-3 leading-relaxed text-gray-300">${line}</p>`;
+                    }).join('');
+                };
+
+                // 2. Modal HTML (Calibración Móvil: 40% Img / 40% Texto / 20% Botón)
+                const modalHTML = `
+                    <div id="class-modal-overlay" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center p-0 md:p-8 transition-opacity duration-500 opacity-0" onclick="App.closeClassModal()">
+                        <div class="w-full h-full md:h-[85vh] md:max-w-5xl bg-[#08090B] md:border border-white/10 md:rounded-3xl overflow-hidden shadow-2xl relative transform transition-all duration-500 translate-y-10 md:scale-95 flex flex-col md:block" id="class-modal-card" onclick="event.stopPropagation()">
+                            
+                            <button onclick="App.closeClassModal()" class="absolute top-4 right-4 z-50 w-10 h-10 bg-black/60 text-white rounded-full hover:bg-gold hover:text-black transition-all flex items-center justify-center border border-white/10 backdrop-blur-md">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+                            <div class="flex flex-col md:grid md:grid-cols-2 h-full">
+                                
+                                <div class="h-[40%] md:h-full relative overflow-hidden group bg-black shrink-0">
+                                    <div id="modal-carousel" class="flex h-full transition-transform duration-500 ease-out">
+                                        ${images.map(img => `<img src="${img}" class="w-full h-full object-cover shrink-0">`).join('')}
+                                    </div>
+                                    <div class="hidden md:block absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-[#08090B] to-transparent z-10 pointer-events-none"></div>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-[#08090B] via-transparent to-transparent opacity-100 md:bg-gradient-to-r z-0"></div>
+
+                                    ${images.length > 1 ? `
+                                        <button onclick="App.moveModalCarousel(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-3xl z-20"><i class="fa-solid fa-chevron-left"></i></button>
+                                        <button onclick="App.moveModalCarousel(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-3xl z-20"><i class="fa-solid fa-chevron-right"></i></button>
+                                        <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+                                            ${images.map((_, i) => `<div class="w-1.5 h-1.5 rounded-full bg-white/30 transition-colors" id="dot-${i}"></div>`).join('')}
+                                        </div>
+                                    ` : ''}
+
+                                    <div class="absolute bottom-6 left-6 right-6 animate-slide-up pointer-events-none z-20">
+                                        <h2 class="text-3xl md:text-5xl font-serif font-black text-white leading-none mb-3 drop-shadow-lg">${c.name}</h2>
+                                        <div class="flex flex-wrap gap-2 items-center">
+                                            <span class="px-3 py-1 rounded-full text-[10px] uppercase font-black border backdrop-blur-md shadow-xl ${c.level.includes('Principiante') ? 'bg-emerald-950/80 text-emerald-400 border-emerald-500/50' : c.level.includes('Intermedio') ? 'bg-amber-950/80 text-amber-400 border-amber-500/50' : c.level.includes('Avanzado') ? 'bg-rose-950/80 text-rose-400 border-rose-500/50' : 'bg-blue-950/80 text-blue-400 border-blue-500/50'}">${c.level}</span>
+                                            ${c.showPrice ? `<span class="px-3 py-1 rounded-full bg-gold/20 text-gold text-xs font-bold border border-gold/30 backdrop-blur-md currency-dynamic" data-crc="${c.priceCRC || 0}" data-usd="${c.priceUSD || 0}">₡${parseInt(c.priceCRC || 0).toLocaleString()}</span>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="h-[60%] md:h-full flex flex-col bg-[#08090B] relative z-20 overflow-hidden">
+                                    
+                                    <div class="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar">
+                                        <div class="dance-item dance-delay-1">
+                                            ${c.showSchedule !== false ? `
+                                            <h4 class="text-gold text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-regular fa-clock"></i> Horario</h4>
+                                            <p class="text-xl text-white font-sans font-light border-b border-white/10 pb-4 mb-6">${c.schedule}</p>` : ''}
+                                            <div class="prose prose-invert prose-sm max-w-none text-gray-300 pb-4">${formatDetails(c.details || c.desc)}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-6 md:p-8 border-t border-white/10 bg-[#08090B] shrink-0 z-30 dance-item dance-delay-3 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+                                        <button onclick="window.open('https://wa.me/50670866080?text=Hola,%20quiero%20inscribirme%20en%20${encodeURIComponent(c.name)}', '_blank')" class="btn-galaxy w-full py-4 rounded-xl font-bold uppercase tracking-widest shadow-xl hover:shadow-gold/30 text-sm flex items-center justify-center gap-3 transform active:scale-95 transition-transform">
+                                            <span>Inscribirme Ahora</span>
+                                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                                        </button>
+                                        <p class="text-center text-gray-600 text-[10px] mt-2 uppercase tracking-wider">Cupos Limitados</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+              
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                this.modalImgIdx = 0;
+                this.modalImgMax = images.length;
+                
+                // Activar Animación
+                setTimeout(() => {
+                    document.getElementById('class-modal-overlay').classList.remove('opacity-0');
+                    const card = document.getElementById('class-modal-card');
+                    card.classList.remove('translate-y-10', 'md:scale-95'); // Reset inicial
+                    // No necesitamos añadir clases, la transición CSS hará el resto al quitar las de "oculto"
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            },
+
+            // Lógica del carrusel del modal
+            modalImgIdx: 0,
+            modalImgMax: 0,
+            moveModalCarousel(dir) {
+                this.modalImgIdx = (this.modalImgIdx + dir + this.modalImgMax) % this.modalImgMax;
+                document.getElementById('modal-carousel').style.transform = `translateX(-${this.modalImgIdx * 100}%)`;
+                // Actualizar puntos
+                for(let i=0; i<this.modalImgMax; i++) {
+                    const dot = document.getElementById(`dot-${i}`);
+                    if(dot) dot.className = `w-1.5 h-1.5 rounded-full transition-colors ${i === this.modalImgIdx ? 'bg-white' : 'bg-white/30'}`;
+                }
+            },
+          
+          
+            closeClassModal() {
+                const overlay = document.getElementById('class-modal-overlay');
+                const card = document.getElementById('class-modal-card');
+                if(overlay && card) {
+                    overlay.classList.add('opacity-0');
+                    card.classList.remove('scale-100', 'translate-y-0');
+                    card.classList.add('scale-90', 'translate-y-10');
+                    setTimeout(() => {
+                        overlay.remove();
+                        document.body.style.overflow = '';
+                    }, 500);
+                }
+            },
 
         };
 
@@ -1548,6 +1761,7 @@
                         if(tabId === 'dash') target.innerHTML = this.genDashboard();
                         else if(tabId === 'web') target.innerHTML = this.renderWebEditor();
                         else if(tabId === 'nosotros') this.renderNosotrosEditor(target); // Pasamos el target directo
+                        else if(tabId === 'clases') this.renderClasesEditor(target); // NUEVO ENRUTAMIENTO
                         else if(tabId === 'config') target.innerHTML = this.genConfig();
                         else if(tabId === 'agenda') target.innerHTML = `<h2 class="text-3xl font-display font-bold mb-6">Agenda</h2><p class="text-gray-500">Edición compleja próximamente.</p>`;
                         else target.innerHTML = this.genGenericTable(tabId);
@@ -2019,9 +2233,183 @@
                 `;
             },
 
+            // --- GESTIÓN DE CLASES (NUEVO MÓDULO) ---
+            renderClasesEditor(container) {
+                if(!container) return;
+                const data = DataManager.get().clases || [];
+                const blackStyle = "width: 100%; background-color: #05060b !important; color: white !important; border: 1px solid rgba(255,255,255,0.2); padding: 10px; border-radius: 6px; outline: none; font-size: 0.85rem;";
 
+                container.innerHTML = `
+                    <div class="max-w-6xl mx-auto pb-20 fade-in">
+                        <div class="flex justify-between items-end mb-8">
+                            <div>
+                                <h1 class="text-3xl font-serif font-bold text-white">Oferta Académica</h1>
+                                <p class="text-gray-400 text-sm mt-1">Gestiona los programas educativos activos.</p>
+                            </div>
+                            <button onclick="Admin.addClaseItem()" class="btn-galaxy px-6 py-3 rounded-lg text-xs font-bold shadow-lg hover:scale-105 transition-transform">+ NUEVA CLASE</button>
+                        </div>
 
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="clases-edit-list">
+                            ${data.map((c, i) => `
+                                <div class="bg-panel p-6 rounded-2xl border border-white/10 group hover:border-gold/30 transition-all relative">
+                                    <button onclick="Admin.removeClaseItem(${i})" class="absolute top-4 right-4 text-gray-600 hover:text-rose bg-black/50 w-8 h-8 rounded-full flex items-center justify-center transition-colors z-10"><i class="fa-solid fa-trash text-xs"></i></button>
+                                    
+                                    <div class="flex gap-4 mb-4">
+                                        <div class="w-24 h-24 rounded-lg overflow-hidden border border-white/10 shrink-0 relative group-hover:border-gold/50 transition-colors">
+                                            <img src="${c.img}" class="w-full h-full object-cover">
+                                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                                <i class="fa-solid fa-image text-white"></i>
+                                            </div>
+                                            <input type="text" class="absolute inset-0 opacity-0 cursor-pointer main-img-input" value="${c.img}" oninput="this.previousElementSibling.previousElementSibling.src = this.value; Admin.updateClasesArray()">
+                                        </div>
 
+                                        <div class="flex-1 space-y-2">
+                                            <input type="text" class="bg-transparent text-lg font-bold text-white w-full border-b border-transparent focus:border-gold outline-none placeholder-gray-600 name-input" value="${c.name}" oninput="Admin.updateClasesArray()" placeholder="Nombre de la Clase">
+                                            
+                                            <div class="flex flex-wrap gap-3 items-center mt-2">
+                                                <select class="bg-[#05060b] text-[10px] text-neon border border-white/10 rounded px-2 py-1 outline-none uppercase font-bold level-select" onchange="Admin.updateClasesArray()">
+                                                    <option value="Principiante" ${c.level==='Principiante'?'selected':''}>Principiante</option>
+                                                    <option value="Intermedio" ${c.level==='Intermedio'?'selected':''}>Intermedio</option>
+                                                    <option value="Avanzado" ${c.level==='Avanzado'?'selected':''}>Avanzado</option>
+                                                    <option value="Open Level" ${c.level==='Open Level'?'selected':''}>Open Level</option>
+                                                </select>
+                                                
+                                                <label class="flex items-center gap-1 cursor-pointer">
+                                                    <input type="checkbox" class="accent-gold w-3 h-3 toggle-schedule" ${c.showSchedule !== false ? 'checked' : ''} onchange="Admin.updateClasesArray()">
+                                                    <span class="text-[10px] text-gray-500 uppercase">Horario</span>
+                                                </label>
+                                                <input type="text" class="bg-transparent text-xs text-gold border-b border-white/10 w-24 outline-none placeholder-gray-700 schedule-input" value="${c.schedule}" oninput="Admin.updateClasesArray()" placeholder="Lun 7PM">
+
+                                                <label class="flex items-center gap-1 cursor-pointer ml-auto border-l border-white/10 pl-3">
+                                                    <input type="checkbox" class="accent-gold w-3 h-3 toggle-price" ${c.showPrice ? 'checked' : ''} onchange="Admin.updateClasesArray()">
+                                                    <span class="text-[10px] text-gold uppercase font-bold">Mostrar Precio</span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                                <div class="relative">
+                                                    <span class="absolute left-2 top-1.5 text-[10px] text-gray-500">CRC</span>
+                                                    <input type="text" class="w-full bg-[#05060b] text-xs text-white p-1.5 pl-8 rounded border border-white/10 outline-none price-crc-input" value="${c.priceCRC || ''}" oninput="Admin.updateClasesArray()" placeholder="25000">
+                                                </div>
+                                                <div class="relative">
+                                                    <span class="absolute left-2 top-1.5 text-[10px] text-gray-500">USD</span>
+                                                    <input type="text" class="w-full bg-[#05060b] text-xs text-white p-1.5 pl-8 rounded border border-white/10 outline-none price-usd-input" value="${c.priceUSD || ''}" oninput="Admin.updateClasesArray()" placeholder="50">
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-3 bg-black/20 p-2 rounded border border-white/5">
+                                                <div class="flex justify-between items-center mb-2">
+                                                    <label class="text-[9px] text-gray-500 uppercase font-bold">Galería de Imágenes</label>
+                                                    <button onclick="Admin.addClaseImg(${i})" class="text-[9px] bg-white/10 hover:bg-gold hover:text-black text-white px-2 py-0.5 rounded transition-colors">+ FOTO</button>
+                                                </div>
+                                                <div class="space-y-1 gallery-container">
+                                                    ${(c.gallery || [c.img]).map((imgUrl, imgIdx) => `
+                                                        <div class="flex gap-2 items-center group/img">
+                                                            <img src="${imgUrl}" class="w-6 h-6 rounded object-cover border border-white/10">
+                                                            <input type="text" class="flex-1 bg-transparent text-[10px] text-gray-400 border-b border-white/5 focus:border-gold outline-none gal-url-input" value="${imgUrl}" oninput="this.previousElementSibling.src = this.value; Admin.updateClasesArray()">
+                                                            <button onclick="Admin.removeClaseImg(${i}, ${imgIdx})" class="text-gray-600 hover:text-rose"><i class="fa-solid fa-times text-xs"></i></button>
+                                                        </div>
+                                                    `).join('')}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <textarea class="desc-input w-full bg-black/30 text-gray-400 text-sm p-3 rounded-lg border border-white/5 outline-none focus:border-gold/30 resize-none h-20 mb-2" oninput="Admin.updateClasesArray()" placeholder="Descripción Corta (Para la tarjeta)...">${c.desc || ''}</textarea>
+                                        
+                                        <label class="text-[10px] uppercase font-bold text-gold tracking-widest mb-1 block">Detalles del Programa (Inclusiones, Requisitos)</label>
+                                        <textarea class="detail-input w-full bg-black/50 text-gray-300 text-sm p-4 rounded-lg border border-white/10 outline-none focus:border-gold/50 resize-y h-40 font-mono leading-relaxed" oninput="Admin.updateClasesArray()" placeholder="Escribe aquí todo el detalle. Usa guiones (-) para listas.">${c.details || ''}</textarea>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+
+            addClaseItem() {
+                const d = DataManager.get();
+                if(!d.clases) d.clases = [];
+                d.clases.push({
+                    id: Date.now(),
+                    name: "Nueva Clase",
+                    level: "Principiante",
+                    schedule: "Por definir",
+                    img: "https://images.unsplash.com/photo-1545959570-a9477eb37265?auto=format&fit=crop&w=400",
+                    desc: "Descripción del nuevo programa académico."
+                });
+                DataManager.save(d);
+                this.renderClasesEditor(document.getElementById('admin-tab-clases'));
+                App.renderPublic();
+            },
+
+            removeClaseItem(index) {
+                const d = DataManager.get();
+                d.clases.splice(index, 1);
+                DataManager.save(d);
+                this.renderClasesEditor(document.getElementById('admin-tab-clases'));
+                App.renderPublic();
+            },
+            
+            // Funciones para gestionar la galería interna de cada clase
+            addClaseImg(classIdx) {
+                const d = DataManager.get();
+                if(!d.clases[classIdx].gallery) d.clases[classIdx].gallery = [d.clases[classIdx].img];
+                d.clases[classIdx].gallery.push("https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE"); // Placeholder
+                DataManager.save(d);
+                this.renderClasesEditor(document.getElementById('admin-tab-clases'));
+                App.renderPublic();
+            },
+
+            removeClaseImg(classIdx, imgIdx) {
+                const d = DataManager.get();
+                if(d.clases[classIdx].gallery && d.clases[classIdx].gallery.length > 1) {
+                    d.clases[classIdx].gallery.splice(imgIdx, 1);
+                    DataManager.save(d);
+                    this.renderClasesEditor(document.getElementById('admin-tab-clases'));
+                    App.renderPublic();
+                }
+            },
+
+            updateClasesArray() {
+                const container = document.getElementById('clases-edit-list');
+                const cards = container.querySelectorAll('.bg-panel'); // Seleccionamos cada tarjeta individualmente
+                const d = DataManager.get();
+                
+                d.clases = Array.from(cards).map((card, index) => {
+                    const originalId = d.clases[index] ? d.clases[index].id : Date.now();
+                    
+                    // 1. CAPTURA DE IMÁGENES
+                    const imgVal = card.querySelector('.main-img-input').value;
+                    const galInputs = card.querySelectorAll('.gal-url-input');
+                    const galleryArr = Array.from(galInputs).map(inp => inp.value).filter(s => s.trim() !== "");
+
+                    // 2. CAPTURA DE TEXTOS Y SELECTS (Usando las nuevas clases)
+                    return {
+                        id: originalId,
+                        img: imgVal,
+                        gallery: galleryArr.length > 0 ? galleryArr : [imgVal],
+                        
+                        name: card.querySelector('.name-input').value,          // Nombre
+                        level: card.querySelector('.level-select').value,       // Nivel
+                        schedule: card.querySelector('.schedule-input').value,  // Horario
+                        
+                        priceCRC: card.querySelector('.price-crc-input').value, // Precio Colones
+                        priceUSD: card.querySelector('.price-usd-input').value, // Precio Dólares
+                        
+                        showSchedule: card.querySelector('.toggle-schedule').checked, // Checkbox Horario
+                        showPrice: card.querySelector('.toggle-price').checked,       // Checkbox Precio
+                        
+                        desc: card.querySelector('.desc-input').value,      // Descripción Corta
+                        details: card.querySelector('.detail-input').value  // Detalles Largos
+                    };
+                });
+                
+                // 3. GUARDADO Y REFRESCO
+                DataManager.save(d); // Guarda en memoria persistente
+                App.renderPublic();  // Actualiza la web pública al instante
+            },
 
         };
 
