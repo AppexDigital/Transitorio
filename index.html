@@ -15,6 +15,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -259,6 +262,18 @@
             position: fixed;
             width: 100%;
         }
+
+
+        /* Ocultar iconos nativos de fecha/hora en Webkit */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0; color: transparent; cursor: pointer;
+            height: auto; left: 0; position: absolute;
+            right: 0; top: 0; width: auto;
+        }
+        /* Contenedor relativo para que el click funcione en todo el area */
+        .input-wrapper { position: relative; }
 
 
 
@@ -558,8 +573,8 @@
             <div class="container mx-auto max-w-7xl">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                     <div>
-                        <span class="text-gold text-xs font-bold uppercase tracking-widest mb-2 block">Formación Académica</span>
-                        <h2 class="text-5xl font-serif font-bold text-white">Nuestros Programas</h2>
+                        <span class="text-gold text-xs font-bold uppercase tracking-widest mb-2 block">Formación Artística</span>
+                        <h2 class="text-5xl font-serif font-bold text-white">Nuestras Clases</h2>
                     </div>
                     <button onclick="App.toggleCurrency()" class="px-6 py-2 border border-white/10 rounded-full text-xs font-bold text-gray-400 hover:text-white hover:border-gold transition-colors" id="btn-currency-page">
                         Ver Precios en USD
@@ -575,7 +590,7 @@
         <section id="view-membresias" class="app-view px-6 py-20 bg-void">
             <div class="container mx-auto max-w-6xl">
                 <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">Planes & Inversión</h2>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">Membresías</h2>
                     <div class="w-24 h-1 bg-gold mx-auto rounded-full"></div>
                 </div>
                 <div id="memberships-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -853,12 +868,15 @@
             config: {
                 colors: { void: '#020203', panel: '#08090B', surface: '#121418', gold: '#D4AF37', neon: '#00F3FF', rose: '#FF2D55', textMain: '#E0E0E0', textMuted: '#9CA3AF' },
                 fonts: { heading: 'Cinzel', body: 'Space Grotesk' },
+                enableAnimations: true,
                 hero: {
                     title: "Sensación Boogaloo",
                     subtitle: "La evolución del baile latino. Técnica de salón, alma caribeña y proyección internacional.",
                     bgImage: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE",
+                    agendaBg: "https://lh3.googleusercontent.com/d/1F_KYBe4suK060PYvVaRe7t_v80DBvOqe",
                     ctaPrimary: { text: "Explora nuestras Clases", link: "clases" },
                     ctaSecondary: { text: "Audiciones", link: "talento" }
+                
                 },
                 nosotrosContent: {
                     pretitle: "IDENTIDAD",
@@ -868,16 +886,24 @@
                     autorCita: "Dirección Artística",
                     // Videoteca: ID de Youtube y URL de la imagen miniatura
                     videos: [
-                        { id: "dQw4w9WgXcQ", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg", label: "Video Principal" },
-                        { id: "tgbNymZ7vqY", thumb: "https://img.youtube.com/vi/tgbNymZ7vqY/0.jpg", label: "Clase Abierta" }
+                        { id: "16QrU3iQO88", thumb: "https://img.youtube.com/vi/16QrU3iQO88/0.jpg", label: "Video Principal" },
+                        { id: "t808BgOjZPoY", thumb: "https://img.youtube.com/vi/t808BgOjZPoY/0.jpg", label: "Clase Abierta" },
+                        { id: "VAMooF_U26A", thumb: "https://img.youtube.com/vi/VAMooF_U26A/0.jpg", label: "Clase Abierta" },
+                        { id: "8-ziyyXBtqE", thumb: "https://img.youtube.com/vi/8-ziyyXBtqE/0.jpg", label: "Clase Abierta" },
+                        { id: "jWFr13BuZz0", thumb: "https://img.youtube.com/vi/jWFr13BuZz0/0.jpg", label: "Clase Abierta" }
                     ],
                     // Galería: 5 Imágenes fijas para el Bento Grid (Orden: Vertical, Horizontal, Cuadro 1, Cuadro 2, Horizontal Abajo)
                     galeria: [
-                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", // 1. Vertical Grande
-                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", // 2. Horizontal Superior
-                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", // 3. Cuadro Izq
-                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", // 4. Cuadro Der
-                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE"  // 5. Horizontal Inferior
+                        "https://lh3.googleusercontent.com/d/1vwxCH0E6MXf11_Yb-hLSEhxbUTAwSEGl", // 1. Vertical Grande
+                        "https://lh3.googleusercontent.com/d/1kkSKz8u5ElL-hcuueTx3_AJ2vBWPUTAa", // 2. Horizontal Superior
+                        "https://lh3.googleusercontent.com/d/13rphiYQi-ZNEfc1vQ4WxDWTZ0Aey_6dX", // 3. Cuadro Izq
+                        "https://lh3.googleusercontent.com/d/1DXGIQ1zKC-I3UEkU3Zh-wlxWOQ-i6enL", // 4. Cuadro Der
+                        "https://lh3.googleusercontent.com/d/1IFMpwyFar_dJWhYKuPzzZCU6kXLRPshn", // 
+                        "https://lh3.googleusercontent.com/d/1oz1e13XaS8uofbkx8n9JaRP7lDQqxkkP",
+                        "https://lh3.googleusercontent.com/d/1fU1B-1_sx54MkRhsL2g8GyGNKsqRUVYX", //
+                        "https://lh3.googleusercontent.com/d/1MAwesmJXKfsiEL6hudk6axxniYpBMqiF", // 
+                        "https://lh3.googleusercontent.com/d/1zPxdDxA00ITB17AFRD3K4pQoHjuTnqkG", //
+                        "https://lh3.googleusercontent.com/d/1BvsvMxdyfeMFmGR3cgwGZ0CBXVe3QCHA" // 
                     ],
                     // Logros: Ahora incluye el icono como dato editable
                     logros: [
@@ -892,36 +918,77 @@
             clases: [
                 { 
                     id: 1, 
-                    name: "Salsa Casino", 
+                    name: "Salsa Casino",
+                    visible: true,
                     level: "Principiante", 
-                    schedule: "Lunes 7:00 PM", 
+                    // Lunes 7:00 PM
+                    schedules: [ {day: 1, time: "19:00"}, {day: 2, time: "19:00"} ], 
+                    showSchedule: true,
+                    defaultCapacity: 25,
                     img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE",
                     gallery: [
                         "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE",
-                        "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE"
+                        "https://lh3.googleusercontent.com/d/1VQU7adEJIShExiZSPbKIlh7CPhaZB7XB"
                     ],
-                    priceCRC: "25000",
-                    priceUSD: "50",
-                    showPrice: true,
-                    showSchedule: true,
-                    desc: "Domina la rueda de casino, el tiempo y la guía básica.",
-                    details: "* TEMARIO DEL CURSO\n- Paso base y tiempo musical\n- Figuras fundamentales (Dile que no, Enchufla)\n- Dinámica de Rueda de Casino\n\n* REQUISITOS\n- Ropa cómoda\n- No se requiere pareja\n- Hidratación"
+                    priceCRC: "25000", priceUSD: "50", showPrice: true,
+                    desc: "Domina la rueda de casino, el tiempo y la guía básica.", 
+                    details: "* TEMARIO DEL CURSO\n- Paso base y tiempo musical\n- Figuras fundamentales\n- Rueda de Casino" 
                 },
-                { id: 2, name: "Bachata Sensual", level: "Intermedio", schedule: "Miércoles 8:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", desc: "Técnica de disociación, ondas y conexión en pareja." },
-                { id: 3, name: "Kizomba Fusion", level: "Open Level", schedule: "Jueves 7:00 PM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", desc: "Musicalidad y conexión suave con influencias modernas." },
-                { id: 4, name: "Lady Style", level: "Avanzado", schedule: "Sábado 10:00 AM", img: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE", desc: "Expresión corporal, brazos y técnica de giro para ellas." }
+                { 
+                    id: 2, 
+                    name: "Bachata Sensual", 
+                    visible: true,
+                    level: "Intermedio", 
+                    // Miércoles 8:00 PM
+                    schedules: [ {day: 3, time: "20:00"} ], 
+                    showSchedule: true,
+                    defaultCapacity: 20,
+                    img: "https://lh3.googleusercontent.com/d/1jmhE89QKKl1KTtOgkczuayRviCrL2RHt",
+                    gallery: [
+                        "https://lh3.googleusercontent.com/d/1jmhE89QKKl1KTtOgkczuayRviCrL2RHt",
+                        "https://lh3.googleusercontent.com/d/1IFMpwyFar_dJWhYKuPzzZCU6kXLRPshn"
+                    ],
+                    priceCRC: "25000", priceUSD: "50", showPrice: true, 
+                    desc: "Técnica de disociación, ondas y conexión en pareja.",
+                    details: "* CONTENIDO\n- Ondas corporales\n- Conexión frame\n- Figuras complejas"
+                },
+                { 
+                    id: 3, 
+                    name: "Kizomba Fusion",
+                    visible: true, 
+                    level: "Open Level", 
+                    // Jueves 7:00 PM
+                    schedules: [ {day: 4, time: "19:00"} ], 
+                    showSchedule: true,
+                    defaultCapacity: 20,
+                    img: "https://lh3.googleusercontent.com/d/1fU1B-1_sx54MkRhsL2g8GyGNKsqRUVYX",
+                    gallery: [
+                        "https://lh3.googleusercontent.com/d/1fU1B-1_sx54MkRhsL2g8GyGNKsqRUVYX",
+                        "https://lh3.googleusercontent.com/d/1MAwesmJXKfsiEL6hudk6axxniYpBMqiF"
+                    ],
+                    priceCRC: "25000", priceUSD: "50", showPrice: true, 
+                    desc: "Musicalidad y conexión suave con influencias modernas.",
+                    details: "* APRENDERÁS\n- Pasos básicos\n- Saidas\n- Musicalidad Tarraxinha"
+                },
+                { 
+                    id: 4, 
+                    name: "Lady Style",
+                    visible: true, 
+                    level: "Avanzado", 
+                    // Sábado 10:00 AM
+                    schedules: [ {day: 6, time: "10:00"} ], 
+                    showSchedule: true,
+                    defaultCapacity: 15,
+                    img: "https://lh3.googleusercontent.com/d/1zPxdDxA00ITB17AFRD3K4pQoHjuTnqkG",
+                    gallery: [
+                        "https://lh3.googleusercontent.com/d/1zPxdDxA00ITB17AFRD3K4pQoHjuTnqkG",
+                        "https://lh3.googleusercontent.com/d/1BvsvMxdyfeMFmGR3cgwGZ0CBXVe3QCHA"
+                    ],
+                    priceCRC: "25000", priceUSD: "50", showPrice: true, 
+                    desc: "Expresión corporal, brazos y técnica de giro para ellas.",
+                    details: "* TÉCNICA\n- Brazos y manos\n- Giros múltiples\n- Actitud escénica"
+                }
             ],
-
-            agenda: {
-                lunes: [{t:"18:00", n:"Salsa Básico"}, {t:"19:00", n:"Salsa Intermedio"}, {t:"20:00", n:"Práctica Libre"}],
-                martes: [{t:"18:00", n:"Bachata Básico"}, {t:"19:30", n:"Team Coreográfico"}],
-                miercoles: [{t:"19:00", n:"Salsa On2"}, {t:"20:00", n:"Bachata Sensual"}], 
-                jueves: [{t:"18:00", n:"Kizomba"}, {t:"19:00", n:"Urban Kizz"}], 
-                viernes: [{t:"19:00", n:"Taller Especial"}, {t:"21:00", n:"Social Bailable"}], 
-                sabado: [{t:"10:00", n:"Lady Style"}, {t:"11:30", n:"Men Style"}]
-            
-            },
-
 
             membresias: [
                 { 
@@ -955,15 +1022,11 @@
                     legal: "Precio por pareja mensual."
                 }
             ],
-
-
             alumnos: [
-                { id: 1, name: "Ana Sofía Méndez", plan: "Plan Semestral", status: "Activo" },
-                { id: 2, name: "Carlos Villalobos", plan: "Tiquetera 8", status: "Activo" },
-                { id: 3, name: "Elena Rojas", plan: "Clase Suelta", status: "Inactivo" },
-                { id: 4, name: "Marco Antonio Solís", plan: "Full Pass Pareja", status: "Activo" },
-                { id: 5, name: "Valentina Castro", plan: "Plan Semestral", status: "Pendiente" }
+                { id: "alumno", name: "Estudiante Demo", pass: "1234", planId: 1, active: true }, // planId 1 = Semestral
+                { id: 2, name: "Carlos V.", planId: 2, active: true }
             ],
+            
             espacios: [
                 { id: 1, name: "Salón Principal", capacity: "60", desc: "120m², Piso flotante, Espejos panorámicos, Aire Acondicionado.", img: "https://images.unsplash.com/photo-1519671482502-9759101d4561?auto=format&fit=crop&w=600" },
                 { id: 2, name: "Studio B", capacity: "15", desc: "Ideal para clases privadas, grabaciones y ensayos de grupos pequeños.", img: "https://images.unsplash.com/photo-1571216682227-e4bb00b3d87b?auto=format&fit=crop&w=600" }
@@ -1041,11 +1104,23 @@
                     this.currentRole = savedRole;
                 }
                 
+                // 1. Renderizado de Componentes Públicos
                 this.renderPublic();
                 this.renderNosotros();
+                this.renderAgenda(); // <--- NUEVO: Carga la agenda semanal en la web pública
 
-                // AJUSTE PUNTUAL: Disparamos la navegación inicial para que el Router pinte el botón
-                const startView = this.currentRole === 'admin' ? 'admin' : 'inicio';
+                // 2. Lógica de Navegación Inicial Inteligente
+                let startView = 'inicio';
+
+                if (this.currentRole === 'admin') {
+                    startView = 'admin';
+                } 
+                else if (this.currentRole === 'alumno') {
+                    startView = 'alumno';
+                    this.renderStudentPortal(); // <--- NUEVO: Carga los datos privados del alumno
+                }
+
+                // 3. Ejecutar Navegación
                 Router.go(startView);
             },
 
@@ -1135,7 +1210,8 @@
                 this.currentRole = null; 
                 sessionStorage.removeItem('app_role');
                 document.body.classList.remove('admin-mode'); // Liberamos el scroll
-                window.location.reload(); // Limpieza total de arquitectura
+                Router.go('inicio');
+                this.toggleLoginModal();
             },
 
 
@@ -1183,8 +1259,10 @@
                 
                 // 4. Clases (Grid) - Renderizado Dinámico 2.0
                 const classesGrid = document.getElementById('classes-grid');
-                // Usamos DataManager.get() para asegurar datos frescos
-                const clasesData = DataManager.get().clases || [];
+                
+                // FILTRO: Solo visibles
+                const clasesData = (DataManager.get().clases || []).filter(c => c.visible !== false);
+                const animEnabled = DataManager.get().config.enableAnimations;
                 
                 if(classesGrid) {
                     if (clasesData.length === 0) {
@@ -1193,10 +1271,10 @@
                         classesGrid.innerHTML = clasesData.map(c => `
                             <div class="glass-card rounded-xl overflow-hidden group border border-white/5 hover:border-gold/50 transition-all duration-500 flex flex-col h-full">
                                
-                               
-                               
-                                <div class="h-56 relative overflow-hidden">
-                                    <div class="flex w-full h-full transition-transform duration-1000" style="width:${(c.gallery||[c.img]).length}00%; animation: slideX ${(c.gallery||[c.img]).length * 3}s infinite alternate ease-in-out;">
+                                <div class="h-56 relative overflow-hidden bg-black">
+                                    <div class="flex w-full h-full transition-transform duration-1000" 
+                                         style="width:${(c.gallery||[c.img]).length}00%; 
+                                         ${animEnabled ? `animation: slideX ${(c.gallery||[c.img]).length * 3}s infinite alternate ease-in-out;` : ''}">
                                         ${(c.gallery || [c.img]).map(img => `<img src="${img}" class="w-full h-full object-cover filter brightness-75 group-hover:brightness-100">`).join('')}
                                     </div>
                                     <style> @keyframes slideX { 0% { transform: translateX(0); } 100% { transform: translateX(-${(c.gallery||[c.img]).length > 1 ? ((c.gallery||[c.img]).length - 1) * (100 / (c.gallery||[c.img]).length) : 0}%); } } </style>
@@ -1542,11 +1620,25 @@
 
             // --- NUEVO SISTEMA DE EXPERIENCIA DE CLASE ---
 
-            openClassDetails(id) {
+            openClassDetails(id, specificSessionStr = null) {
                 const c = DataManager.get().clases.find(x => x.id == id);
                 if(!c) return;
                 const images = c.gallery || [c.img];
 
+                // LÓGICA DE HORARIO: Específico vs General
+                let scheduleDisplay = '';
+                if (specificSessionStr) {
+                    // Si viene de Agenda: Muestra solo esa fecha/hora
+                    scheduleDisplay = `<p class="text-2xl text-gold font-serif font-bold border-b border-white/10 pb-4 mb-6 animate-pulse">${specificSessionStr}</p>`;
+                } else {
+                    // Si viene de Clases: Muestra lista de horarios generales
+                    if (c.showSchedule !== false && c.schedules && c.schedules.length > 0) {
+                        const days = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+                        const list = c.schedules.map(s => `<span class="block text-gray-300"><span class="text-gold w-8 inline-block">${days[s.day]}</span> ${s.time}</span>`).join('');
+                        scheduleDisplay = `<div class="mb-6 p-4 bg-white/5 rounded-lg border border-white/5">${list}</div>`;
+                    }
+                }
+                
 
                 // 1. Procesamiento de Texto Rico (* Título ORO)
                 const formatDetails = (text) => {
@@ -1599,12 +1691,17 @@
                                 <div class="h-[60%] md:h-full flex flex-col bg-[#08090B] relative z-20 overflow-hidden">
                                     
                                     <div class="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar">
+                                        
                                         <div class="dance-item dance-delay-1">
-                                            ${c.showSchedule !== false ? `
-                                            <h4 class="text-gold text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-regular fa-clock"></i> Horario</h4>
-                                            <p class="text-xl text-white font-sans font-light border-b border-white/10 pb-4 mb-6">${c.schedule}</p>` : ''}
+                                        
+                                            <h4 class="text-gold text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+                                                <i class="fa-regular fa-clock"></i> Horario ${specificSessionStr ? 'Sesión' : 'General'}
+                                            </h4>
+                                            
+                                            ${scheduleDisplay}
                                             <div class="prose prose-invert prose-sm max-w-none text-gray-300 pb-4">${formatDetails(c.details || c.desc)}</div>
                                         </div>
+                                        
                                     </div>
 
                                     <div class="p-6 md:p-8 border-t border-white/10 bg-[#08090B] shrink-0 z-30 dance-item dance-delay-3 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
@@ -1754,6 +1851,363 @@
                 }
             },
 
+            // --- AGENDA PÚBLICA (TABLA SEMANAL) ---
+            agendaOffset: 0, // Semana actual (0), próxima (1), anterior (-1)
+
+            renderAgenda() {
+                const container = document.getElementById('agenda-container');
+                if(!container) return;
+
+                const d = DataManager.get();
+                const sesiones = d.sesiones || [];
+                // FONDO CUSTOM
+                const bgImage = d.config.hero.agendaBg || "https://images.unsplash.com/photo-1545959570-a9477eb37265"; 
+
+                const section = document.getElementById('view-agenda');
+                if(section) {
+                    // Ajuste puntual: Opacidad media (0.75 en bordes, 0.50 en el centro)
+                    section.style.backgroundImage = `linear-gradient(to bottom, rgba(2,2,3,0.75) 0%, rgba(2,2,3,0.5) 50%, rgba(2,2,3,0.75) 100%), url('${bgImage}')`;
+                    section.style.backgroundSize = 'cover';
+                    section.style.backgroundAttachment = 'fixed';
+                }
+
+                // Cálculos de Fecha
+                const curr = new Date();
+                const day = curr.getDay() || 7; 
+                const monday = new Date(curr.setDate(curr.getDate() - day + 1 + (this.agendaOffset * 7)));
+                monday.setHours(0,0,0,0);
+                
+                const sunday = new Date(monday);
+                sunday.setDate(monday.getDate() + 6);
+
+                const weekDays = [];
+                for(let i=0; i<7; i++) {
+                    const date = new Date(monday);
+                    date.setDate(monday.getDate() + i);
+                    weekDays.push(date);
+                }
+
+                // LÓGICA DE MES INTELIGENTE
+                const m1 = monday.toLocaleDateString('es-CR', {month:'long'}).toUpperCase();
+                const m2 = sunday.toLocaleDateString('es-CR', {month:'long'}).toUpperCase();
+                const titleDate = (m1 === m2) 
+                    ? `<span class="text-white">${monday.getDate()}</span> - <span class="text-white">${sunday.getDate()}</span> DE <span class="text-gold font-bold">${m1}</span>`
+                    : `<span class="text-white">${monday.getDate()} ${m1.slice(0,3)}</span> - <span class="text-white">${sunday.getDate()} ${m2.slice(0,3)}</span>`;
+
+                container.className = "w-full relative z-10"; 
+                container.innerHTML = `
+                    <div class="flex justify-between items-center mb-12">
+                        <button onclick="App.agendaOffset--; App.renderAgenda()" class="w-12 h-12 rounded-full border border-white/10 hover:border-gold text-white hover:text-gold transition-all flex items-center justify-center bg-black/50 backdrop-blur-md"><i class="fa-solid fa-arrow-left"></i></button>
+                        
+                        <div class="text-center px-10 py-5 bg-black/80 backdrop-blur-xl border-2 border-gold rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)]">
+                            <span class="block text-[10px] text-gray-400 uppercase tracking-[0.4em] mb-2">Semana Actual</span>
+                            <h3 class="text-xl md:text-3xl font-serif tracking-widest text-gray-400">
+                                ${titleDate}
+                            </h3>
+                        </div>
+
+                        <button onclick="App.agendaOffset++; App.renderAgenda()" class="w-12 h-12 rounded-full border border-white/10 hover:border-gold text-white hover:text-gold transition-all flex items-center justify-center bg-black/50 backdrop-blur-md"><i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-7 gap-4">
+                        ${weekDays.map(date => {
+                            const dateStr = date.toDateString();
+                            const isToday = new Date().toDateString() === dateStr;
+                            
+                            // Filtrar sesiones
+                            const daySessions = sesiones.filter(s => new Date(s.date).toDateString() === dateStr).sort((a,b) => a.time.localeCompare(b.time));
+
+                            // ESTILOS DINÁMICOS
+                            
+                            const cardStyles = isToday 
+                                ? 'bg-[#08090B]/95 border-2 border-gold shadow-[0_0_30px_rgba(212,175,55,0.2)] z-10 scale-[1.02]' 
+                                : 'bg-[#08090B]/80 border border-white/10 hover:border-gold hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:-translate-y-1';
+                            const headerStyles = isToday ? 'bg-gold/10' : 'bg-transparent';
+                            const dayColor = isToday ? 'text-gold' : 'text-gray-400 group-hover/day:text-gold transition-colors';
+                            const numColor = isToday ? 'text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]' : 'text-white';
+
+                            return `
+                                <div class="flex flex-col h-full rounded-2xl overflow-hidden backdrop-blur-md transition-all duration-300 group/day ${cardStyles}">
+                                    
+                                    <div class="text-center p-4 border-b border-white/5 ${headerStyles}">
+                                        <span class="block text-[10px] font-bold uppercase tracking-[0.3em] mb-1 ${dayColor}">
+                                            ${date.toLocaleDateString('es-CR', {weekday: 'short'})}
+                                        </span>
+                                        <span class="block text-3xl font-serif font-black leading-none ${numColor}">
+                                            ${date.getDate()}
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="p-2 space-y-2 flex-1 min-h-[120px] flex flex-col justify-start">
+                                        ${daySessions.length === 0 ? '<div class="flex-1 flex items-center justify-center opacity-10"><i class="fa-solid fa-diamond text-2xl"></i></div>' : ''}
+                                        
+                                        ${daySessions.map(s => {
+                                            // Datos de la clase
+                                            let c = { name: s.customName || 'Evento Especial', level: 'General', id: null };
+                                            if (s.claseId) {
+                                                const found = d.clases.find(x => x.id === s.claseId);
+                                                if (found) c = found; 
+                                            }
+
+                                            // Interacción de la clase individual
+                                            const niceTime = s.time;
+                                            const niceDay = date.toLocaleDateString('es-CR', {weekday:'long'});
+                                            const clickAttr = s.claseId 
+                                                ? `onclick="App.openClassDetails(${s.claseId}, '${niceDay} ${niceTime}')"` 
+                                                : '';
+                                            
+                                            const itemCursor = s.claseId ? 'cursor-pointer hover:border-gold hover:bg-[#0F1115]' : 'cursor-default';
+                                            const reservados = (d.reservas || []).filter(r => r.sesionId === s.id).length;
+                                            const isFull = reservados >= s.capacity;
+
+                                            return `
+                                                <div class="bg-black/40 border border-white/5 p-3 rounded-lg relative group/item transition-all duration-300 ${itemCursor}" ${clickAttr}>
+                                                    
+                                                    <div class="flex justify-between items-center mb-1.5">
+                                                        <span class="text-[10px] font-mono text-gold/80 group-hover/item:text-gold">${s.time}</span>
+                                                        ${isFull ? '<span class="text-[8px] bg-rose text-white px-1.5 py-0.5 rounded font-bold shadow-sm shadow-rose/20">FULL</span>' : ''}
+                                                    </div>
+                                                    
+                                                    <h4 class="text-xs font-bold text-white leading-tight mb-2 group-hover/item:text-white transition-colors">
+                                                        ${c.name}
+                                                    </h4>
+                                                    
+                                                    <span class="inline-block text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${
+                                                        c.level.includes('Principiante') ? 'text-emerald-400 bg-emerald-950/30 border-emerald-500/30' :
+                                                        c.level.includes('Intermedio') ? 'text-amber-400 bg-amber-950/30 border-amber-500/30' :
+                                                        c.level.includes('Avanzado') ? 'text-rose-400 bg-rose-950/30 border-rose-500/30' :
+                                                        'text-blue-400 bg-blue-950/30 border-blue-500/30'
+                                                    }">
+                                                        ${c.level}
+                                                    </span>
+                                                    
+                                                    ${s.claseId ? `
+                                                    <div class="absolute right-2 bottom-2 opacity-0 group-hover/item:opacity-100 transition-opacity transform translate-x-2 group-hover/item:translate-x-0">
+                                                        <i class="fa-solid fa-chevron-right text-[10px] text-gold"></i>
+                                                    </div>` : ''}
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            },
+
+            // --- PORTAL ALUMNO: CORE ---
+            renderStudentPortal() {
+                const studentId = "alumno"; 
+                const d = DataManager.get();
+                const alumno = d.alumnos.find(a => a.id === studentId);
+                const plan = d.membresias.find(m => m.id === alumno.planId);
+                
+                $('#student-name').innerText = alumno.name;
+                
+                // Cálculo de cupos semanales
+                const curr = new Date();
+                const first = curr.getDate() - curr.getDay() + 1;
+                const weekStart = new Date(curr.setDate(first)).setHours(0,0,0,0);
+                const weekEnd = new Date(curr.setDate(first + 6)).setHours(23,59,59,999);
+
+                const reservasSemana = d.reservas.filter(r => 
+                    r.alumnoId === studentId && 
+                    new Date(d.sesiones.find(s=>s.id===r.sesionId)?.date) >= weekStart &&
+                    new Date(d.sesiones.find(s=>s.id===r.sesionId)?.date) <= weekEnd
+                ).length;
+
+                const creditosRestantes = plan.limit - reservasSemana;
+
+                const container = document.querySelector('#view-alumno .container');
+                container.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/10 pb-6 gap-4">
+                        <div>
+                            <h1 class="text-3xl font-serif font-bold text-white">Hola, <span class="text-neon">${alumno.name}</span></h1>
+                            <p class="text-gray-400 text-sm mt-1">${plan.name} • <span class="${creditosRestantes > 0 ? 'text-success' : 'text-rose'} font-bold">${creditosRestantes} Clases Disponibles esta semana</span></p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="App.startQRScanner()" class="btn-galaxy px-6 py-3 rounded-full text-xs font-bold shadow-lg flex items-center gap-2 hover:scale-105 transition-transform">
+                                <i class="fa-solid fa-qrcode text-lg"></i> ESCANEAR ASISTENCIA
+                            </button>
+                            <button onclick="App.logout()" class="text-xs text-danger border border-danger/30 px-6 py-2 rounded-full hover:bg-danger/10 transition-colors">Salir</button>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-8 mb-8 border-b border-white/5">
+                        <button onclick="App.renderStudentTab('reservar')" id="tab-st-reservar" class="text-gold border-b-2 border-gold pb-4 text-sm font-bold uppercase tracking-widest">Reservar Clase</button>
+                        <button onclick="App.renderStudentTab('historial')" id="tab-st-historial" class="text-gray-500 hover:text-white pb-4 text-sm font-bold uppercase tracking-widest transition-colors">Historial & Media</button>
+                    </div>
+
+                    <div id="student-tab-content" class="min-h-[400px] fade-in"></div>
+                `;
+                
+                this.renderStudentTab('reservar');
+            },
+
+            renderStudentTab(tab) {
+                document.getElementById('tab-st-reservar').className = tab==='reservar' ? "text-gold border-b-2 border-gold pb-4 text-sm font-bold uppercase tracking-widest" : "text-gray-500 hover:text-white pb-4 text-sm font-bold uppercase tracking-widest transition-colors border-b-2 border-transparent";
+                document.getElementById('tab-st-historial').className = tab==='historial' ? "text-gold border-b-2 border-gold pb-4 text-sm font-bold uppercase tracking-widest" : "text-gray-500 hover:text-white pb-4 text-sm font-bold uppercase tracking-widest transition-colors border-b-2 border-transparent";
+
+                const content = document.getElementById('student-tab-content');
+                const d = DataManager.get();
+                const studentId = "alumno"; 
+
+                if (tab === 'reservar') {
+                    const now = new Date();
+                    const available = d.sesiones.filter(s => {
+                        const date = new Date(s.date);
+                        const isFuture = date >= now;
+                        const isReserved = d.reservas.some(r => r.sesionId === s.id && r.alumnoId === studentId);
+                        const reservedCount = d.reservas.filter(r => r.sesionId === s.id).length;
+                        return isFuture && !isReserved && reservedCount < s.capacity;
+                    }).sort((a,b) => new Date(a.date) - new Date(b.date));
+
+                    if (available.length === 0) {
+                        content.innerHTML = '<p class="text-gray-500 text-center py-20 italic">No hay clases disponibles para reservar en este momento.</p>';
+                        return;
+                    }
+
+                    content.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        ${available.map(s => {
+                            const c = d.clases.find(x => x.id === s.claseId);
+                            const spots = s.capacity - d.reservas.filter(r => r.sesionId === s.id).length;
+                            return `
+                                <div class="bg-panel border border-white/5 p-6 rounded-xl group hover:border-gold/30 transition-all flex flex-col">
+                                    <div class="flex justify-between mb-4 border-b border-white/5 pb-4">
+                                        <span class="text-gold text-sm font-bold uppercase">${new Date(s.date).toLocaleDateString('es-CR', {weekday: 'long', day: 'numeric'})}</span>
+                                        <span class="text-gray-400 text-xs bg-black/40 px-2 py-1 rounded">${s.time}</span>
+                                    </div>
+                                    <h3 class="text-white font-bold text-xl mb-1">${c.name}</h3>
+                                    <p class="text-xs text-gray-500 mb-6">${c.level}</p>
+                                    <div class="mt-auto flex justify-between items-center">
+                                        <span class="text-[10px] text-gray-500 uppercase tracking-wider">${spots} lugares</span>
+                                        <button onclick="App.studentReserve(${s.id})" class="bg-white/10 hover:bg-gold hover:text-black text-white px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors shadow-lg">Reservar</button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>`;
+
+                } else {
+                    const myReservations = d.reservas.filter(r => r.alumnoId === studentId);
+                    const mySessions = myReservations.map(r => {
+                        const s = d.sesiones.find(x => x.id === r.sesionId);
+                        return { ...s, reserva: r };
+                    }).sort((a,b) => new Date(b.date) - new Date(a.date));
+
+                    if (mySessions.length === 0) {
+                        content.innerHTML = '<p class="text-gray-500 text-center py-20 italic">No tienes historial de clases.</p>';
+                        return;
+                    }
+
+                    content.innerHTML = `<div class="space-y-4">
+                        ${mySessions.map(s => {
+                            const c = d.clases.find(x => x.id === s.claseId);
+                            const isPast = new Date(s.date) < new Date();
+                            const hasMedia = s.media && (s.media.photos?.[0] || s.media.videos?.[0]);
+
+                            return `
+                                <div class="bg-panel border border-white/5 p-6 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-white/5 transition-colors">
+                                    <div class="flex items-center gap-6 w-full md:w-auto">
+                                        <div class="w-16 h-16 rounded-full bg-black flex flex-col items-center justify-center text-gold border border-white/10 shrink-0">
+                                            <span class="text-xl font-black leading-none">${new Date(s.date).getDate()}</span>
+                                            <span class="text-[9px] uppercase">${new Date(s.date).toLocaleDateString('es-CR', {month:'short'})}</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-white font-bold text-lg">${c.name}</h3>
+                                            <p class="text-xs text-gray-500 mt-1">${s.time}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center gap-4 w-full md:w-auto justify-end">
+                                        ${s.reserva.asistencia 
+                                            ? '<span class="text-success text-[10px] font-bold border border-success/30 px-4 py-1 rounded-full uppercase tracking-wider bg-success/10">ASISTIÓ</span>' 
+                                            : isPast 
+                                                ? '<span class="text-rose text-[10px] font-bold border border-rose/30 px-4 py-1 rounded-full uppercase tracking-wider bg-rose/10">AUSENTE</span>' 
+                                                : '<button onclick="App.studentCancel('+s.reserva.id+')" class="text-rose text-xs hover:text-white font-bold uppercase tracking-wider transition-colors border border-rose/30 px-4 py-1 rounded hover:bg-rose hover:border-rose">Cancelar</button>'
+                                        }
+                                        
+                                        ${hasMedia && s.reserva.asistencia ? `
+                                            <div class="h-8 w-px bg-white/10 mx-2"></div>
+                                            <button onclick="window.open('${s.media.photos[0]}')" class="text-blue-400 hover:text-white p-2 transition-colors tooltip" title="Fotos"><i class="fa-solid fa-camera text-xl"></i></button>
+                                            <button onclick="window.open('${s.media.videos[0]}')" class="text-rose-400 hover:text-white p-2 transition-colors tooltip" title="Video"><i class="fa-solid fa-video text-xl"></i></button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>`;
+                }
+            },
+
+            studentReserve(sessionId) {
+                const d = DataManager.get();
+                // Lógica simplificada de cupo semanal
+                d.reservas.push({ id: Date.now(), sesionId: sessionId, alumnoId: "alumno", asistencia: false });
+                DataManager.save(d);
+                Swal.fire({ title: '¡Clase Reservada!', text: 'Nos vemos en la pista.', icon: 'success', background: '#05060b', color: '#fff', confirmButtonColor: '#D4AF37' });
+                this.renderStudentPortal();
+            },
+
+            studentCancel(reservaId) {
+                const d = DataManager.get();
+                d.reservas = d.reservas.filter(r => r.id !== reservaId);
+                DataManager.save(d);
+                this.renderStudentPortal();
+                const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, background: '#000', color: '#fff' });
+                Toast.fire({ icon: 'info', title: 'Reserva cancelada' });
+            },
+
+            // --- SCANNER QR REAL ---
+            startQRScanner() {
+                const html = `
+                    <div id="qr-reader" class="rounded-xl overflow-hidden border-2 border-gold"></div>
+                    <button onclick="App.stopQRScanner()" class="mt-6 w-full text-center text-gray-500 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">Cerrar Cámara</button>
+                `;
+                $('#modal-title').innerText = "ESCANEAR CÓDIGO";
+                $('#modal-body').innerHTML = html;
+                $('#modal').classList.remove('hidden');
+                setTimeout(() => $('#modal').classList.remove('opacity-0'), 10);
+
+                this.html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+                this.html5QrcodeScanner.render((txt) => this.handleQRSuccess(txt));
+            },
+
+            stopQRScanner() {
+                if(this.html5QrcodeScanner) {
+                    this.html5QrcodeScanner.clear().then(() => App.closeModal()).catch(() => App.closeModal());
+                } else {
+                    App.closeModal();
+                }
+            },
+
+            handleQRSuccess(token) {
+                this.stopQRScanner();
+                const d = DataManager.get();
+                const session = d.sesiones.find(s => s.qrToken === token);
+                
+                if (!session) return Swal.fire({ icon: 'error', title: 'Código Inválido', background: '#000', color: '#fff' });
+
+                const studentId = "alumno";
+                const reservaIdx = d.reservas.findIndex(r => r.sesionId === session.id && r.alumnoId === studentId);
+
+                if (reservaIdx > -1) {
+                    if(d.reservas[reservaIdx].asistencia) {
+                        Swal.fire({ icon: 'info', title: 'Ya registrado', text: 'Tu asistencia ya estaba marcada.', background: '#000', color: '#fff' });
+                    } else {
+                        d.reservas[reservaIdx].asistencia = true;
+                        DataManager.save(d);
+                        Swal.fire({ icon: 'success', title: '¡Asistencia Confirmada!', text: 'A bailar.', background: '#000', color: '#fff', confirmButtonColor: '#D4AF37' });
+                        this.renderStudentPortal();
+                    }
+                } else {
+                    d.reservas.push({ id: Date.now(), sesionId: session.id, alumnoId: studentId, asistencia: true });
+                    DataManager.save(d);
+                    Swal.fire({ icon: 'success', title: '¡Bienvenido!', text: 'Reserva creada y asistencia marcada.', background: '#000', color: '#fff', confirmButtonColor: '#D4AF37' });
+                    this.renderStudentPortal();
+                }
+            },
 
         };
 
@@ -1957,8 +2411,8 @@
                         else if(tabId === 'nosotros') this.renderNosotrosEditor(target); // Pasamos el target directo
                         else if(tabId === 'clases') this.renderClasesEditor(target); // NUEVO ENRUTAMIENTO
                         else if(tabId === 'membresias') this.renderMembresiasEditor(target);
+                        else if(tabId === 'agenda') this.renderAgendaEditor(target);
                         else if(tabId === 'config') target.innerHTML = this.genConfig();
-                        else if(tabId === 'agenda') target.innerHTML = `<h2 class="text-3xl font-display font-bold mb-6">Agenda</h2><p class="text-gray-500">Edición compleja próximamente.</p>`;
                         else target.innerHTML = this.genGenericTable(tabId);
                     } catch (e) {
                         console.error(`Error renderizando ${tabId}:`, e);
@@ -2020,10 +2474,12 @@
                     return el ? el.value : '';
                 };
 
-                // 3. Actualizar objeto con los IDs DEL PASO 2
+                // Funciones de guardar
                 data.config.hero.title = getVal('ed-hero-title');
                 data.config.hero.subtitle = getVal('ed-hero-sub');
                 data.config.hero.bgImage = getVal('ed-hero-img');
+
+                data.config.hero.agendaBg = getVal('ed-agenda-img');
                 
                 data.config.hero.ctaPrimary.text = getVal('ed-btn1-txt');
                 data.config.hero.ctaPrimary.link = getVal('ed-btn1-link');
@@ -2406,8 +2862,11 @@
                             ${inp('ed-hero-title', 'Título Principal', conf.hero.title)}
                             ${inp('ed-hero-sub', 'Subtítulo', conf.hero.subtitle)}
                             ${inp('ed-hero-img', 'URL Imagen de Fondo', conf.hero.bgImage)}
+                            ${inp('ed-agenda-img', 'Fondo Sección Agenda', conf.hero.agendaBg || '')}
 
                             <div class="grid md:grid-cols-2 gap-6 pt-6 border-t border-white/10 mt-6">
+                                
+                                
                                 <div class="bg-white/5 p-4 rounded-xl border border-white/5">
                                     <h4 class="text-gold text-[10px] font-bold uppercase mb-3">Botón Principal</h4>
                                     ${inp('ed-btn1-txt', 'Texto', conf.hero.ctaPrimary.text)}
@@ -2418,6 +2877,15 @@
                                     ${inp('ed-btn2-txt', 'Texto', conf.hero.ctaSecondary.text)}
                                     ${makeSelect('ed-btn2-link', conf.hero.ctaSecondary.link)}
                                 </div>
+
+                                <div class="bg-white/5 p-4 rounded-xl border border-white/5 mt-4 flex justify-between items-center">
+                                    <span class="text-xs font-bold text-gray-400 uppercase">Animación de Galería (Auto-Scroll)</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="ed-anim-toggle" class="sr-only peer" ${conf.enableAnimations ? 'checked' : ''} onchange="const d=DataManager.get(); d.config.enableAnimations=this.checked; DataManager.save(d); App.renderPublic();">
+                                        <div class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gold"></div>
+                                    </label>
+                                </div>
+
                             </div>
 
                             <button onclick="Admin.saveHeroSettings()" class="btn-galaxy w-full py-4 rounded-lg font-bold mt-6 uppercase tracking-widest shadow-lg text-black hover:scale-[1.01] transition-transform">
@@ -2449,6 +2917,8 @@
                                 <div class="bg-panel p-6 rounded-2xl border border-white/10 group hover:border-gold/30 transition-all relative">
                                     <button onclick="Admin.removeClaseItem(${i})" class="absolute top-4 right-4 text-gray-600 hover:text-rose bg-black/50 w-8 h-8 rounded-full flex items-center justify-center transition-colors z-10"><i class="fa-solid fa-trash text-xs"></i></button>
                                     
+
+
                                     <div class="flex gap-4 mb-4">
                                         <div class="w-24 h-24 rounded-lg overflow-hidden border border-white/10 shrink-0 relative group-hover:border-gold/50 transition-colors">
                                             <img src="${c.img}" class="w-full h-full object-cover">
@@ -2459,8 +2929,19 @@
                                         </div>
 
                                         <div class="flex-1 space-y-2">
+                                            <input type="text" class="bg-transparent text-lg font-bold text-white w-full border-b border-transparent focus:border-gold outline-none placeholder-gray-600 name-input h-10" value="${c.name}" oninput="Admin.updateClasesArray()" placeholder="Nombre de la Clase">
+                                            
+                                            <div class="flex justify-end absolute top-4 right-14">
+                                                <label class="flex items-center gap-2 cursor-pointer bg-black/50 px-3 py-1 rounded border border-white/10 hover:border-gold/50 transition-colors" title="Visible en Web">
+                                                    <span class="text-[9px] text-gray-400 uppercase font-bold">Visible</span>
+                                                    <input type="checkbox" class="accent-success w-3 h-3 toggle-visible" ${c.visible !== false ? 'checked' : ''} onchange="Admin.updateClasesArray()">
+                                                </label>
+                                            </div>
+
                                             <input type="text" class="bg-transparent text-lg font-bold text-white w-full border-b border-transparent focus:border-gold outline-none placeholder-gray-600 name-input" value="${c.name}" oninput="Admin.updateClasesArray()" placeholder="Nombre de la Clase">
                                             
+
+
                                             <div class="flex flex-wrap gap-3 items-center mt-2">
                                                 <select class="bg-[#05060b] text-[10px] text-neon border border-white/10 rounded px-2 py-1 outline-none uppercase font-bold level-select" onchange="Admin.updateClasesArray()">
                                                     <option value="Principiante" ${c.level==='Principiante'?'selected':''}>Principiante</option>
@@ -2469,16 +2950,43 @@
                                                     <option value="Open Level" ${c.level==='Open Level'?'selected':''}>Open Level</option>
                                                 </select>
                                                 
-                                                <label class="flex items-center gap-1 cursor-pointer">
-                                                    <input type="checkbox" class="accent-gold w-3 h-3 toggle-schedule" ${c.showSchedule !== false ? 'checked' : ''} onchange="Admin.updateClasesArray()">
-                                                    <span class="text-[10px] text-gray-500 uppercase">Horario</span>
-                                                </label>
-                                                <input type="text" class="bg-transparent text-xs text-gold border-b border-white/10 w-24 outline-none placeholder-gray-700 schedule-input" value="${c.schedule}" oninput="Admin.updateClasesArray()" placeholder="Lun 7PM">
+                                                <div class="flex items-center gap-2 bg-black/40 px-2 py-1 rounded border border-white/5">
+                                                    <span class="text-[9px] text-gray-500 uppercase font-bold">Cupo:</span>
+                                                    <input type="number" class="bg-transparent text-xs text-white w-8 text-center outline-none cap-input" value="${c.defaultCapacity || 25}" oninput="Admin.updateClasesArray()">
+                                                </div>
 
                                                 <label class="flex items-center gap-1 cursor-pointer ml-auto border-l border-white/10 pl-3">
                                                     <input type="checkbox" class="accent-gold w-3 h-3 toggle-price" ${c.showPrice ? 'checked' : ''} onchange="Admin.updateClasesArray()">
                                                     <span class="text-[10px] text-gold uppercase font-bold">Mostrar Precio</span>
                                                 </label>
+                                            </div>
+
+                                            <div class="mt-2 bg-black/20 p-2 rounded border border-white/5">
+                                                <div class="flex justify-between items-center mb-2 pb-2 border-b border-white/5">
+                                                    <label class="flex items-center gap-2 cursor-pointer">
+                                                        <input type="checkbox" class="accent-neon w-3 h-3 toggle-schedule" ${c.showSchedule !== false ? 'checked' : ''} onchange="Admin.updateClasesArray()">
+                                                        <span class="text-[9px] text-gray-500 uppercase font-bold">Mostrar en Web</span>
+                                                    </label>
+                                                    <button onclick="Admin.addSchedule(${i})" class="text-[9px] bg-neon/10 text-neon hover:bg-neon hover:text-black px-2 py-0.5 rounded transition-colors font-bold">+ HORARIO</button>
+                                                </div>
+                                                
+                                                <div class="space-y-1 schedule-container">
+                                                    ${(c.schedules || []).map((s, sIdx) => `
+                                                        <div class="flex gap-2 items-center group/sch">
+                                                            <select class="bg-[#05060b] text-[10px] text-gray-300 border border-white/10 rounded px-1 outline-none sch-day" onchange="Admin.updateClasesArray()">
+                                                                <option value="1" ${s.day==1?'selected':''}>Lun</option>
+                                                                <option value="2" ${s.day==2?'selected':''}>Mar</option>
+                                                                <option value="3" ${s.day==3?'selected':''}>Mié</option>
+                                                                <option value="4" ${s.day==4?'selected':''}>Jue</option>
+                                                                <option value="5" ${s.day==5?'selected':''}>Vie</option>
+                                                                <option value="6" ${s.day==6?'selected':''}>Sáb</option>
+                                                                <option value="0" ${s.day==0?'selected':''}>Dom</option>
+                                                            </select>
+                                                            <input type="time" class="bg-[#05060b] text-[10px] text-white border border-white/10 rounded px-1 outline-none sch-time" value="${s.time}" oninput="Admin.updateClasesArray()">
+                                                            <button onclick="Admin.removeSchedule(${i}, ${sIdx})" class="text-rose hover:text-white px-1"><i class="fa-solid fa-times text-[10px]"></i></button>
+                                                        </div>
+                                                    `).join('')}
+                                                </div>
                                             </div>
                                             
                                             <div class="grid grid-cols-2 gap-2 mt-2">
@@ -2507,6 +3015,9 @@
                                                     `).join('')}
                                                 </div>
                                             </div>
+
+
+
                                         </div>
                                     </div>
 
@@ -2603,24 +3114,34 @@
                     if(previewImg && previewImg.src !== mainImg) {
                         previewImg.src = mainImg;
                     }
+
+                    const schContainer = card.querySelector('.schedule-container');
+                    const schedules = Array.from(schContainer.querySelectorAll('.group\\/sch')).map(row => ({
+                        day: parseInt(row.querySelector('.sch-day').value),
+                        time: row.querySelector('.sch-time').value
+                    }));
+
                     // ---------------------------------------------------
 
                     // 2. RETORNO DE DATOS
                     return {
                         id: originalId,
                         img: mainImg,
-                        gallery: galleryArr,
+                        gallery: galleryArr.length > 0 ? galleryArr : [mainImg],
                         
                         name: card.querySelector('.name-input').value,
+                        visible: card.querySelector('.toggle-visible').checked,
+
                         level: card.querySelector('.level-select').value,
-                        schedule: card.querySelector('.schedule-input').value,
-                        
+
+                        schedules: schedules,
+                        showSchedule: card.querySelector('.toggle-schedule').checked,
+                        defaultCapacity: parseInt(card.querySelector('.cap-input').value) || 25,
+
                         priceCRC: card.querySelector('.price-crc-input').value,
                         priceUSD: card.querySelector('.price-usd-input').value,
-                        
-                        showSchedule: card.querySelector('.toggle-schedule').checked,
                         showPrice: card.querySelector('.toggle-price').checked,
-                        
+
                         desc: card.querySelector('.desc-input').value,
                         details: card.querySelector('.detail-input').value
                     };
@@ -2743,6 +3264,478 @@
                 App.renderPublic();
             },
 
+            // --- GESTIÓN AGENDA (FIXED & STYLED) ---
+            renderAgendaEditor(container) {
+                if(!container) return;
+                const sesiones = DataManager.get().sesiones || [];
+                const todayStart = new Date().setHours(0,0,0,0);
+                const upcoming = sesiones.filter(s => new Date(s.date) >= todayStart).sort((a,b) => new Date(a.date) - new Date(b.date));
+
+                container.innerHTML = `
+                    <div class="max-w-6xl mx-auto pb-20 fade-in">
+                        <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+                            <div>
+                                <h1 class="text-3xl font-serif font-bold text-white">Agenda Maestra</h1>
+                                <p class="text-gray-400 text-sm mt-1">Gestión operativa y contenido.</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="Admin.addCustomSession()" class="bg-white/10 hover:bg-gold hover:text-black text-white px-4 py-3 rounded-lg text-xs font-bold transition-colors">+ EXTRA</button>
+                                <button onclick="Admin.seedAgenda()" class="btn-galaxy px-6 py-3 rounded-lg text-xs font-bold shadow-lg hover:scale-105 transition-transform"><i class="fa-solid fa-sync mr-2"></i> SINCRONIZAR MES</button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            ${upcoming.map(s => {
+                                const clasePadre = s.claseId ? DataManager.get().clases.find(c => c.id === s.claseId) : null;
+                                const nombre = s.customName || (clasePadre ? clasePadre.name : 'Evento');
+                                const reservados = (DataManager.get().reservas || []).filter(r => r.sesionId === s.id).length;
+                                const isToday = new Date(s.date).toDateString() === new Date().toDateString();
+                                const borderClass = isToday ? 'border-gold bg-gold/5' : 'border-white/10 bg-panel';
+
+                                return `
+                                <div class="p-4 rounded-xl border ${borderClass} flex flex-col md:flex-row items-center gap-4 group hover:bg-white/5 transition-colors relative">
+                                    <button onclick="Admin.deleteSession(${s.id})" class="absolute top-2 right-2 text-white/20 hover:text-rose transition-colors z-10"><i class="fa-solid fa-times"></i></button>
+
+                                    <div class="flex items-center gap-6 flex-1 w-full">
+                                        <div class="flex flex-col gap-2 min-w-[110px]">
+                                            <div class="flex items-center gap-3 text-gold relative input-wrapper group/date">
+                                                <i class="fa-regular fa-calendar text-lg group-hover/date:scale-110 transition-transform pointer-events-none"></i>
+                                                <input type="date" class="bg-transparent text-[11px] text-gold font-bold border-none outline-none w-full uppercase cursor-pointer" 
+                                                    value="${new Date(s.date).toISOString().split('T')[0]}" 
+                                                    onchange="Admin.updateSessionField(${s.id}, 'date', this.value)">
+                                            </div>
+                                            
+                                            <div class="flex items-center gap-3 text-white relative input-wrapper group/time">
+                                                <i class="fa-regular fa-clock text-gold text-lg group-hover/time:scale-110 transition-transform pointer-events-none"></i>
+                                                <input type="time" class="bg-transparent text-sm font-mono text-white border-none outline-none w-full cursor-pointer" 
+                                                    value="${s.time}" 
+                                                    onchange="Admin.updateSessionField(${s.id}, 'time', this.value)">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flex-1 border-l border-white/10 pl-6">
+                                            
+                                            <div class="mb-2">
+                                                <select onchange="Admin.linkSessionClass(${s.id}, this.value)" class="bg-[#05060b] text-xs text-gold border border-white/10 rounded px-2 py-1 outline-none w-full max-w-[200px] cursor-pointer hover:border-gold transition-colors">
+                                                    <option value="custom" ${!s.claseId ? 'selected' : ''}>★ Evento Personalizado</option>
+                                                    ${DataManager.get().clases.map(c => `
+                                                        <option value="${c.id}" ${s.claseId === c.id ? 'selected' : ''}>${c.name}</option>
+                                                    `).join('')}
+                                                </select>
+                                            </div>
+
+                                            ${!s.claseId ? `
+                                                <input type="text" class="bg-transparent text-lg font-bold text-white border-b border-white/10 focus:border-gold outline-none w-full placeholder-gray-500 mb-1" value="${s.customName || ''}" placeholder="Escribe el nombre del evento..." onchange="Admin.updateSessionField(${s.id}, 'customName', this.value)">
+                                            ` : `
+                                                <h3 class="text-lg font-bold text-white mb-1">${DataManager.get().clases.find(c=>c.id===s.claseId)?.name || 'Clase'}</h3>
+                                            `}
+                                            
+                                            <div class="flex items-center gap-3 mt-1">
+                                                <div class="flex items-center gap-1 bg-black/40 px-2 py-1 rounded border border-white/5">
+                                                    <span class="text-[9px] text-gray-500 uppercase">Cupo</span>
+                                                    <input type="number" class="bg-transparent text-xs text-white w-8 text-center outline-none" value="${s.capacity}" onchange="Admin.updateSessionField(${s.id}, 'capacity', this.value)">
+                                                </div>
+                                                <span class="text-[10px] text-neon uppercase tracking-wider font-bold">Inscritos: ${reservados}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-2 shrink-0">
+                                        <button onclick="Admin.manageAttendance(${s.id})" class="bg-white/10 hover:bg-neon hover:text-black text-white w-10 h-10 rounded-lg transition-colors flex items-center justify-center tooltip" title="Lista de Asistencia">
+                                            <i class="fa-solid fa-users"></i>
+                                        </button>
+                                        <button onclick="Admin.manageMedia(${s.id})" class="bg-white/10 hover:bg-rose hover:text-white text-white w-10 h-10 rounded-lg transition-colors flex items-center justify-center tooltip" title="Contenido Multimedia">
+                                            <i class="fa-solid fa-photo-film"></i>
+                                        </button>
+                                        <button onclick="Admin.projectQR('${s.qrToken}', '${nombre}')" class="bg-white/10 hover:bg-white hover:text-black text-white w-10 h-10 rounded-lg transition-colors flex items-center justify-center tooltip" title="QR Pantalla Completa">
+                                            <i class="fa-solid fa-qrcode"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+
+            // 1. MODAL DE ASISTENCIA (SEPARADO)
+            manageAttendance(id) {
+                const s = DataManager.get().sesiones.find(x => x.id === id);
+                const nombre = s.customName || (s.claseId ? DataManager.get().clases.find(c => c.id === s.claseId).name : 'Evento');
+                
+                // Aseguramos que reservas esté inicializado para evitar el error del filter
+                const allReservas = DataManager.get().reservas || [];
+                const reservas = allReservas.filter(r => r.sesionId === s.id);
+
+                const html = `
+                    <div class="bg-black/50 rounded-xl border border-white/10 overflow-hidden">
+                        <div class="p-3 border-b border-white/10 bg-white/5 flex justify-between">
+                            <span class="text-xs text-gray-400 uppercase font-bold">Alumno</span>
+                            <span class="text-xs text-gray-400 uppercase font-bold">Estado</span>
+                        </div>
+                        <ul class="max-h-60 overflow-y-auto custom-scrollbar p-2 space-y-1">
+                            ${reservas.length === 0 ? '<li class="text-gray-600 text-xs text-center py-4">Sin inscripciones</li>' : ''}
+                            ${reservas.map(r => {
+                                const alumno = DataManager.get().alumnos.find(a => a.id == r.alumnoId);
+                                return `<li class="flex justify-between items-center p-2 rounded hover:bg-white/5">
+                                    <span class="text-sm text-white">${alumno ? alumno.name : 'Invitado'}</span>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-bold ${r.asistencia ? 'bg-success/20 text-success' : 'bg-white/5 text-gray-500'}">${r.asistencia ? 'CONFIRMADO' : 'PENDIENTE'}</span>
+                                </li>`;
+                            }).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+                $('#modal-title').innerText = nombre;
+                $('#modal-subtitle').innerText = "LISTA DE ASISTENCIA";
+                $('#modal-body').innerHTML = html;
+                $('#modal-save-btn').classList.add('hidden'); 
+                $('#admin-modal').classList.remove('hidden');
+                setTimeout(()=>{$('#modal-backdrop').classList.remove('opacity-0'); $('#modal-panel').classList.remove('scale-95','opacity-0')},10);
+            },
+
+            // 2. MODAL DE MEDIA (SEPARADO)
+            manageMedia(id) {
+                const s = DataManager.get().sesiones.find(x => x.id === id);
+                
+                const html = `
+                    <div class="space-y-4">
+                        <div class="bg-blue-900/10 p-4 rounded-xl border border-blue-500/20">
+                            <label class="text-[10px] text-blue-400 uppercase font-bold block mb-2"><i class="fa-brands fa-google-drive mr-1"></i> Carpeta de Fotos (Drive)</label>
+                            <input type="text" id="sess-media-photo" class="w-full bg-black p-3 rounded text-xs text-white border border-white/10 focus:border-blue-500 outline-none" value="${s.media?.photos?.[0] || ''}" placeholder="https://drive.google.com/...">
+                        </div>
+                        <div class="bg-red-900/10 p-4 rounded-xl border border-red-500/20">
+                            <label class="text-[10px] text-red-400 uppercase font-bold block mb-2"><i class="fa-brands fa-youtube mr-1"></i> Video de Clase (Youtube)</label>
+                            <input type="text" id="sess-media-video" class="w-full bg-black p-3 rounded text-xs text-white border border-white/10 focus:border-red-500 outline-none" value="${s.media?.videos?.[0] || ''}" placeholder="https://youtube.com/...">
+                        </div>
+                        <button onclick="Admin.saveSessionMedia(${s.id})" class="btn-galaxy w-full py-3 rounded-lg text-xs font-bold shadow-lg">GUARDAR CONTENIDO</button>
+                    </div>
+                `;
+                
+                $('#modal-title').innerText = "Multimedia";
+                $('#modal-subtitle').innerText = "Compartir con alumnos";
+                $('#modal-body').innerHTML = html;
+                $('#modal-save-btn').classList.add('hidden'); 
+                $('#admin-modal').classList.remove('hidden');
+                setTimeout(()=>{$('#modal-backdrop').classList.remove('opacity-0'); $('#modal-panel').classList.remove('scale-95','opacity-0')},10);
+            },
+
+            // MOTOR DE SINCRONIZACIÓN INTELIGENTE V3.0
+            seedAgenda() {
+                const d = DataManager.get();
+                const clases = d.clases || [];
+                let existing = d.sesiones || [];
+                const reservas = d.reservas || [];
+                
+                // FECHAS DE CONTROL
+                const today = new Date();
+                today.setHours(0,0,0,0); // Inicio del día de hoy
+
+                // ======================================================
+                // FASE 1: LIMPIEZA INTELIGENTE (PRUNING)
+                // ======================================================
+                // Regla: Solo borramos sesiones FUTURAS que:
+                // 1. Fueron creadas automáticamente (auto: true)
+                // 2. Pertenecen a una clase que AHORA está oculta (visible: false) o eliminada.
+                // 3. CRÍTICO: NO TIENEN RESERVAS (Si hay alumnos, se respeta).
+                
+                const initialCount = existing.length;
+                
+                existing = existing.filter(s => {
+                    const sessionDate = new Date(s.date);
+                    
+                    // A. INMUTABILIDAD DEL PASADO: Si ya pasó, se queda.
+                    if (sessionDate < today) return true;
+
+                    // B. PROTECCIÓN MANUAL: Si es custom/extra (no tiene flag auto), se queda.
+                    if (s.auto !== true) return true;
+
+                    // C. ANÁLISIS DE LA CLASE MADRE
+                    const parentClass = clases.find(c => c.id === s.claseId);
+                    
+                    // Si la clase madre existe Y es visible, la sesión es válida. Se queda.
+                    if (parentClass && parentClass.visible !== false) return true;
+
+                    // D. PROTECCIÓN DE RESERVAS (El "Freno de Emergencia")
+                    // Llegamos aquí si la clase fue borrada u ocultada.
+                    // Verificamos si hay alumnos inscritos.
+                    const inscritos = reservas.filter(r => r.sesionId === s.id).length;
+                    
+                    if (inscritos > 0) {
+                        // ¡ALERTA! Hay alumnos. NO BORRAR.
+                        // (Opcional: Podríamos quitarle el flag 'auto' para que se vuelva manual y permanente)
+                        return true; 
+                    }
+
+                    // Si llegamos aquí: Es futura, automática, de clase oculta y SIN alumnos.
+                    // ADIÓS.
+                    return false;
+                });
+
+                const deletedCount = initialCount - existing.length;
+
+                // ======================================================
+                // FASE 2: SEMBRADO (SEEDING)
+                // ======================================================
+                // Regla: Solo generamos para clases VISIBLES en los huecos vacíos.
+                
+                let addedCount = 0;
+                const visibleClasses = clases.filter(c => c.visible !== false);
+                const daysMap = { 'domingo': 0, 'lunes': 1, 'martes': 2, 'miércoles': 3, 'miercoles': 3, 'jueves': 4, 'viernes': 5, 'sábado': 6, 'sabado': 6 }; // Fallback para legacy
+                
+                // Generar próximos 30 días
+                for (let i = 0; i < 30; i++) {
+                    const checkDate = new Date(today);
+                    checkDate.setDate(today.getDate() + i);
+                    const dayOfWeek = checkDate.getDay(); // 0-6
+
+                    visibleClasses.forEach(c => {
+                        // Soporte Dual: schedules (nuevo array) o schedule (viejo string)
+                        let activeSchedules = [];
+                        
+                        if (c.schedules && c.schedules.length > 0) {
+                            // Usar sistema nuevo
+                            activeSchedules = c.schedules.filter(sch => sch.day === dayOfWeek);
+                        } else if (c.schedule) {
+                            // Fallback sistema viejo (por si acaso)
+                            const parts = c.schedule.split(' ');
+                            const dayName = parts[0].toLowerCase();
+                            if (daysMap[dayName] === dayOfWeek) {
+                                activeSchedules.push({ time: parts.slice(1).join(' ') });
+                            }
+                        }
+
+                        activeSchedules.forEach(sch => {
+                            // VERIFICAR DUPLICADOS
+                            // ¿Existe ya una sesión de esta clase, en esta fecha y hora?
+                            const duplicate = existing.some(s => 
+                                s.claseId === c.id && 
+                                new Date(s.date).toDateString() === checkDate.toDateString() &&
+                                s.time === sch.time
+                            );
+
+                            if (!duplicate) {
+                                existing.push({
+                                    id: Date.now() + Math.random(), 
+                                    claseId: c.id,
+                                    date: checkDate.toISOString(), 
+                                    time: sch.time, 
+                                    capacity: c.defaultCapacity || 25, 
+                                    qrToken: 'SB-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+                                    media: { photos: [], videos: [] },
+                                    auto: true // <--- MARCA DE AGUA: Creado por el robot
+                                });
+                                addedCount++;
+                            }
+                        });
+                    });
+                }
+
+                // ======================================================
+                // FASE 3: GUARDADO Y REPORTE
+                // ======================================================
+                
+                // Ordenar cronológicamente antes de guardar
+                d.sesiones = existing.sort((a,b) => new Date(a.date) - new Date(b.date));
+                DataManager.save(d);
+                this.renderAgendaEditor(document.getElementById('admin-tab-agenda'));
+
+                // Mensaje Inteligente
+                let msg = '';
+                if (addedCount === 0 && deletedCount === 0) msg = 'La agenda ya está perfectamente sincronizada.';
+                else {
+                    if (deletedCount > 0) msg += `Se limpiaron ${deletedCount} sesiones vacías de clases ocultas.<br>`;
+                    if (addedCount > 0) msg += `Se programaron ${addedCount} nuevas sesiones futuras.`;
+                }
+
+                Swal.fire({ 
+                    title: 'Sincronización Inteligente', 
+                    html: msg, // Usamos HTML para saltos de linea
+                    icon: 'success', 
+                    background: '#05060b', 
+                    color: '#fff', 
+                    confirmButtonColor: '#D4AF37' 
+                });
+            },
+
+
+            addCustomSession() {
+                const d = DataManager.get();
+                d.sesiones.push({
+                    id: Date.now(),
+                    claseId: null, 
+                    customName: "Evento Especial",
+                    date: new Date().toISOString(),
+                    time: "19:00",
+                    capacity: 20,
+                    qrToken: 'SB-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+                    media: { photos: [], videos: [] },
+                    auto: false // <--- MARCA DE SEGURIDAD: Esto es manual, el sync no lo toca
+                });
+                DataManager.save(d);
+                this.renderAgendaEditor(document.getElementById('admin-tab-agenda'));
+            },
+
+            updateSessionField(id, field, value) {
+                const d = DataManager.get();
+                const s = d.sesiones.find(x => x.id === id);
+                if(s) {
+                    if(field === 'date') {
+                        // FIX: Agregamos T12:00:00 para forzar mediodía y evitar que la zona horaria reste un día
+                        s.date = new Date(value + 'T12:00:00').toISOString();
+                    } else {
+                        s[field] = value;
+                    }
+                    DataManager.save(d);
+                    // No re-renderizamos para mantener el foco, excepto si cambiamos asociación
+                }
+            },
+
+            // 3. ELIMINAR (CORREGIDO + TEMA OSCURO)
+            deleteSession(id) {
+                Swal.fire({ 
+                    title: '¿Eliminar Sesión?', 
+                    text: 'Esto borrará las reservas asociadas permanentemente.', 
+                    icon: 'warning', 
+                    showCancelButton: true, 
+                    confirmButtonColor: '#d33', 
+                    cancelButtonColor: '#333', // Cancelar oscuro
+                    background: '#05060b', // Fondo oscuro
+                    color: '#fff' 
+                }).then((r) => {
+                    if(r.isConfirmed) {
+                        const d = DataManager.get();
+                        // CORRECCIÓN DEL BUG: Asegurar que los arrays existan antes de filtrar
+                        if(d.sesiones) d.sesiones = d.sesiones.filter(s => s.id !== id);
+                        if(d.reservas) d.reservas = d.reservas.filter(r => r.sesionId !== id); 
+                        
+                        DataManager.save(d);
+                        this.renderAgendaEditor(document.getElementById('admin-tab-agenda'));
+                        Swal.fire({ title: 'Eliminado', icon: 'success', background: '#05060b', color: '#fff', confirmButtonColor: '#D4AF37', showConfirmButton: false, timer: 1500 });
+                    }
+                });
+            },
+
+
+            clearPastSessions() {
+                const d = DataManager.get();
+                const today = new Date().setHours(0,0,0,0);
+                d.sesiones = d.sesiones.filter(s => new Date(s.date) >= today);
+                DataManager.save(d);
+                this.renderAgendaEditor(document.getElementById('admin-tab-agenda'));
+            },
+
+            // GESTIÓN DE SESIÓN (Modal Interno)
+            manageSession(id) {
+                const s = DataManager.get().sesiones.find(x => x.id === id);
+                if(!s) return;
+                const c = DataManager.get().clases.find(x => x.id === s.claseId);
+                
+                const html = `
+                    <div class="space-y-6">
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/10">
+                            <h4 class="text-gold font-bold uppercase text-xs mb-2">Contenido Multimedia (Para Alumnos)</h4>
+                            <input type="text" id="sess-media-photo" class="w-full bg-black p-2 rounded text-xs text-white border border-white/10 mb-2" placeholder="URL Carpeta Fotos (Drive/Dropbox)" value="${s.media?.photos?.[0] || ''}">
+                            <input type="text" id="sess-media-video" class="w-full bg-black p-2 rounded text-xs text-white border border-white/10" placeholder="URL Video (Youtube/Vimeo)" value="${s.media?.videos?.[0] || ''}">
+                            <button onclick="Admin.saveSessionMedia(${s.id})" class="btn-galaxy w-full mt-2 py-2 rounded text-xs font-bold">GUARDAR LINKS</button>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-neon font-bold uppercase text-xs mb-2">Lista de Asistencia</h4>
+                            <div class="bg-black/50 rounded-lg p-2 max-h-40 overflow-y-auto border border-white/5">
+                                <ul class="text-xs text-gray-300 space-y-2" id="session-attendance-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                $('#modal-title').innerText = `${c.name}`;
+                $('#modal-subtitle').innerText = new Date(s.date).toLocaleDateString();
+                $('#modal-body').innerHTML = html;
+                $('#admin-modal').classList.remove('hidden');
+                setTimeout(()=>{$('#modal-backdrop').classList.remove('opacity-0'); $('#modal-panel').classList.remove('scale-95','opacity-0')},10);
+                $('#modal-save-btn').classList.add('hidden'); 
+
+                // Llenar lista
+                const reservas = DataManager.get().reservas.filter(r => r.sesionId === s.id);
+                const listEl = document.getElementById('session-attendance-list');
+                if(reservas.length === 0) listEl.innerHTML = '<li class="text-gray-500 italic text-center p-2">Nadie inscrito aún.</li>';
+                else {
+                    listEl.innerHTML = reservas.map(r => {
+                        const alumno = DataManager.get().alumnos.find(a => a.id == r.alumnoId);
+                        return `<li class="flex justify-between items-center border-b border-white/5 pb-1 last:border-0">
+                            <span>${alumno ? alumno.name : 'Invitado'}</span>
+                            <span class="px-2 py-0.5 rounded text-[9px] font-bold ${r.asistencia ? 'bg-success/20 text-success' : 'bg-white/5 text-gray-500'}">${r.asistencia ? 'ASISTIÓ' : 'PENDIENTE'}</span>
+                        </li>`;
+                    }).join('');
+                }
+            },
+
+            saveSessionMedia(id) {
+                const d = DataManager.get();
+                const idx = d.sesiones.findIndex(s => s.id === id);
+                if(idx > -1) {
+                    const p = document.getElementById('sess-media-photo').value;
+                    const v = document.getElementById('sess-media-video').value;
+                    d.sesiones[idx].media = { photos: [p], videos: [v] };
+                    DataManager.save(d);
+                    Swal.fire({ title: 'Guardado', text: 'Contenido disponible para alumnos asistentes.', icon: 'success', confirmButtonColor: '#D4AF37' });
+                }
+            },
+
+            projectQR(token, className) {
+                // Modal a pantalla completa (Overlay z-index maximo)
+                const overlay = document.createElement('div');
+                overlay.className = "fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center p-8";
+                overlay.innerHTML = `
+                    <button onclick="this.parentElement.remove()" class="absolute top-8 right-8 text-white text-4xl hover:text-rose transition-colors"><i class="fa-solid fa-times"></i></button>
+                    <h1 class="text-gold font-serif text-4xl md:text-6xl mb-8 text-center animate-pulse">${className}</h1>
+                    <div class="bg-white p-4 rounded-xl shadow-[0_0_100px_rgba(212,175,55,0.5)]">
+                        <div id="fs-qrcode"></div>
+                    </div>
+                    <p class="text-white/50 mt-8 text-xl uppercase tracking-[0.5em]">Escanea para Asistencia</p>
+                `;
+                document.body.appendChild(overlay);
+                
+                new QRCode(document.getElementById("fs-qrcode"), {
+                    text: token,
+                    width: window.innerHeight * 0.5, // 50% de la altura de la pantalla
+                    height: window.innerHeight * 0.5,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff"
+                });
+            },
+
+            addSchedule(classIdx) {
+                const d = DataManager.get();
+                if(!d.clases[classIdx].schedules) d.clases[classIdx].schedules = [];
+                d.clases[classIdx].schedules.push({day: 1, time: "19:00"});
+                DataManager.save(d);
+                this.renderClasesEditor(document.getElementById('admin-tab-clases'));
+            },
+            removeSchedule(classIdx, schIdx) {
+                const d = DataManager.get();
+                d.clases[classIdx].schedules.splice(schIdx, 1);
+                DataManager.save(d);
+                this.renderClasesEditor(document.getElementById('admin-tab-clases'));
+            },
+
+            linkSessionClass(sessionId, val) {
+                const d = DataManager.get();
+                const s = d.sesiones.find(x => x.id === sessionId);
+                if(s) {
+                    if (val === 'custom') {
+                        s.claseId = null; // Se desvincula
+                        s.customName = "Evento Especial"; // Nombre default
+                    } else {
+                        s.claseId = parseInt(val); // Se vincula a la clase
+                        s.customName = null; // Borramos nombre custom para usar el de la clase
+                    }
+                    DataManager.save(d);
+                    this.renderAgendaEditor(document.getElementById('admin-tab-agenda')); // Refrescamos para ver cambios de UI
+                }
+            },
 
 
         };
