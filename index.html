@@ -784,27 +784,28 @@
                 </main>
             </div>
 
-            <div id="admin-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+            <div id="admin-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center md:items-start md:pt-24 pt-20 px-0 pb-0 md:p-4 transition-all duration-300">
+                
                 <div class="absolute inset-0 bg-black/95 backdrop-blur-md transition-opacity opacity-0" id="modal-backdrop" onclick="Admin.closeModal()"></div>
 
-                <div id="modal-panel" class="w-full max-w-lg bg-[#050505] border border-white/10 hover:border-gold rounded-2xl shadow-2xl hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] transform scale-95 opacity-0 transition-all duration-500 relative z-10 flex flex-col max-h-[90vh] group">
+                <div id="modal-panel" class="w-full h-full md:h-[571px] md:max-h-[85vh] max-w-lg bg-[#050505] border border-white/10 md:rounded-2xl shadow-2xl transform scale-95 opacity-0 transition-all duration-500 relative z-10 flex flex-col my-auto group">
                     
-                    <div class="flex justify-between items-center p-6 pb-4 border-b border-white/5 group-hover:border-gold/10 transition-colors duration-500">
-                        <div class="text-center w-full">
-                            <h3 class="text-2xl font-serif font-bold text-white tracking-widest transition-colors duration-300 group-hover:text-gold" id="modal-title">TÍTULO</h3>
-                            <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 group-hover:text-gold/80 transition-colors duration-300" id="modal-subtitle">SUBTÍTULO</p>
+                    <div class="flex justify-between items-center p-6 pb-4 border-b border-white/5 bg-[#05060b] shrink-0 md:rounded-t-2xl">
+                        <div class="text-center w-full relative pr-8"> <h3 class="text-2xl font-serif font-bold text-gold tracking-widest truncate" id="modal-title">TÍTULO</h3>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1" id="modal-subtitle">SUBTÍTULO</p>
                         </div>
-                        <button onclick="Admin.closeModal()" class="absolute top-4 right-4 text-gray-600 hover:text-red-500 transition-colors"><i class="fa-solid fa-xmark text-xl"></i></button>
+                        <button onclick="Admin.closeModal()" class="absolute top-5 right-5 text-gray-500 hover:text-red-500 p-2 bg-black/20 rounded-full md:bg-transparent transition-colors"><i class="fa-solid fa-xmark text-xl"></i></button>
                     </div>
 
-                    <div id="modal-body" class="p-8 overflow-y-auto custom-scrollbar space-y-6"></div>
+                    <div id="modal-body" class="p-6 md:p-8 overflow-y-auto custom-scrollbar flex-1 bg-[#05060b]">
+                        </div>
 
-                    <div class="p-6 pt-0 flex flex-col gap-3">
-                        <button id="modal-save-btn" class="w-full bg-gold text-black font-bold py-3 rounded-lg text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-lg hover:shadow-white/20">
-                            GUARDAR
-                        </button>
-                        <button onclick="Admin.closeModal()" class="w-full text-xs font-bold text-gray-600 hover:text-white uppercase tracking-wider py-2 transition-colors">
+                    <div class="p-4 border-t border-white/5 bg-[#05060b] shrink-0 flex flex-row gap-3 md:rounded-b-2xl">
+                        <button onclick="Admin.closeModal()" class="flex-1 text-xs font-bold text-gray-400 hover:text-white uppercase tracking-wider py-3 border border-white/10 rounded-xl transition-colors order-1">
                             CANCELAR
+                        </button>
+                        <button id="modal-save-btn" class="flex-[2] bg-gold text-black font-bold py-3 rounded-xl text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-lg order-2">
+                            GUARDAR
                         </button>
                     </div>
                 </div>
@@ -849,11 +850,17 @@
     </div>
 
     <!-- MODAL UNIVERSAL -->
-    <div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-void/90 backdrop-blur-md transition-opacity opacity-0 duration-300">
-        <div class="glass-card w-full max-w-md p-8 rounded-2xl relative transform scale-95 transition-transform duration-300 border-t border-white/10" id="modal-panel">
-            <button onclick="App.closeModal()" class="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors"><i class="fa-solid fa-xmark text-2xl"></i></button>
-            <h3 id="modal-title" class="text-3xl font-serif font-bold text-white mb-8 text-center">Título</h3>
-            <div id="modal-body"></div>
+    <div id="modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center p-0 md:p-4 transition-all duration-300 opacity-0">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity" onclick="App.closeModal()"></div>
+        
+        <div class="w-full h-full md:h-auto md:max-w-md bg-[#08090B] border-0 md:border border-white/10 md:rounded-2xl relative transform scale-100 md:scale-95 transition-all duration-300 flex flex-col" id="modal-panel">
+            
+            <div class="p-6 pb-2 shrink-0 flex justify-between items-center bg-[#08090B]">
+                <h3 id="uni-modal-title" class="text-2xl font-serif font-bold text-gold text-center w-full">Cargando...</h3>
+                <button onclick="App.closeModal()" class="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors z-50"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            </div>
+            
+            <div id="uni-modal-body" class="p-6 pt-4 overflow-y-auto flex-1 custom-scrollbar bg-[#08090B]"></div>
         </div>
     </div>
 
@@ -875,9 +882,10 @@
                     bgImage: "https://lh3.googleusercontent.com/d/1gohtlhOlFEEdFHHR23fb5jN4c9RcGsAE",
                     agendaBg: "https://lh3.googleusercontent.com/d/1F_KYBe4suK060PYvVaRe7t_v80DBvOqe",
                     ctaPrimary: { text: "Explora nuestras Clases", link: "clases" },
-                    ctaSecondary: { text: "Audiciones", link: "talento" }
-                
+                    ctaSecondary: { text: "Audiciones", link: "talento" },
+                    cancellationHours: 12 // Horas mínimas para cancelar sin perder el crédito
                 },
+                
                 nosotrosContent: {
                     pretitle: "IDENTIDAD",
                     title: "RITMO CON PROPÓSITO",
@@ -912,9 +920,15 @@
                         { id: 3, year: "100%", title: "Certificación", sub: "Instructores Titulados", icon: "fa-certificate", color: "gold" },
                         { id: 4, year: "500+", title: "Alumnos Graduados", sub: "Comunidad Activa", icon: "fa-users", color: "neon" }
                     ]
+
+
+
                 }
             },
 
+            mensajes: [],// { id, studentId, text, reply, date, read }
+            reservas: [], 
+            sesiones: [],
             clases: [
                 { 
                     id: 1, 
@@ -996,6 +1010,7 @@
                     name: "Plan Semestral", 
                     priceCRC: "35000", 
                     priceUSD: "70", 
+                    weeklyLimit: 7,
                     summary: "- Acceso Ilimitado\n- Matrícula Gratis\n- Descuento en Eventos",
                     details: "* BENEFICIOS EXCLUSIVOS\n- Acceso a todas las sedes\n- Congelamiento por 15 días\n\n* INCLUYE\n- Camiseta Oficial\n- Carnet Digital",
                     popular: true,
@@ -1006,6 +1021,7 @@
                     name: "Tiquetera 8", 
                     priceCRC: "28000", 
                     priceUSD: "55", 
+                    weeklyLimit: 5,
                     summary: "- 8 Clases al mes\n- Vence en 45 días\n- Transferible",
                     details: "* CONDICIONES\n- Válido para cualquier estilo\n- Se puede compartir con un amigo\n- Requiere reservación previa",
                     popular: false,
@@ -1016,6 +1032,7 @@
                     name: "Full Pass Pareja", 
                     priceCRC: "60000", 
                     priceUSD: "110", 
+                    weeklyLimit: 4,
                     summary: "- 2 Personas\n- Acceso Total\n- Sin Matrícula",
                     details: "* PARA DOS PERSONAS\n- Deben inscribirse juntos\n- Acceso ilimitado para ambos\n- Descuento en talleres internacionales",
                     popular: false,
@@ -1023,8 +1040,35 @@
                 }
             ],
             alumnos: [
-                { id: "alumno", name: "Estudiante Demo", pass: "1234", planId: 1, active: true }, // planId 1 = Semestral
-                { id: 2, name: "Carlos V.", planId: 2, active: true }
+                // USUARIO 1: EL PROFESOR (ADMIN)
+                { 
+                    id: "admin",          // Cédula (Nuevo Usuario)
+                    name: "Georgzua Director",
+                    pass: "admin",            // Contraseña
+                    role: "admin",            // Rol crítico
+                    phone: "8888-8888",       // Para icono WhatsApp
+                    email: "director@sensacion.cr", // Para icono Sobre
+                    birthDate: "1999-01-01",  // Para icono Pastel
+                    joinDate: "2020-01-01",
+                    planId: null,             // Admin no tiene plan
+                    extraCredits: 0, 
+                    active: true 
+                },
+                
+                // USUARIO 2: EL ESTUDIANTE
+                { 
+                    id: "alumno",          // Cédula
+                    name: "Luis Sibaja Alumno",
+                    pass: "1234", 
+                    role: "student", 
+                    phone: "7086-6080",
+                    email: "luis18sibaja@gmail.com",
+                    birthDate: "1995-07-18", 
+                    joinDate: "2023-09-01",
+                    planId: 1,                // Plan Semestral
+                    extraCredits: 0, 
+                    active: true 
+                }
             ],
             
             espacios: [
@@ -1117,7 +1161,7 @@
                 } 
                 else if (this.currentRole === 'alumno') {
                     startView = 'alumno';
-                    this.renderStudentPortal(); // <--- NUEVO: Carga los datos privados del alumno
+                    setTimeout(() => this.renderStudentPortal(), 100); // <--- NUEVO: Carga los datos privados del alumno
                 }
 
                 // 3. Ejecutar Navegación
@@ -1171,16 +1215,26 @@
                 const u = $('#login-id').value; 
                 const p = $('#login-pass').value;
                 
-                // Usamos App directamente en lugar de 'this' para evitar errores de contexto
-                if (u === 'admin' && p === 'admin') { 
-                    App.currentRole = 'admin';
+                const d = DataManager.get();
+                // BÚSQUEDA REAL EN LA BASE DE DATOS LOCAL
+                const user = d.alumnos.find(a => a.id === u && a.pass === p);
+
+                if (user) {
+                    // SI EXISTE EL USUARIO Y LA CONTRASEÑA COINCIDE
+                    App.currentRole = user.role; // Puede ser 'admin' o 'student'
+                    
+                    // Si es admin o teacher, van al panel administrativo
+                    if (user.role === 'admin' || user.role === 'teacher') {
+                        App.currentRole = 'admin'; 
+                    } else {
+                        App.currentRole = 'alumno';
+                    }
+                    
+                    // Guardamos el ID del usuario actual para saber quién está logueado
+                    sessionStorage.setItem('current_user_id', user.id);
+                    
                     App.finalizeLogin();
-                }
-                else if (u === 'alumno' && p === '1234') { 
-                    App.currentRole = 'alumno';
-                    App.finalizeLogin();
-                }
-                else { 
+                } else { 
                     Swal.fire({
                         icon: 'error',
                         title: 'Error de Acceso',
@@ -1201,6 +1255,13 @@
                     // Limpiamos campos
                     $('#login-id').value = '';
                     $('#login-pass').value = '';
+                    
+                    // --- CORRECCIÓN CLAVE: INICIAR EL PANEL ---
+                    if (App.currentRole === 'alumno') {
+                        App.renderStudentPortal(); // <--- ESTA LÍNEA FALTABA
+                    }
+                    // ------------------------------------------
+
                     // Navegamos a la vista correspondiente
                     Router.go(App.currentRole); 
                 }, 300);
@@ -1305,12 +1366,20 @@
                                             </span>` : ''}
 
                                         </div>
-                                        
-
 
                                         ${c.showSchedule !== false ? `
-                                        <div class="flex items-center gap-2 mb-4 text-xs font-mono text-gold/80 border-b border-white/5 pb-3">
-                                            <i class="fa-regular fa-clock"></i> ${c.schedule}
+                                        <div class="flex flex-col gap-1 mb-4 text-xs font-mono text-gold/80 border-b border-white/5 pb-3">
+                                            <div class="flex items-center gap-2">
+                                                <i class="fa-regular fa-clock text-gold"></i>
+                                                <span class="text-gray-300">
+                                                    ${(c.schedules && c.schedules.length > 0) 
+                                                        ? c.schedules.map(s => {
+                                                            const days = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+                                                            return `<span class="text-white font-bold">${days[s.day]}</span> ${s.time}`;
+                                                          }).join('<span class="mx-2 text-white/20">|</span>')
+                                                        : (c.schedule || 'Horario por definir')}
+                                                </span>
+                                            </div>
                                         </div>` : '<div class="mb-4"></div>'}
                                         
                                         <p class="text-sm text-gray-400 leading-relaxed font-light line-clamp-3">${c.desc}</p>
@@ -1384,9 +1453,12 @@
                                         ${formatSummary(m.summary)}
                                     </div>
                                     
-                                    <div class="mt-auto">
+                                    <div class="mt-auto flex flex-col gap-2">
                                         <button onclick="App.openMembershipDetails(${m.id})" class="btn-galaxy w-full py-4 rounded-lg font-bold text-[10px] uppercase tracking-[0.2em] shadow-lg hover:scale-105 transition-transform">
                                             EXPLORAR BENEFICIOS
+                                        </button>
+                                        <button onclick="App.openSubscriptionModal(${m.id}, '${m.name}')" class="w-full py-3 rounded-lg font-bold text-[10px] uppercase tracking-[0.2em] border border-white/10 hover:bg-white hover:text-black transition-colors text-white">
+                                            SUSCRIBIRSE AHORA
                                         </button>
                                         ${m.legal ? `<p class="text-[9px] text-gray-600 text-center mt-4 italic">${m.legal}</p>` : ''}
                                     </div>
@@ -1620,23 +1692,32 @@
 
             // --- NUEVO SISTEMA DE EXPERIENCIA DE CLASE ---
 
-            openClassDetails(id, specificSessionStr = null) {
+            openClassDetails(id, specificSessionStr = null, capacityInfo = null) {
                 const c = DataManager.get().clases.find(x => x.id == id);
                 if(!c) return;
                 const images = c.gallery || [c.img];
 
-                // LÓGICA DE HORARIO: Específico vs General
+                // 1. HORARIO (Lógica existente)
                 let scheduleDisplay = '';
                 if (specificSessionStr) {
-                    // Si viene de Agenda: Muestra solo esa fecha/hora
                     scheduleDisplay = `<p class="text-2xl text-gold font-serif font-bold border-b border-white/10 pb-4 mb-6 animate-pulse">${specificSessionStr}</p>`;
                 } else {
-                    // Si viene de Clases: Muestra lista de horarios generales
                     if (c.showSchedule !== false && c.schedules && c.schedules.length > 0) {
-                        const days = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
-                        const list = c.schedules.map(s => `<span class="block text-gray-300"><span class="text-gold w-8 inline-block">${days[s.day]}</span> ${s.time}</span>`).join('');
+                        const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+                        const list = c.schedules.map(s => `<span class="block text-gray-300"><span class="text-gold w-20 inline-block">${days[s.day]}</span> ${s.time}</span>`).join('');
                         scheduleDisplay = `<div class="mb-6 p-4 bg-white/5 rounded-lg border border-white/5">${list}</div>`;
                     }
+                }
+
+                // 2. CUPO (CORRECCIÓN: Validamos que capacityInfo sea un número válido)
+                let spotsDisplay = '';
+                // Solo mostramos el cuadro si capacityInfo es un número (viene de Agenda)
+                if (typeof capacityInfo === 'number') { 
+                    const color = capacityInfo < 5 ? 'text-rose' : 'text-success';
+                    spotsDisplay = `<div class="absolute top-4 left-4 md:top-6 md:right-6 md:left-auto bg-black/90 backdrop-blur-md border border-white/10 px-3 py-2 md:px-4 md:py-2 rounded-lg z-30 flex flex-col items-center shadow-2xl animate-fade-in">
+                        <span class="text-xl md:text-2xl font-black ${color}">${capacityInfo}</span>
+                        <span class="text-[7px] md:text-[8px] text-gray-400 uppercase font-bold tracking-widest">Disponibles</span>
+                    </div>`;
                 }
                 
 
@@ -1665,6 +1746,9 @@
                             <div class="flex flex-col md:grid md:grid-cols-2 h-full">
                                 
                                 <div class="h-[40%] md:h-full relative overflow-hidden group bg-black shrink-0">
+                                    
+                                    ${spotsDisplay} 
+                                    
                                     <div id="modal-carousel" class="flex h-full transition-transform duration-500 ease-out">
                                         ${images.map(img => `<img src="${img}" class="w-full h-full object-cover shrink-0">`).join('')}
                                     </div>
@@ -1860,23 +1944,22 @@
 
                 const d = DataManager.get();
                 const sesiones = d.sesiones || [];
+                const reservas = d.reservas || []; // Blindaje contra undefined
+                
                 // FONDO CUSTOM
                 const bgImage = d.config.hero.agendaBg || "https://images.unsplash.com/photo-1545959570-a9477eb37265"; 
-
                 const section = document.getElementById('view-agenda');
                 if(section) {
-                    // Ajuste puntual: Opacidad media (0.75 en bordes, 0.50 en el centro)
-                    section.style.backgroundImage = `linear-gradient(to bottom, rgba(2,2,3,0.75) 0%, rgba(2,2,3,0.5) 50%, rgba(2,2,3,0.75) 100%), url('${bgImage}')`;
+                    section.style.backgroundImage = `linear-gradient(to bottom, rgba(2,2,3,0.85) 0%, rgba(2,2,3,0.6) 50%, rgba(2,2,3,0.85) 100%), url('${bgImage}')`;
                     section.style.backgroundSize = 'cover';
                     section.style.backgroundAttachment = 'fixed';
                 }
 
-                // Cálculos de Fecha
+                // CÁLCULOS DE FECHA
                 const curr = new Date();
                 const day = curr.getDay() || 7; 
                 const monday = new Date(curr.setDate(curr.getDate() - day + 1 + (this.agendaOffset * 7)));
                 monday.setHours(0,0,0,0);
-                
                 const sunday = new Date(monday);
                 sunday.setDate(monday.getDate() + 6);
 
@@ -1887,7 +1970,7 @@
                     weekDays.push(date);
                 }
 
-                // LÓGICA DE MES INTELIGENTE
+                // TÍTULO SEMANA
                 const m1 = monday.toLocaleDateString('es-CR', {month:'long'}).toUpperCase();
                 const m2 = sunday.toLocaleDateString('es-CR', {month:'long'}).toUpperCase();
                 const titleDate = (m1 === m2) 
@@ -1898,14 +1981,10 @@
                 container.innerHTML = `
                     <div class="flex justify-between items-center mb-12">
                         <button onclick="App.agendaOffset--; App.renderAgenda()" class="w-12 h-12 rounded-full border border-white/10 hover:border-gold text-white hover:text-gold transition-all flex items-center justify-center bg-black/50 backdrop-blur-md"><i class="fa-solid fa-arrow-left"></i></button>
-                        
                         <div class="text-center px-10 py-5 bg-black/80 backdrop-blur-xl border-2 border-gold rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)]">
                             <span class="block text-[10px] text-gray-400 uppercase tracking-[0.4em] mb-2">Semana Actual</span>
-                            <h3 class="text-xl md:text-3xl font-serif tracking-widest text-gray-400">
-                                ${titleDate}
-                            </h3>
+                            <h3 class="text-xl md:text-3xl font-serif tracking-widest text-gray-400">${titleDate}</h3>
                         </div>
-
                         <button onclick="App.agendaOffset++; App.renderAgenda()" class="w-12 h-12 rounded-full border border-white/10 hover:border-gold text-white hover:text-gold transition-all flex items-center justify-center bg-black/50 backdrop-blur-md"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
 
@@ -1914,11 +1993,11 @@
                             const dateStr = date.toDateString();
                             const isToday = new Date().toDateString() === dateStr;
                             
-                            // Filtrar sesiones
-                            const daySessions = sesiones.filter(s => new Date(s.date).toDateString() === dateStr).sort((a,b) => a.time.localeCompare(b.time));
+                            // FILTRO SESIONES
+                            const daySessions = sesiones.filter(s => new Date(s.date).toDateString() === dateStr)
+                                                        .sort((a,b) => a.time.localeCompare(b.time));
 
                             // ESTILOS DINÁMICOS
-                            
                             const cardStyles = isToday 
                                 ? 'bg-[#08090B]/95 border-2 border-gold shadow-[0_0_30px_rgba(212,175,55,0.2)] z-10 scale-[1.02]' 
                                 : 'bg-[#08090B]/80 border border-white/10 hover:border-gold hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:-translate-y-1';
@@ -1928,7 +2007,6 @@
 
                             return `
                                 <div class="flex flex-col h-full rounded-2xl overflow-hidden backdrop-blur-md transition-all duration-300 group/day ${cardStyles}">
-                                    
                                     <div class="text-center p-4 border-b border-white/5 ${headerStyles}">
                                         <span class="block text-[10px] font-bold uppercase tracking-[0.3em] mb-1 ${dayColor}">
                                             ${date.toLocaleDateString('es-CR', {weekday: 'short'})}
@@ -1937,41 +2015,41 @@
                                             ${date.getDate()}
                                         </span>
                                     </div>
-                                    
                                     <div class="p-2 space-y-2 flex-1 min-h-[120px] flex flex-col justify-start">
                                         ${daySessions.length === 0 ? '<div class="flex-1 flex items-center justify-center opacity-10"><i class="fa-solid fa-diamond text-2xl"></i></div>' : ''}
                                         
                                         ${daySessions.map(s => {
-                                            // Datos de la clase
+                                            // DEFINICIÓN DE VARIABLES CRÍTICAS (Aquí estaba el error antes)
                                             let c = { name: s.customName || 'Evento Especial', level: 'General', id: null };
                                             if (s.claseId) {
                                                 const found = d.clases.find(x => x.id === s.claseId);
                                                 if (found) c = found; 
                                             }
 
-                                            // Interacción de la clase individual
+                                            // CÁLCULO DE CUPOS
+                                            const inscritos = reservas.filter(r => r.sesionId === s.id).length;
+                                            const availableSpots = s.capacity - inscritos;
+                                            const isFull = inscritos >= s.capacity;
+
+                                            // PREPARAR CLICK
                                             const niceTime = s.time;
                                             const niceDay = date.toLocaleDateString('es-CR', {weekday:'long'});
-                                            const clickAttr = s.claseId 
-                                                ? `onclick="App.openClassDetails(${s.claseId}, '${niceDay} ${niceTime}')"` 
-                                                : '';
                                             
+                                            // VARIABLES VISUALES
                                             const itemCursor = s.claseId ? 'cursor-pointer hover:border-gold hover:bg-[#0F1115]' : 'cursor-default';
-                                            const reservados = (d.reservas || []).filter(r => r.sesionId === s.id).length;
-                                            const isFull = reservados >= s.capacity;
+                                            const clickAttr = s.claseId 
+                                                ? `onclick="App.openClassDetails(${s.claseId}, '${niceDay} ${niceTime}', ${availableSpots})"` 
+                                                : '';
 
                                             return `
                                                 <div class="bg-black/40 border border-white/5 p-3 rounded-lg relative group/item transition-all duration-300 ${itemCursor}" ${clickAttr}>
-                                                    
                                                     <div class="flex justify-between items-center mb-1.5">
                                                         <span class="text-[10px] font-mono text-gold/80 group-hover/item:text-gold">${s.time}</span>
                                                         ${isFull ? '<span class="text-[8px] bg-rose text-white px-1.5 py-0.5 rounded font-bold shadow-sm shadow-rose/20">FULL</span>' : ''}
                                                     </div>
-                                                    
                                                     <h4 class="text-xs font-bold text-white leading-tight mb-2 group-hover/item:text-white transition-colors">
                                                         ${c.name}
                                                     </h4>
-                                                    
                                                     <span class="inline-block text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${
                                                         c.level.includes('Principiante') ? 'text-emerald-400 bg-emerald-950/30 border-emerald-500/30' :
                                                         c.level.includes('Intermedio') ? 'text-amber-400 bg-amber-950/30 border-amber-500/30' :
@@ -1980,7 +2058,6 @@
                                                     }">
                                                         ${c.level}
                                                     </span>
-                                                    
                                                     ${s.claseId ? `
                                                     <div class="absolute right-2 bottom-2 opacity-0 group-hover/item:opacity-100 transition-opacity transform translate-x-2 group-hover/item:translate-x-0">
                                                         <i class="fa-solid fa-chevron-right text-[10px] text-gold"></i>
@@ -1996,65 +2073,124 @@
                 `;
             },
 
-            // --- PORTAL ALUMNO: CORE ---
+            // --- PORTAL ALUMNO 2.0 (NEXUS - LÓGICA REAL) ---
             renderStudentPortal() {
-                const studentId = "alumno"; 
+                // 1. Identificar Usuario y Datos
+                const studentId = sessionStorage.getItem('current_user_id');
                 const d = DataManager.get();
                 const alumno = d.alumnos.find(a => a.id === studentId);
-                const plan = d.membresias.find(m => m.id === alumno.planId);
+
+                // Seguridad: Si no hay usuario, sacar
+                if (!alumno) { App.logout(); return; }
                 
-                $('#student-name').innerText = alumno.name;
+                // 2. Datos del Plan
+                const plan = d.membresias.find(m => m.id === alumno.planId) || { name: "Sin Plan", weeklyLimit: 0 };
                 
-                // Cálculo de cupos semanales
+                // 3. Inyección de Datos en Header (Nombre en la barra negra superior)
+                const nameEl = document.getElementById('student-name');
+                if(nameEl) nameEl.innerText = alumno.name;
+                
+                // 4. Lógica de Créditos (BLINDADA)
                 const curr = new Date();
-                const first = curr.getDate() - curr.getDay() + 1;
-                const weekStart = new Date(curr.setDate(first)).setHours(0,0,0,0);
-                const weekEnd = new Date(curr.setDate(first + 6)).setHours(23,59,59,999);
+                const day = curr.getDay() || 7; 
+                const monday = new Date(curr.setDate(curr.getDate() - day + 1));
+                monday.setHours(0,0,0,0);
+                const sunday = new Date(monday);
+                sunday.setDate(monday.getDate() + 6);
+                sunday.setHours(23,59,59,999);
 
-                const reservasSemana = d.reservas.filter(r => 
-                    r.alumnoId === studentId && 
-                    new Date(d.sesiones.find(s=>s.id===r.sesionId)?.date) >= weekStart &&
-                    new Date(d.sesiones.find(s=>s.id===r.sesionId)?.date) <= weekEnd
-                ).length;
+                // FIX: Usamos (d.reservas || []) para evitar el error "undefined"
+                const todasReservas = d.reservas || [];
+                const todasSesiones = d.sesiones || [];
 
-                const creditosRestantes = plan.limit - reservasSemana;
+                const reservasSemana = todasReservas.filter(r => {
+                    if (r.alumnoId !== studentId) return false;
+                    const sesion = todasSesiones.find(s => s.id === r.sesionId);
+                    if (!sesion) return false;
+                    const date = new Date(sesion.date);
+                    return date >= monday && date <= sunday;
+                }).length;
 
-                const container = document.querySelector('#view-alumno .container');
-                container.innerHTML = `
-                    <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/10 pb-6 gap-4">
-                        <div>
-                            <h1 class="text-3xl font-serif font-bold text-white">Hola, <span class="text-neon">${alumno.name}</span></h1>
-                            <p class="text-gray-400 text-sm mt-1">${plan.name} • <span class="${creditosRestantes > 0 ? 'text-success' : 'text-rose'} font-bold">${creditosRestantes} Clases Disponibles esta semana</span></p>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="App.startQRScanner()" class="btn-galaxy px-6 py-3 rounded-full text-xs font-bold shadow-lg flex items-center gap-2 hover:scale-105 transition-transform">
-                                <i class="fa-solid fa-qrcode text-lg"></i> ESCANEAR ASISTENCIA
-                            </button>
-                            <button onclick="App.logout()" class="text-xs text-danger border border-danger/30 px-6 py-2 rounded-full hover:bg-danger/10 transition-colors">Salir</button>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-8 mb-8 border-b border-white/5">
-                        <button onclick="App.renderStudentTab('reservar')" id="tab-st-reservar" class="text-gold border-b-2 border-gold pb-4 text-sm font-bold uppercase tracking-widest">Reservar Clase</button>
-                        <button onclick="App.renderStudentTab('historial')" id="tab-st-historial" class="text-gray-500 hover:text-white pb-4 text-sm font-bold uppercase tracking-widest transition-colors">Historial & Media</button>
-                    </div>
-
-                    <div id="student-tab-content" class="min-h-[400px] fade-in"></div>
-                `;
+                const limit = plan.weeklyLimit || 0;
+                const extra = alumno.extraCredits || 0;
+                const totalAvailable = limit + extra;
+                const creditosRestantes = Math.max(0, totalAvailable - reservasSemana);
                 
-                this.renderStudentTab('reservar');
+                const barWidth = totalAvailable > 0 ? (reservasSemana / totalAvailable) * 100 : 0;
+
+                // 5. RENDERIZADO DEL DASHBOARD (Diseño Corregido)
+                const container = document.querySelector('#view-alumno .container'); 
+                
+                if (container) {
+                    container.innerHTML = `
+                        <div class="flex justify-between items-start mb-6 fade-in">
+                            <span class="text-[9px] text-gray-600 uppercase tracking-[0.2em] pt-2">Panel de Control</span>
+                            <button onclick="App.logout()" class="group flex items-center gap-3 px-5 py-2 rounded-full border border-white/5 hover:border-rose-500/30 hover:bg-rose-500/10 transition-all">
+                                <span class="text-[10px] font-bold text-gray-500 group-hover:text-rose-500 uppercase tracking-widest transition-colors">Cerrar Sesión</span>
+                                <i class="fa-solid fa-power-off text-gray-600 group-hover:text-rose-500 text-xs transition-colors"></i>
+                            </button>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-6 mb-10 fade-in">
+                            <div class="md:col-span-2 flex flex-col justify-end">
+                                <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-2 leading-none">Hola, <span class="text-neon">${alumno.name.split(' ')[0]}</span></h1>
+                                <div class="flex items-center gap-3 text-sm text-gray-400">
+                                    <span class="bg-white/10 px-3 py-1 rounded text-white border border-white/10 text-[10px] uppercase tracking-wider font-bold">${plan.name}</span>
+                                    <span class="text-gold">•</span>
+                                    <span class="text-xs">Ciclo Semanal</span>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-panel border border-white/10 p-6 rounded-2xl relative overflow-hidden group shadow-lg">
+                                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><i class="fa-solid fa-chart-pie text-6xl text-gold"></i></div>
+                                <span class="text-[9px] text-gold font-bold uppercase tracking-[0.2em] block mb-2">Clases Disponibles</span>
+                                <div class="flex items-baseline gap-2 mb-3">
+                                    <span class="text-6xl font-serif font-black text-white leading-none">${creditosRestantes}</span>
+                                    <span class="text-sm text-gray-600 font-mono font-bold">/ ${totalAvailable}</span>
+                                </div>
+                                <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-gold to-yellow-600 shadow-[0_0_15px_var(--color-gold)] transition-all duration-1000" style="width: ${barWidth}%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4 mb-12 fade-in" style="animation-delay: 0.1s;">
+                            <button onclick="App.startQRScanner()" class="btn-galaxy px-8 py-4 rounded-xl text-xs font-bold shadow-lg flex items-center justify-center gap-3 hover:scale-105 transition-transform flex-1 text-black tracking-widest uppercase">
+                                <i class="fa-solid fa-qrcode text-lg"></i> Marcar Asistencia
+                            </button>
+                            <button onclick="App.openDirectLine()" class="px-8 py-4 rounded-xl text-xs font-bold border border-white/10 hover:border-neon hover:text-neon text-white transition-all flex items-center justify-center gap-3 flex-1 bg-white/5 tracking-widest uppercase hover:bg-white/10">
+                                <i class="fa-regular fa-comments text-lg"></i> Soporte Directo
+                            </button>
+                        </div>
+
+                        <div class="border-b border-white/10 mb-8 flex gap-8 fade-in" style="animation-delay: 0.2s;">
+                            <button onclick="App.renderStudentTab('reservar')" id="tab-st-reservar" class="pb-4 text-xs md:text-sm font-bold uppercase tracking-[0.15em] text-gold border-b-2 border-gold transition-colors">
+                                Clases Disponibles
+                            </button>
+                            <button onclick="App.renderStudentTab('historial')" id="tab-st-historial" class="pb-4 text-xs md:text-sm font-bold uppercase tracking-[0.15em] text-gray-500 hover:text-white border-b-2 border-transparent transition-colors">
+                                Mis Reservas & Media
+                            </button>
+                        </div>
+
+                        <div id="student-tab-content" class="min-h-[400px] fade-in" style="animation-delay: 0.3s;"></div>
+                    `;
+                    
+                    this.renderStudentTab('reservar');
+                }
             },
 
             renderStudentTab(tab) {
-                document.getElementById('tab-st-reservar').className = tab==='reservar' ? "text-gold border-b-2 border-gold pb-4 text-sm font-bold uppercase tracking-widest" : "text-gray-500 hover:text-white pb-4 text-sm font-bold uppercase tracking-widest transition-colors border-b-2 border-transparent";
-                document.getElementById('tab-st-historial').className = tab==='historial' ? "text-gold border-b-2 border-gold pb-4 text-sm font-bold uppercase tracking-widest" : "text-gray-500 hover:text-white pb-4 text-sm font-bold uppercase tracking-widest transition-colors border-b-2 border-transparent";
+                const btns = { reservar: $('#tab-st-reservar'), historial: $('#tab-st-historial') };
+                Object.values(btns).forEach(b => b.className = "pb-4 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-white border-b-2 border-transparent transition-colors");
+                btns[tab].className = "pb-4 text-sm font-bold uppercase tracking-widest text-gold border-b-2 border-gold transition-colors";
 
                 const content = document.getElementById('student-tab-content');
                 const d = DataManager.get();
                 const studentId = "alumno"; 
+                const now = new Date();
 
                 if (tab === 'reservar') {
-                    const now = new Date();
+                    // FILTRO: Futuras, No reservadas, Con cupo
                     const available = d.sesiones.filter(s => {
                         const date = new Date(s.date);
                         const isFuture = date >= now;
@@ -2064,25 +2200,34 @@
                     }).sort((a,b) => new Date(a.date) - new Date(b.date));
 
                     if (available.length === 0) {
-                        content.innerHTML = '<p class="text-gray-500 text-center py-20 italic">No hay clases disponibles para reservar en este momento.</p>';
+                        content.innerHTML = '<div class="p-10 border border-white/5 rounded-xl text-center"><i class="fa-solid fa-calendar-xmark text-4xl text-gray-600 mb-4"></i><p class="text-gray-500">No hay clases disponibles para reservar.</p></div>';
                         return;
                     }
 
-                    content.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    content.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         ${available.map(s => {
-                            const c = d.clases.find(x => x.id === s.claseId);
+                            const c = s.claseId ? d.clases.find(x => x.id === s.claseId) : {name: s.customName, level: 'Especial', img: d.config.hero.bgImage};
                             const spots = s.capacity - d.reservas.filter(r => r.sesionId === s.id).length;
+                            const niceDate = new Date(s.date).toLocaleDateString('es-CR', {weekday: 'short', day: 'numeric', month: 'short'});
+                            
                             return `
-                                <div class="bg-panel border border-white/5 p-6 rounded-xl group hover:border-gold/30 transition-all flex flex-col">
-                                    <div class="flex justify-between mb-4 border-b border-white/5 pb-4">
-                                        <span class="text-gold text-sm font-bold uppercase">${new Date(s.date).toLocaleDateString('es-CR', {weekday: 'long', day: 'numeric'})}</span>
-                                        <span class="text-gray-400 text-xs bg-black/40 px-2 py-1 rounded">${s.time}</span>
+                                <div class="bg-panel border border-white/5 rounded-2xl overflow-hidden group hover:border-gold/30 transition-all flex flex-col h-full">
+                                    <div class="h-32 relative overflow-hidden">
+                                        <img src="${c.img}" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity">
+                                        <div class="absolute top-2 right-2 bg-black/80 px-2 py-1 rounded text-[10px] text-gold font-bold uppercase border border-gold/20">${niceDate}</div>
                                     </div>
-                                    <h3 class="text-white font-bold text-xl mb-1">${c.name}</h3>
-                                    <p class="text-xs text-gray-500 mb-6">${c.level}</p>
-                                    <div class="mt-auto flex justify-between items-center">
-                                        <span class="text-[10px] text-gray-500 uppercase tracking-wider">${spots} lugares</span>
-                                        <button onclick="App.studentReserve(${s.id})" class="bg-white/10 hover:bg-gold hover:text-black text-white px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors shadow-lg">Reservar</button>
+                                    <div class="p-5 flex-1 flex flex-col">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <h3 class="text-white font-bold text-lg leading-tight line-clamp-2">${c.name}</h3>
+                                        </div>
+                                        <div class="flex items-center gap-2 mb-4 text-xs text-gray-400 font-mono">
+                                            <i class="fa-regular fa-clock text-gold"></i> ${s.time}
+                                        </div>
+                                        
+                                        <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+                                            <span class="text-[10px] ${spots < 5 ? 'text-rose' : 'text-gray-500'} uppercase font-bold tracking-wider">${spots} Cupos</span>
+                                            <button onclick="App.studentReserve(${s.id})" class="bg-white/10 hover:bg-gold hover:text-black text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors shadow-lg">Reservar</button>
+                                        </div>
                                     </div>
                                 </div>
                             `;
@@ -2090,6 +2235,7 @@
                     </div>`;
 
                 } else {
+                    // HISTORIAL & MEDIA
                     const myReservations = d.reservas.filter(r => r.alumnoId === studentId);
                     const mySessions = myReservations.map(r => {
                         const s = d.sesiones.find(x => x.id === r.sesionId);
@@ -2097,42 +2243,62 @@
                     }).sort((a,b) => new Date(b.date) - new Date(a.date));
 
                     if (mySessions.length === 0) {
-                        content.innerHTML = '<p class="text-gray-500 text-center py-20 italic">No tienes historial de clases.</p>';
+                        content.innerHTML = '<div class="p-10 border border-white/5 rounded-xl text-center"><p class="text-gray-500">Aún no has reservado clases.</p></div>';
                         return;
                     }
 
                     content.innerHTML = `<div class="space-y-4">
                         ${mySessions.map(s => {
-                            const c = d.clases.find(x => x.id === s.claseId);
-                            const isPast = new Date(s.date) < new Date();
-                            const hasMedia = s.media && (s.media.photos?.[0] || s.media.videos?.[0]);
+                            const c = s.claseId ? d.clases.find(x => x.id === s.claseId) : {name: s.customName};
+                            const isPast = new Date(s.date) < now;
+                            const hasPhotos = s.media?.photos?.[0];
+                            const hasVideo = s.media?.videos?.[0];
+                            const attended = s.reserva.asistencia;
+
+                            // Lógica de Cancelación con Penalización
+                            const hoursDiff = (new Date(s.date) - now) / 36e5;
+                            const canCancel = !isPast && hoursDiff > (d.config.cancellationHours || 12);
+                            const penaltyWarning = !isPast && !canCancel ? 'Tiempo límite excedido' : '';
 
                             return `
-                                <div class="bg-panel border border-white/5 p-6 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-white/5 transition-colors">
+                                <div class="bg-panel border border-white/5 p-5 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-white/5 transition-colors relative overflow-hidden">
+                                    ${attended ? '<div class="absolute left-0 top-0 bottom-0 w-1 bg-success shadow-[0_0_10px_#00E676]"></div>' : ''}
+                                    
                                     <div class="flex items-center gap-6 w-full md:w-auto">
-                                        <div class="w-16 h-16 rounded-full bg-black flex flex-col items-center justify-center text-gold border border-white/10 shrink-0">
+                                        <div class="w-16 h-16 rounded-2xl bg-black flex flex-col items-center justify-center text-gold border border-white/10 shrink-0">
                                             <span class="text-xl font-black leading-none">${new Date(s.date).getDate()}</span>
                                             <span class="text-[9px] uppercase">${new Date(s.date).toLocaleDateString('es-CR', {month:'short'})}</span>
                                         </div>
                                         <div>
                                             <h3 class="text-white font-bold text-lg">${c.name}</h3>
-                                            <p class="text-xs text-gray-500 mt-1">${s.time}</p>
+                                            <p class="text-xs text-gray-500 mt-1 flex items-center gap-2">
+                                                <span class="bg-white/10 px-2 py-0.5 rounded text-[10px]">${s.time}</span>
+                                                ${!isPast && !canCancel ? `<span class="text-rose text-[9px]"><i class="fa-solid fa-triangle-exclamation"></i> ${penaltyWarning}</span>` : ''}
+                                            </p>
                                         </div>
                                     </div>
                                     
-                                    <div class="flex items-center gap-4 w-full md:w-auto justify-end">
-                                        ${s.reserva.asistencia 
-                                            ? '<span class="text-success text-[10px] font-bold border border-success/30 px-4 py-1 rounded-full uppercase tracking-wider bg-success/10">ASISTIÓ</span>' 
-                                            : isPast 
-                                                ? '<span class="text-rose text-[10px] font-bold border border-rose/30 px-4 py-1 rounded-full uppercase tracking-wider bg-rose/10">AUSENTE</span>' 
-                                                : '<button onclick="App.studentCancel('+s.reserva.id+')" class="text-rose text-xs hover:text-white font-bold uppercase tracking-wider transition-colors border border-rose/30 px-4 py-1 rounded hover:bg-rose hover:border-rose">Cancelar</button>'
-                                        }
+                                    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
                                         
-                                        ${hasMedia && s.reserva.asistencia ? `
-                                            <div class="h-8 w-px bg-white/10 mx-2"></div>
-                                            <button onclick="window.open('${s.media.photos[0]}')" class="text-blue-400 hover:text-white p-2 transition-colors tooltip" title="Fotos"><i class="fa-solid fa-camera text-xl"></i></button>
-                                            <button onclick="window.open('${s.media.videos[0]}')" class="text-rose-400 hover:text-white p-2 transition-colors tooltip" title="Video"><i class="fa-solid fa-video text-xl"></i></button>
+                                        ${attended ? `
+                                            ${hasPhotos ? `
+                                                <button onclick="window.open('${s.media.photos[0]}', '_blank')" class="flex items-center gap-2 bg-[#2d3748] hover:bg-[#4299e1] hover:text-white text-blue-300 px-4 py-2 rounded-lg text-xs font-bold transition-all border border-blue-500/30">
+                                                    <i class="fa-brands fa-google-drive text-lg"></i> <span class="hidden md:inline">FOTOS</span>
+                                                </button>` : ''}
+                                            ${hasVideo ? `
+                                                <button onclick="App.changeVideo('${s.media.videos[0]}'); App.openVideoModal()" class="flex items-center gap-2 bg-[#4c1d1d] hover:bg-[#e53e3e] hover:text-white text-rose-300 px-4 py-2 rounded-lg text-xs font-bold transition-all border border-rose-500/30">
+                                                    <i class="fa-brands fa-youtube text-lg"></i> <span class="hidden md:inline">VIDEO</span>
+                                                </button>` : ''}
                                         ` : ''}
+
+                                        ${attended 
+                                            ? '<span class="text-success text-[10px] font-bold border border-success/30 px-4 py-2 rounded-lg uppercase tracking-wider bg-success/10">ASISTIÓ</span>' 
+                                            : isPast 
+                                                ? '<span class="text-rose text-[10px] font-bold border border-rose/30 px-4 py-2 rounded-lg uppercase tracking-wider bg-rose/10">AUSENTE</span>' 
+                                                : canCancel
+                                                    ? `<button onclick="App.studentCancel(${s.reserva.id})" class="text-rose text-xs font-bold uppercase tracking-wider transition-colors border border-rose/30 px-4 py-2 rounded-lg hover:bg-rose hover:text-white">Cancelar</button>`
+                                                    : '<span class="text-gray-500 text-[10px] uppercase font-bold border border-white/5 px-4 py-2 rounded-lg">Cerrado</span>'
+                                        }
                                     </div>
                                 </div>
                             `;
@@ -2143,12 +2309,45 @@
 
             studentReserve(sessionId) {
                 const d = DataManager.get();
-                // Lógica simplificada de cupo semanal
-                d.reservas.push({ id: Date.now(), sesionId: sessionId, alumnoId: "alumno", asistencia: false });
+                const studentId = "alumno";
+                const alumno = d.alumnos.find(a => a.id === studentId);
+                const plan = d.membresias.find(m => m.id === alumno.planId);
+                
+                // VALIDAR LÍMITE SEMANAL
+                const curr = new Date();
+                const day = curr.getDay() || 7; 
+                const monday = new Date(curr.setDate(curr.getDate() - day + 1));
+                monday.setHours(0,0,0,0);
+                const sunday = new Date(monday);
+                sunday.setDate(monday.getDate() + 6);
+                sunday.setHours(23,59,59,999);
+
+                const count = d.reservas.filter(r => 
+                    r.alumnoId === studentId && 
+                    new Date(d.sesiones.find(s=>s.id===r.sesionId)?.date) >= monday &&
+                    new Date(d.sesiones.find(s=>s.id===r.sesionId)?.date) <= sunday
+                ).length;
+
+                if (count >= (plan.weeklyLimit || 7)) {
+                    Swal.fire({ title: 'Límite Alcanzado', text: 'Has usado todos tus créditos de esta semana.', icon: 'warning', background: '#05060b', color: '#fff' });
+                    return;
+                }
+
+                d.reservas.push({ id: Date.now(), sesionId: sessionId, alumnoId: studentId, asistencia: false });
                 DataManager.save(d);
-                Swal.fire({ title: '¡Clase Reservada!', text: 'Nos vemos en la pista.', icon: 'success', background: '#05060b', color: '#fff', confirmButtonColor: '#D4AF37' });
+                Swal.fire({ title: '¡Clase Reservada!', text: 'Nos vemos en la pista.', icon: 'success', background: '#05060b', color: '#fff', confirmButtonColor: '#D4AF37', showConfirmButton: false, timer: 1500 });
                 this.renderStudentPortal();
             },
+
+            // HELPER PARA VIDEO (Simple, reutiliza tu lógica existente si tienes modal de video, si no, abre en nueva pestaña)
+            openVideoModal() {
+                // Si tienes un modal de video global, ábrelo aquí. 
+                // Si no, podemos hacer un fallback simple:
+                const modal = document.getElementById('video-modal'); // Asumiendo que existe o lo creamos
+                if(modal) modal.classList.remove('hidden');
+                else window.scrollTo(0,0); // Scroll al hero video
+            },
+
 
             studentCancel(reservaId) {
                 const d = DataManager.get();
@@ -2165,13 +2364,24 @@
                     <div id="qr-reader" class="rounded-xl overflow-hidden border-2 border-gold"></div>
                     <button onclick="App.stopQRScanner()" class="mt-6 w-full text-center text-gray-500 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">Cerrar Cámara</button>
                 `;
-                $('#modal-title').innerText = "ESCANEAR CÓDIGO";
-                $('#modal-body').innerHTML = html;
-                $('#modal').classList.remove('hidden');
-                setTimeout(() => $('#modal').classList.remove('opacity-0'), 10);
+                
+                // AJUSTE: Usar uni-modal
+                const title = document.getElementById('uni-modal-title');
+                const body = document.getElementById('uni-modal-body');
+                const modal = document.getElementById('modal');
 
-                this.html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
-                this.html5QrcodeScanner.render((txt) => this.handleQRSuccess(txt));
+                if(title && body && modal) {
+                    title.innerText = "ESCANEAR CÓDIGO";
+                    body.innerHTML = html;
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modal.querySelector('#modal-panel').classList.remove('scale-95');
+                    }, 10);
+
+                    this.html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+                    this.html5QrcodeScanner.render((txt) => this.handleQRSuccess(txt));
+                }
             },
 
             stopQRScanner() {
@@ -2209,6 +2419,217 @@
                 }
             },
 
+
+            openDirectLine() {
+                const d = DataManager.get();
+                const msgs = (d.mensajes || []).filter(m => m.studentId === 'alumno').sort((a,b) => b.date - a.date);
+
+                const html = `
+                    <div class="h-[50vh] flex flex-col"> <div class="flex-1 overflow-y-auto space-y-4 p-2 custom-scrollbar mb-4 flex flex-col-reverse">
+                            ${msgs.length === 0 ? '<p class="text-center text-gray-600 text-xs mt-10">Inicia una conversación con la administración.</p>' : ''}
+                            ${msgs.map(m => `
+                                <div class="space-y-2">
+                                    <div class="flex justify-end">
+                                        <div class="bg-gold/10 border border-gold/30 text-gold p-3 rounded-t-xl rounded-bl-xl text-sm max-w-[80%]">
+                                            ${m.text}
+                                            <div class="text-[9px] opacity-50 mt-1 text-right">${new Date(m.date).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
+                                        </div>
+                                    </div>
+                                    ${m.reply ? `
+                                    <div class="flex justify-start">
+                                        <div class="bg-white/10 border border-white/10 text-white p-3 rounded-t-xl rounded-br-xl text-sm max-w-[80%]">
+                                            <span class="text-[9px] text-neon font-bold block mb-1">ADMIN</span>
+                                            ${m.reply}
+                                        </div>
+                                    </div>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-white/10">
+                            <div class="flex gap-2">
+                                <input type="text" id="direct-msg-input" class="flex-1 bg-black border border-white/10 rounded-lg px-4 text-sm text-white focus:border-gold outline-none" placeholder="Escribe tu consulta...">
+                                <button onclick="App.sendDirectMessage()" class="btn-galaxy px-6 rounded-lg text-xs font-bold"><i class="fa-solid fa-paper-plane"></i></button>
+                            </div>
+                            <div class="flex justify-center mt-4">
+                                <button onclick="window.open('https://wa.me/50670866080', '_blank')" class="text-success text-xs font-bold flex items-center gap-2 hover:underline"><i class="fa-brands fa-whatsapp text-lg"></i> O contactar por WhatsApp</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // AJUSTE: Usar uni-modal
+                const title = document.getElementById('uni-modal-title');
+                const body = document.getElementById('uni-modal-body');
+                const modal = document.getElementById('modal');
+
+                if(title && body && modal) {
+                    title.innerText = "Soporte Directo";
+                    body.innerHTML = html;
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modal.querySelector('#modal-panel').classList.remove('scale-95');
+                    }, 10);
+                }
+            },
+
+            sendDirectMessage() {
+                const txt = $('#direct-msg-input').value;
+                if(!txt.trim()) return;
+                
+                const d = DataManager.get();
+                if(!d.mensajes) d.mensajes = [];
+                d.mensajes.push({
+                    id: Date.now(),
+                    studentId: 'alumno',
+                    text: txt,
+                    reply: null,
+                    date: Date.now(),
+                    read: false
+                });
+                DataManager.save(d);
+                this.openDirectLine(); // Refrescar chat
+            },
+
+            // --- GESTIÓN DE SUSCRIPCIÓN (MODAL FORMULARIO) ---
+            openSubscriptionModal(planId, planName) {
+                const html = `
+                    <div class="space-y-4">
+                        <div class="bg-gold/10 p-4 rounded-lg border border-gold text-center">
+                            <p class="text-[10px] text-gold uppercase font-bold tracking-widest">Aplicando a:</p>
+                            <h3 class="text-xl font-serif text-white mt-1">${planName}</h3>
+                        </div>
+                        
+                        <div>
+                            <label class="text-[10px] text-gray-500 uppercase font-bold block mb-1">Cédula (Será tu Usuario)</label>
+                            <input type="text" id="sub-id" class="w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold font-mono tracking-wider" placeholder="Ej. 118540678">
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] text-gray-500 uppercase font-bold block mb-1">Nombre Completo</label>
+                            <input type="text" id="sub-name" class="w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold" placeholder="Nombre y Apellidos">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[10px] text-gray-500 uppercase font-bold block mb-1">Teléfono</label>
+                                <input type="tel" id="sub-phone" class="w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold" placeholder="8888-8888">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 uppercase font-bold block mb-1">Fecha Nacimiento</label>
+                                <input type="date" id="sub-birth" class="w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold relative z-10" onchange="this.blur()">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] text-gray-500 uppercase font-bold block mb-1">Correo Electrónico</label>
+                            <input type="email" id="sub-email" class="w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold" placeholder="correo@ejemplo.com">
+                        </div>
+
+                        <button onclick="App.processSubscription(${planId})" class="btn-galaxy w-full py-4 rounded-xl font-bold mt-6 shadow-lg text-xs uppercase tracking-widest text-black hover:scale-105 transition-transform">
+                            CONFIRMAR INSCRIPCIÓN
+                        </button>
+                        <p class="text-[9px] text-gray-600 text-center mt-2">Tu contraseña será: <strong>sensacion</strong></p>
+                    </div>
+                `;
+                
+                // 1. Buscamos el contenedor principal
+                const modal = document.getElementById('modal');
+                
+                // 2. Buscamos los elementos por sus NUEVOS IDs ÚNICOS
+                const title = document.getElementById('uni-modal-title');
+                const body = document.getElementById('uni-modal-body');
+
+                if(modal && title && body) {
+                    title.innerText = "Registro de Alumno"; 
+                    body.innerHTML = html; 
+                    
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        // Forzamos visualización completa en móvil
+                        const panel = modal.querySelector('#modal-panel');
+                        if(panel) panel.classList.remove('scale-95');
+                    }, 10);
+                } else {
+                    console.error("Error crítico: No se encontraron los elementos 'uni-modal-title' o 'uni-modal-body'. Verifica el HTML.");
+                }
+            },
+
+            processSubscription(planId) {
+                const id = document.getElementById('sub-id').value.trim();
+                const name = document.getElementById('sub-name').value.trim();
+                const phone = document.getElementById('sub-phone').value.trim();
+                const email = document.getElementById('sub-email').value.trim();
+                const birth = document.getElementById('sub-birth').value;
+
+                if(!id || !name || !phone) return Swal.fire({ icon: 'warning', title: 'Datos Faltantes', text: 'Cédula, Nombre y Teléfono son obligatorios.', background: '#000', color: '#fff' });
+
+                const d = DataManager.get();
+                // Verificamos duplicados por ID
+                if(d.alumnos.find(a => a.id === id)) return Swal.fire({ icon: 'error', title: 'Ya registrado', text: 'Esta cédula ya tiene cuenta.', background: '#000', color: '#fff' });
+
+                // Crear Alumno
+                d.alumnos.push({
+                    id: id, 
+                    name: name, 
+                    pass: 'sensacion', // Contraseña Default
+                    role: 'student',
+                    phone: phone, 
+                    email: email, 
+                    birthDate: birth,
+                    joinDate: new Date().toISOString(),
+                    planId: planId, 
+                    extraCredits: 0, 
+                    active: true
+                });
+                DataManager.save(d);
+
+                this.closeModal(); // Cerrar modal correctamente
+                
+                Swal.fire({
+                    title: '¡Bienvenido!',
+                    html: `Tu usuario es: <strong>${id}</strong><br>Contraseña temporal: <strong>sensacion</strong>`,
+                    icon: 'success',
+                    background: '#05060b',
+                    color: '#fff',
+                    confirmButtonColor: '#D4AF37'
+                }).then(() => {
+                    this.toggleLoginModal();
+                    // Autocompletar login
+                    setTimeout(() => {
+                        const uid = document.getElementById('login-id');
+                        const upass = document.getElementById('login-pass');
+                        if(uid) uid.value = id;
+                        if(upass) upass.value = 'sensacion';
+                    }, 300);
+                });
+            },
+
+            // Función esencial para cerrar modales (Corrige el error "is not a function")
+            closeModal() {
+                const modal = document.getElementById('modal');
+                if(!modal) return;
+                modal.classList.add('opacity-0');
+                const panel = modal.querySelector('#modal-panel');
+                if(panel) panel.classList.add('scale-95');
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    // AJUSTE: Limpiamos los NUEVOS IDs
+                    const title = document.getElementById('uni-modal-title');
+                    const body = document.getElementById('uni-modal-body');
+                    if(title) title.innerText = '';
+                    if(body) body.innerHTML = '';
+                    
+                    // Detener scanner si estaba activo
+                    if(this.html5QrcodeScanner) {
+                        this.html5QrcodeScanner.clear().catch(e => console.log(e));
+                        this.html5QrcodeScanner = null;
+                    }
+                }, 300);
+            },
+
         };
 
         // 4. ROUTER
@@ -2229,7 +2650,7 @@
                 });
 
                 // 2. ACTIVACIÓN DEL MODO INMERSIVO (Bloqueo de scroll)
-                if (id === 'admin' || id === 'alumno') {
+                if (id === 'admin') {
                     document.body.classList.add('admin-mode');
                 } else {
                     document.body.classList.remove('admin-mode');
@@ -2244,12 +2665,14 @@
                 } else {
                     const target = document.getElementById(`view-${id}`) || document.getElementById('view-inicio');
                     if(target) {
-                        // Solo hacemos scroll al top si no es la zona privada inmersiva
-                        if (id !== 'admin' && id !== 'alumno') window.scrollTo(0,0);
+                        // AJUSTE AQUÍ: Quitamos "&& id !== 'alumno'"
+                        // Ahora el alumno también hará scroll al inicio al entrar, lo cual es correcto.
+                        if (id !== 'admin') window.scrollTo(0,0);
+                        
                         target.classList.remove('hidden');
                         target.classList.add('active');
 
-                        // AJUSTE: Forzamos el renderizado y aplicamos el asento de color manualmente
+                        // AJUSTE: Forzamos el renderizado y aplicamos el acento de color manualmente
                         if (id === 'nosotros') {
                             App.renderNosotros();
                         }
@@ -2258,7 +2681,7 @@
                             App.renderAgenda(); 
                         }
 
-                        // Lógica de asento de color para el borde inferior
+                        // Lógica de acento de color para el borde inferior
                         const activeBtn = document.getElementById(`nav-${id}`);
                         if(activeBtn) {
                             activeBtn.classList.add('text-gold', 'border-gold');
@@ -2283,7 +2706,9 @@
                     // Aseguramos que el asento tome la variable definida en DataManager
                     activeBtn.style.borderBottomColor = 'var(--color-gold)';
                 }
-            }
+            },
+
+ 
         };
 
         
@@ -2412,6 +2837,7 @@
                         else if(tabId === 'clases') this.renderClasesEditor(target); // NUEVO ENRUTAMIENTO
                         else if(tabId === 'membresias') this.renderMembresiasEditor(target);
                         else if(tabId === 'agenda') this.renderAgendaEditor(target);
+                        else if(tabId === 'alumnos') this.renderAlumnosEditor(target);
                         else if(tabId === 'config') target.innerHTML = this.genConfig();
                         else target.innerHTML = this.genGenericTable(tabId);
                     } catch (e) {
@@ -2888,6 +3314,12 @@
 
                             </div>
 
+                            <div class="bg-rose-900/10 p-4 rounded-xl border border-rose-500/20 mt-4">
+                                <label class="text-[10px] text-rose-400 uppercase font-bold block mb-2">Política de Cancelación (Horas)</label>
+                                <p class="text-[10px] text-gray-500 mb-2">Tiempo mínimo antes de la clase para cancelar y recuperar el crédito.</p>
+                                <input type="number" id="ed-cancel-hours" class="w-full bg-black p-3 rounded text-xs text-white border border-white/10 outline-none focus:border-rose-500" value="${conf.cancellationHours || 12}">
+                            </div>
+
                             <button onclick="Admin.saveHeroSettings()" class="btn-galaxy w-full py-4 rounded-lg font-bold mt-6 uppercase tracking-widest shadow-lg text-black hover:scale-[1.01] transition-transform">
                                 GUARDAR CAMBIOS
                             </button>
@@ -2915,12 +3347,10 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="clases-edit-list">
                             ${data.map((c, i) => `
                                 <div class="bg-panel p-6 rounded-2xl border border-white/10 group hover:border-gold/30 transition-all relative">
-                                    <button onclick="Admin.removeClaseItem(${i})" class="absolute top-4 right-4 text-gray-600 hover:text-rose bg-black/50 w-8 h-8 rounded-full flex items-center justify-center transition-colors z-10"><i class="fa-solid fa-trash text-xs"></i></button>
+                                    <button onclick="Admin.removeClaseItem(${i})" class="absolute top-4 right-4 text-gray-600 hover:text-rose bg-black/50 w-8 h-8 rounded-full flex items-center justify-center transition-colors z-20"><i class="fa-solid fa-trash text-xs"></i></button>
                                     
-
-
                                     <div class="flex gap-4 mb-4">
-                                        <div class="w-24 h-24 rounded-lg overflow-hidden border border-white/10 shrink-0 relative group-hover:border-gold/50 transition-colors">
+                                        <div class="w-24 h-24 rounded-lg overflow-hidden border border-white/10 shrink-0 relative group-hover:border-gold/50 transition-colors z-10">
                                             <img src="${c.img}" class="w-full h-full object-cover">
                                             <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                                                 <i class="fa-solid fa-image text-white"></i>
@@ -2928,21 +3358,17 @@
                                             <input type="text" class="absolute inset-0 opacity-0 cursor-pointer main-img-input" value="${c.img}" oninput="this.previousElementSibling.previousElementSibling.src = this.value; Admin.updateClasesArray()">
                                         </div>
 
-                                        <div class="flex-1 space-y-2">
+                                        <div class="flex-1 space-y-2 relative z-10">
                                             <input type="text" class="bg-transparent text-lg font-bold text-white w-full border-b border-transparent focus:border-gold outline-none placeholder-gray-600 name-input h-10" value="${c.name}" oninput="Admin.updateClasesArray()" placeholder="Nombre de la Clase">
                                             
-                                            <div class="flex justify-end absolute top-4 right-14">
-                                                <label class="flex items-center gap-2 cursor-pointer bg-black/50 px-3 py-1 rounded border border-white/10 hover:border-gold/50 transition-colors" title="Visible en Web">
+                                            <div class="flex justify-end">
+                                                <label class="flex items-center gap-2 cursor-pointer bg-black/50 px-3 py-1 rounded border border-white/10 hover:border-gold/50 transition-colors">
                                                     <span class="text-[9px] text-gray-400 uppercase font-bold">Visible</span>
                                                     <input type="checkbox" class="accent-success w-3 h-3 toggle-visible" ${c.visible !== false ? 'checked' : ''} onchange="Admin.updateClasesArray()">
                                                 </label>
                                             </div>
 
-                                            <input type="text" class="bg-transparent text-lg font-bold text-white w-full border-b border-transparent focus:border-gold outline-none placeholder-gray-600 name-input" value="${c.name}" oninput="Admin.updateClasesArray()" placeholder="Nombre de la Clase">
-                                            
-
-
-                                            <div class="flex flex-wrap gap-3 items-center mt-2">
+                                            <div class="flex flex-wrap gap-2 items-center">
                                                 <select class="bg-[#05060b] text-[10px] text-neon border border-white/10 rounded px-2 py-1 outline-none uppercase font-bold level-select" onchange="Admin.updateClasesArray()">
                                                     <option value="Principiante" ${c.level==='Principiante'?'selected':''}>Principiante</option>
                                                     <option value="Intermedio" ${c.level==='Intermedio'?'selected':''}>Intermedio</option>
@@ -2954,74 +3380,73 @@
                                                     <span class="text-[9px] text-gray-500 uppercase font-bold">Cupo:</span>
                                                     <input type="number" class="bg-transparent text-xs text-white w-8 text-center outline-none cap-input" value="${c.defaultCapacity || 25}" oninput="Admin.updateClasesArray()">
                                                 </div>
-
-                                                <label class="flex items-center gap-1 cursor-pointer ml-auto border-l border-white/10 pl-3">
-                                                    <input type="checkbox" class="accent-gold w-3 h-3 toggle-price" ${c.showPrice ? 'checked' : ''} onchange="Admin.updateClasesArray()">
-                                                    <span class="text-[10px] text-gold uppercase font-bold">Mostrar Precio</span>
-                                                </label>
                                             </div>
-
-                                            <div class="mt-2 bg-black/20 p-2 rounded border border-white/5">
-                                                <div class="flex justify-between items-center mb-2 pb-2 border-b border-white/5">
-                                                    <label class="flex items-center gap-2 cursor-pointer">
-                                                        <input type="checkbox" class="accent-neon w-3 h-3 toggle-schedule" ${c.showSchedule !== false ? 'checked' : ''} onchange="Admin.updateClasesArray()">
-                                                        <span class="text-[9px] text-gray-500 uppercase font-bold">Mostrar en Web</span>
-                                                    </label>
-                                                    <button onclick="Admin.addSchedule(${i})" class="text-[9px] bg-neon/10 text-neon hover:bg-neon hover:text-black px-2 py-0.5 rounded transition-colors font-bold">+ HORARIO</button>
-                                                </div>
-                                                
-                                                <div class="space-y-1 schedule-container">
-                                                    ${(c.schedules || []).map((s, sIdx) => `
-                                                        <div class="flex gap-2 items-center group/sch">
-                                                            <select class="bg-[#05060b] text-[10px] text-gray-300 border border-white/10 rounded px-1 outline-none sch-day" onchange="Admin.updateClasesArray()">
-                                                                <option value="1" ${s.day==1?'selected':''}>Lun</option>
-                                                                <option value="2" ${s.day==2?'selected':''}>Mar</option>
-                                                                <option value="3" ${s.day==3?'selected':''}>Mié</option>
-                                                                <option value="4" ${s.day==4?'selected':''}>Jue</option>
-                                                                <option value="5" ${s.day==5?'selected':''}>Vie</option>
-                                                                <option value="6" ${s.day==6?'selected':''}>Sáb</option>
-                                                                <option value="0" ${s.day==0?'selected':''}>Dom</option>
-                                                            </select>
-                                                            <input type="time" class="bg-[#05060b] text-[10px] text-white border border-white/10 rounded px-1 outline-none sch-time" value="${s.time}" oninput="Admin.updateClasesArray()">
-                                                            <button onclick="Admin.removeSchedule(${i}, ${sIdx})" class="text-rose hover:text-white px-1"><i class="fa-solid fa-times text-[10px]"></i></button>
-                                                        </div>
-                                                    `).join('')}
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="grid grid-cols-2 gap-2 mt-2">
-                                                <div class="relative">
-                                                    <span class="absolute left-2 top-1.5 text-[10px] text-gray-500">CRC</span>
-                                                    <input type="text" class="w-full bg-[#05060b] text-xs text-white p-1.5 pl-8 rounded border border-white/10 outline-none price-crc-input" value="${c.priceCRC || ''}" oninput="Admin.updateClasesArray()" placeholder="25000">
-                                                </div>
-                                                <div class="relative">
-                                                    <span class="absolute left-2 top-1.5 text-[10px] text-gray-500">USD</span>
-                                                    <input type="text" class="w-full bg-[#05060b] text-xs text-white p-1.5 pl-8 rounded border border-white/10 outline-none price-usd-input" value="${c.priceUSD || ''}" oninput="Admin.updateClasesArray()" placeholder="50">
-                                                </div>
-                                            </div>
-
-                                            <div class="mt-3 bg-black/20 p-2 rounded border border-white/5">
-                                                <div class="flex justify-between items-center mb-2">
-                                                    <label class="text-[9px] text-gray-500 uppercase font-bold">Galería de Imágenes</label>
-                                                    <button onclick="Admin.addClaseImg(${i})" class="text-[9px] bg-white/10 hover:bg-gold hover:text-black text-white px-2 py-0.5 rounded transition-colors">+ FOTO</button>
-                                                </div>
-                                                <div class="space-y-1 gallery-container">
-                                                    ${(c.gallery || [c.img]).map((imgUrl, imgIdx) => `
-                                                        <div class="flex gap-2 items-center group/img">
-                                                            <img src="${imgUrl}" class="w-6 h-6 rounded object-cover border border-white/10">
-                                                            <input type="text" class="flex-1 bg-transparent text-[10px] text-gray-400 border-b border-white/5 focus:border-gold outline-none gal-url-input" value="${imgUrl}" oninput="this.previousElementSibling.src = this.value; Admin.updateClasesArray()">
-                                                            <button onclick="Admin.removeClaseImg(${i}, ${imgIdx})" class="text-gray-600 hover:text-rose"><i class="fa-solid fa-times text-xs"></i></button>
-                                                        </div>
-                                                    `).join('')}
-                                                </div>
-                                            </div>
-
-
-
                                         </div>
                                     </div>
 
-                                    <div>
+                                    <div class="mb-2 flex justify-end">
+                                        <label class="flex items-center gap-1 cursor-pointer">
+                                            <input type="checkbox" class="accent-gold w-3 h-3 toggle-price" ${c.showPrice ? 'checked' : ''} onchange="Admin.updateClasesArray()">
+                                            <span class="text-[10px] text-gold uppercase font-bold">Mostrar Precio</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="mt-2 bg-black/20 p-2 rounded border border-white/5 relative z-10">
+                                        <div class="flex justify-between items-center mb-2 pb-2 border-b border-white/5">
+                                            <label class="flex items-center gap-2 cursor-pointer">
+                                                <input type="checkbox" class="accent-neon w-3 h-3 toggle-schedule" ${c.showSchedule !== false ? 'checked' : ''} onchange="Admin.updateClasesArray()">
+                                                <span class="text-[9px] text-gray-500 uppercase font-bold">Mostrar en Web</span>
+                                            </label>
+                                            <button onclick="Admin.addSchedule(${i})" class="text-[9px] bg-neon/10 text-neon hover:bg-neon hover:text-black px-2 py-0.5 rounded transition-colors font-bold">+ HORARIO</button>
+                                        </div>
+                                        
+                                        <div class="space-y-1 schedule-container">
+                                            ${(c.schedules || []).map((s, sIdx) => `
+                                                <div class="flex gap-2 items-center group/sch">
+                                                    <select class="bg-[#05060b] text-[10px] text-gray-300 border border-white/10 rounded px-1 outline-none sch-day" onchange="Admin.updateClasesArray()">
+                                                        <option value="1" ${s.day==1?'selected':''}>Lun</option>
+                                                        <option value="2" ${s.day==2?'selected':''}>Mar</option>
+                                                        <option value="3" ${s.day==3?'selected':''}>Mié</option>
+                                                        <option value="4" ${s.day==4?'selected':''}>Jue</option>
+                                                        <option value="5" ${s.day==5?'selected':''}>Vie</option>
+                                                        <option value="6" ${s.day==6?'selected':''}>Sáb</option>
+                                                        <option value="0" ${s.day==0?'selected':''}>Dom</option>
+                                                    </select>
+                                                    <input type="time" class="bg-[#05060b] text-[10px] text-white border border-white/10 rounded px-1 outline-none sch-time" value="${s.time}" oninput="Admin.updateClasesArray()">
+                                                    <button onclick="Admin.removeSchedule(${i}, ${sIdx})" class="text-rose hover:text-white px-1"><i class="fa-solid fa-times text-[10px]"></i></button>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-2 mt-2 relative z-10">
+                                        <div class="relative">
+                                            <span class="absolute left-2 top-1.5 text-[10px] text-gray-500">CRC</span>
+                                            <input type="text" class="w-full bg-[#05060b] text-xs text-white p-1.5 pl-8 rounded border border-white/10 outline-none price-crc-input" value="${c.priceCRC || ''}" oninput="Admin.updateClasesArray()" placeholder="25000">
+                                        </div>
+                                        <div class="relative">
+                                            <span class="absolute left-2 top-1.5 text-[10px] text-gray-500">USD</span>
+                                            <input type="text" class="w-full bg-[#05060b] text-xs text-white p-1.5 pl-8 rounded border border-white/10 outline-none price-usd-input" value="${c.priceUSD || ''}" oninput="Admin.updateClasesArray()" placeholder="50">
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3 bg-black/20 p-2 rounded border border-white/5 relative z-10">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <label class="text-[9px] text-gray-500 uppercase font-bold">Galería de Imágenes</label>
+                                            <button onclick="Admin.addClaseImg(${i})" class="text-[9px] bg-white/10 hover:bg-gold hover:text-black text-white px-2 py-0.5 rounded transition-colors">+ FOTO</button>
+                                        </div>
+                                        <div class="space-y-1 gallery-container">
+                                            ${(c.gallery || [c.img]).map((imgUrl, imgIdx) => `
+                                                <div class="flex gap-2 items-center group/img">
+                                                    <img src="${imgUrl}" class="w-6 h-6 rounded object-cover border border-white/10">
+                                                    <input type="text" class="flex-1 bg-transparent text-[10px] text-gray-400 border-b border-white/5 focus:border-gold outline-none gal-url-input" value="${imgUrl}" oninput="this.previousElementSibling.src = this.value; Admin.updateClasesArray()">
+                                                    <button onclick="Admin.removeClaseImg(${i}, ${imgIdx})" class="text-gray-600 hover:text-rose"><i class="fa-solid fa-times text-xs"></i></button>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-2 relative z-10">
                                         <textarea class="desc-input w-full bg-black/30 text-gray-400 text-sm p-3 rounded-lg border border-white/5 outline-none focus:border-gold/30 resize-none h-20 mb-2" oninput="Admin.updateClasesArray()" placeholder="Descripción Corta (Para la tarjeta)...">${c.desc || ''}</textarea>
                                         
                                         <label class="text-[10px] uppercase font-bold text-gold tracking-widest mb-1 block">Detalles del Programa (Inclusiones, Requisitos)</label>
@@ -3186,6 +3611,10 @@
                                             </div>
                                         </div>
                                         
+                                        <div class="relative mt-2">
+                                            <span class="absolute left-2 top-1.5 text-[10px] text-gray-500">CLASES/SEM</span>
+                                            <input type="number" class="w-full bg-[#05060b] text-xs text-white p-1.5 pl-20 rounded border border-white/10 outline-none m-limit" value="${m.weeklyLimit || 7}" oninput="Admin.updateMembresiasArray()">
+                                        </div>
                                         <div class="mt-3 flex justify-center items-center gap-2">
                                             <label class="flex items-center gap-2 cursor-pointer bg-white/5 px-3 py-1 rounded-full border border-white/5 hover:border-gold/30 transition-colors">
                                                 <input type="checkbox" class="accent-gold w-3 h-3 m-popular" ${m.popular ? 'checked' : ''} onchange="Admin.updateMembresiasArray()">
@@ -3193,6 +3622,9 @@
                                             </label>
                                         </div>
                                     </div>
+
+
+
 
                                     <div class="flex-1 space-y-4">
                                         <div>
@@ -3256,7 +3688,8 @@
                         popular: card.querySelector('.m-popular').checked,
                         summary: card.querySelector('.m-summary').value,
                         details: card.querySelector('.m-details').value,
-                        legal: card.querySelector('.m-legal').value
+                        legal: card.querySelector('.m-legal').value,
+                        weeklyLimit: parseInt(card.querySelector('.m-limit').value) || 7
                     };
                 });
                 
@@ -3737,6 +4170,272 @@
                 }
             },
 
+            // --- GESTIÓN DE ALUMNOS (CRM) ---
+            
+            renderAlumnosEditor(container) {
+                if(!container) return;
+                const d = DataManager.get();
+                const alumnos = d.alumnos || [];
+                const planes = d.membresias || [];
+                const reservas = d.reservas || [];
+                const sesiones = d.sesiones || [];
+
+                // 1. CÁLCULO DE FECHAS (Semana Actual)
+                const curr = new Date();
+                const day = curr.getDay() || 7; 
+                const monday = new Date(curr.setDate(curr.getDate() - day + 1));
+                monday.setHours(0,0,0,0);
+                const sunday = new Date(monday);
+                sunday.setDate(monday.getDate() + 6);
+                sunday.setHours(23,59,59,999);
+
+                container.innerHTML = `
+                    <div class="max-w-6xl mx-auto pb-20 fade-in">
+                        <div class="flex justify-between items-end mb-8">
+                            <div>
+                                <h1 class="text-3xl font-serif font-bold text-white">Comunidad Estudiantil</h1>
+                                <p class="text-gray-400 text-sm mt-1">Base de datos de clientes y profesores.</p>
+                            </div>
+                            <button onclick="Admin.openStudentModal()" class="btn-galaxy px-6 py-3 rounded-lg text-xs font-bold shadow-lg hover:scale-105 transition-transform">+ NUEVO</button>
+                        </div>
+
+                        <div class="bg-transparent md:bg-panel rounded-xl md:border border-white/10 overflow-hidden">
+                            <table class="w-full text-left text-sm text-gray-400">
+                                <thead class="bg-white/5 text-xs uppercase text-gold hidden md:table-header-group">
+                                    <tr>
+                                        <th class="p-4">Cliente / Cédula</th>
+                                        <th class="p-4">Contacto</th>
+                                        <th class="p-4">Plan Actual</th>
+                                        <th class="p-4 text-center">Saldo Semanal</th>
+                                        <th class="p-4 text-center">Extras</th>
+                                        <th class="p-4 text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody class="divide-y divide-white/5 block md:table-row-group space-y-4 md:space-y-0">
+                                    ${alumnos.map(a => {
+                                        const plan = planes.find(p => p.id === a.planId) || {name: 'Sin Plan', weeklyLimit: 0};
+                                        const isTeacher = a.role === 'admin';
+                                        
+                                        // 2. CÁLCULO DE SALDO INDIVIDUAL
+                                        let saldoDisplay = '-';
+                                        if (!isTeacher) {
+                                            const usadas = reservas.filter(r => {
+                                                if (r.alumnoId !== a.id) return false;
+                                                const sesion = sesiones.find(s => s.id === r.sesionId);
+                                                if (!sesion) return false;
+                                                const fechaSesion = new Date(sesion.date);
+                                                return fechaSesion >= monday && fechaSesion <= sunday;
+                                            }).length;
+
+                                            const total = (plan.weeklyLimit || 0) + (a.extraCredits || 0);
+                                            const restantes = Math.max(0, total - usadas);
+                                            
+                                            // Formato visual: "3 / 5"
+                                            saldoDisplay = `<span class="text-white font-bold text-lg">${restantes}</span> <span class="text-gray-600 text-xs">/ ${total}</span>`;
+                                        }
+
+                                        return `
+                                        <tr class="hover:bg-white/5 transition block md:table-row bg-panel md:bg-transparent border border-white/10 md:border-0 rounded-xl p-5 md:p-0 relative shadow-lg md:shadow-none">
+                                            
+                                            <td class="p-0 md:p-4 block md:table-cell mb-4 md:mb-0 border-b border-white/5 md:border-none pb-3 md:pb-0">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-10 h-10 rounded-full ${isTeacher ? 'bg-gold/20 border-gold text-gold' : 'bg-white/10 border-white/20 text-white'} border flex items-center justify-center shrink-0 text-sm font-bold font-serif">
+                                                        ${isTeacher ? '<i class="fa-solid fa-crown"></i>' : a.name.charAt(0).toUpperCase()}
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-bold text-white text-base leading-tight">${a.name}</div>
+                                                        <div class="text-xs font-mono text-gray-500 tracking-wider">${a.id}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td class="p-0 md:p-4 block md:table-cell mb-2 md:mb-0">
+                                                <div class="flex flex-col text-xs gap-1.5">
+                                                    ${a.birthDate ? `<span class="text-gray-400 flex items-center gap-2" title="Cumpleaños"><i class="fa-solid fa-cake-candles text-rose-400 w-4 text-center"></i> ${new Date(a.birthDate + 'T12:00:00').toLocaleDateString()}</span>` : ''}
+                                                    
+                                                    ${a.phone ? `<span class="text-white flex items-center gap-2"><i class="fa-brands fa-whatsapp text-success w-4 text-center text-sm"></i> ${a.phone}</span>` : '<span class="text-gray-600 pl-6">-</span>'}
+                                                    
+                                                    ${a.email ? `<span class="text-gray-500 truncate max-w-[150px] flex items-center gap-2" title="${a.email}"><i class="fa-regular fa-envelope text-gray-400 w-4 text-center"></i> ${a.email}</span>` : ''}
+                                                </div>
+                                            </td>
+
+                                            <td class="p-0 md:p-4 block md:table-cell mb-2 md:mb-0">
+                                                <div class="flex justify-between items-center md:block">
+                                                    <span class="md:hidden text-[10px] uppercase font-bold text-gray-500">Plan:</span>
+                                                    ${isTeacher 
+                                                        ? '<span class="text-gold text-[10px] font-bold border border-gold/30 px-2 py-0.5 rounded uppercase">Profesor</span>' 
+                                                        : `<span class="bg-white/10 px-3 py-1 rounded text-xs text-neon border border-white/10">${plan.name}</span>`
+                                                    }
+                                                </div>
+                                            </td>
+
+                                            <td class="p-0 md:p-4 block md:table-cell text-right md:text-center mb-2 md:mb-0">
+                                                <div class="flex justify-between items-center md:justify-center">
+                                                    <span class="md:hidden text-[10px] uppercase font-bold text-gray-500">Saldo Disp.:</span>
+                                                    <div>${saldoDisplay}</div>
+                                                </div>
+                                            </td>
+
+                                            <td class="p-0 md:p-4 block md:table-cell text-center mb-4 md:mb-0">
+                                                ${!isTeacher ? `
+                                                <div class="flex justify-between items-center md:justify-center">
+                                                    <span class="md:hidden text-[10px] uppercase font-bold text-gray-500">Compensar:</span>
+                                                    <div class="flex items-center gap-2 bg-black/40 rounded-lg p-1 border border-white/5">
+                                                        <button onclick="Admin.adjustCredits('${a.id}', -1)" class="text-rose-500 hover:text-white w-6 h-6 flex items-center justify-center">-</button>
+                                                        <span class="text-white font-bold w-4 text-center text-xs">${a.extraCredits || 0}</span>
+                                                        <button onclick="Admin.adjustCredits('${a.id}', 1)" class="text-success hover:text-white w-6 h-6 flex items-center justify-center">+</button>
+                                                    </div>
+                                                </div>` : ''}
+                                            </td>
+
+                                            <td class="p-0 md:p-4 block md:table-cell text-center border-t border-white/10 md:border-none pt-3 md:pt-0">
+                                                <div class="flex justify-end gap-3 md:justify-center">
+                                                    <button onclick="Admin.openStudentModal('${a.id}')" class="w-8 h-8 rounded bg-white/5 hover:bg-gold hover:text-black text-gray-400 transition-colors flex items-center justify-center">
+                                                        <i class="fa-solid fa-pen text-xs"></i>
+                                                    </button>
+                                                    <button onclick="Admin.deleteItem('alumnos', '${a.id}')" class="w-8 h-8 rounded bg-rose-950/20 hover:bg-rose-600 hover:text-white text-rose-500 border border-rose-500/20 transition-colors flex items-center justify-center">
+                                                        <i class="fa-solid fa-trash text-xs"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>`;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            },
+
+            adjustCredits(studentId, amount) {
+                const d = DataManager.get();
+                const s = d.alumnos.find(a => a.id === studentId);
+                if(s) {
+                    if(!s.extraCredits) s.extraCredits = 0;
+                    s.extraCredits += amount;
+                    DataManager.save(d);
+                    this.renderAlumnosEditor(document.getElementById('admin-tab-alumnos'));
+                }
+            },
+
+            openStudentModal(id = null) {
+                const d = DataManager.get();
+                const student = id ? d.alumnos.find(a => a.id === id) : {};
+                const plans = d.membresias || [];
+                const isNew = !id;
+
+                // Lógica UI
+                window.togglePlanSelect = (roleVal) => {
+                    const planDiv = document.getElementById('plan-container');
+                    if(roleVal === 'admin') planDiv.classList.add('hidden');
+                    else planDiv.classList.remove('hidden');
+                };
+
+                const html = `
+                    <div class="space-y-4">
+                        <div>
+                            <label class="admin-label text-gold">Número de Cédula (Será el Usuario)</label>
+                            <input type="text" id="st-id" class="admin-input w-full bg-black border border-white/10 p-3 rounded text-white font-mono tracking-wider focus:border-gold outline-none" 
+                                value="${student.id || ''}" 
+                                placeholder="Ej. 118540678" 
+                                ${!isNew ? 'readonly class="opacity-50 cursor-not-allowed"' : ''}>
+                        </div>
+
+                        <div>
+                            <label class="admin-label">Nombre y Apellidos</label>
+                            <input type="text" id="st-name" class="admin-input w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold" value="${student.name || ''}" placeholder="Nombre completo">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="admin-label">Teléfono / WhatsApp</label>
+                                <input type="tel" id="st-phone" class="admin-input w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold" value="${student.phone || ''}" placeholder="8888-8888">
+                            </div>
+                            <div>
+                                <label class="admin-label">Correo Electrónico</label>
+                                <input type="email" id="st-email" class="admin-input w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold" value="${student.email || ''}" placeholder="correo@ejemplo.com">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="admin-label">Fecha de Nacimiento <span class="text-gray-600">(Opcional)</span></label>
+                                <input type="date" id="st-birth" class="admin-input w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold relative z-10" value="${student.birthDate || ''}" onchange="this.blur()">
+                            </div>
+                            <div class="flex flex-col justify-end pb-3">
+                                <span class="text-[10px] text-gray-500 uppercase font-bold">Fecha de Ingreso</span>
+                                <span class="text-sm text-gold font-mono">${student.joinDate ? new Date(student.joinDate).toLocaleDateString() : 'Se registrará hoy'}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-white/10 my-2"></div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="admin-label text-gold">Rol del Usuario</label>
+                                <select id="st-role" class="w-full bg-black border border-gold/30 p-3 rounded text-white outline-none focus:border-gold" onchange="window.togglePlanSelect(this.value)">
+                                    <option value="student" ${student.role !== 'admin' ? 'selected' : ''}>Estudiante</option>
+                                    <option value="admin" ${student.role === 'admin' ? 'selected' : ''}>Profesor / Admin</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="admin-label">Contraseña</label>
+                                <input type="text" id="st-pass" class="admin-input w-full bg-black border border-white/10 p-3 rounded text-white outline-none focus:border-gold" value="${student.pass || 'sensacion'}" placeholder="sensacion">
+                            </div>
+                        </div>
+
+                        <div id="plan-container" class="${student.role === 'admin' ? 'hidden' : ''}">
+                            <label class="admin-label">Membresía Activa</label>
+                            <select id="st-plan" class="w-full bg-black border border-white/10 p-3 rounded text-white outline-none">
+                                <option value="">-- Sin Membresía --</option>
+                                ${plans.map(p => `<option value="${p.id}" ${student.planId === p.id ? 'selected' : ''}>${p.name} (${p.weeklyLimit} clases/sem)</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                `;
+
+                $('#modal-title').innerText = isNew ? "NUEVO USUARIO" : "EXPEDIENTE";
+                $('#modal-subtitle').innerText = isNew ? "Registro Inicial" : `Cédula: ${student.id}`;
+                $('#modal-body').innerHTML = html;
+                
+                $('#admin-modal').classList.remove('hidden');
+                setTimeout(()=>{$('#modal-backdrop').classList.remove('opacity-0'); $('#modal-panel').classList.remove('scale-95','opacity-0')},10);
+
+                $('#modal-save-btn').classList.remove('hidden');
+                
+                $('#modal-save-btn').onclick = () => {
+                    const newId = $('#st-id').value.trim();
+                    const name = $('#st-name').value.trim();
+                    
+                    if(!newId || !name) return Swal.fire({title: 'Datos Incompletos', text: 'Cédula y Nombre son obligatorios', icon: 'warning', background: '#05060b', color: '#fff'});
+
+                    const newStudent = {
+                        id: newId, // La cédula es el ID
+                        name: name,
+                        phone: $('#st-phone').value,
+                        email: $('#st-email').value,
+                        birthDate: $('#st-birth').value,
+                        joinDate: student.joinDate || new Date().toISOString(), // Mantiene la vieja o crea hoy
+                        pass: $('#st-pass').value || 'sensacion', // Mantiene o usa default
+                        role: $('#st-role').value,
+                        planId: ($('#st-role').value === 'student' && $('#st-plan').value) ? parseInt($('#st-plan').value) : null,
+                        extraCredits: student.extraCredits || 0,
+                        active: true
+                    };
+
+                    if(id) {
+                        const idx = d.alumnos.findIndex(a => a.id === id);
+                        d.alumnos[idx] = newStudent;
+                    } else {
+                        if(d.alumnos.find(a => a.id === newId)) return Swal.fire({title: 'Duplicado', text: 'Esta cédula ya está registrada', icon: 'error', background: '#05060b', color: '#fff'});
+                        d.alumnos.push(newStudent);
+                    }
+                    DataManager.save(d);
+                    Admin.closeModal();
+                    Admin.renderAlumnosEditor(document.getElementById('admin-tab-alumnos'));
+                };
+            },
 
         };
 
