@@ -275,7 +275,9 @@
         /* Contenedor relativo para que el click funcione en todo el area */
         .input-wrapper { position: relative; }
 
-
+        /* Ocultar Scrollbar pero permitir scroll */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
     </style>
 </head>
@@ -1039,6 +1041,7 @@
                     legal: "Precio por pareja mensual."
                 }
             ],
+
             alumnos: [
                 // USUARIO 1: EL PROFESOR (ADMIN)
                 { 
@@ -1071,10 +1074,128 @@
                 }
             ],
             
-            espacios: [
-                { id: 1, name: "Salón Principal", capacity: "60", desc: "120m², Piso flotante, Espejos panorámicos, Aire Acondicionado.", img: "https://images.unsplash.com/photo-1519671482502-9759101d4561?auto=format&fit=crop&w=600" },
-                { id: 2, name: "Studio B", capacity: "15", desc: "Ideal para clases privadas, grabaciones y ensayos de grupos pequeños.", img: "https://images.unsplash.com/photo-1571216682227-e4bb00b3d87b?auto=format&fit=crop&w=600" }
-            ],
+            espacios: {
+                hero: {
+                    title: "El Escenario Perfecto",
+                    subtitle: "1200m² de posibilidades. Desde galas íntimas hasta producciones masivas. Tu visión, nuestra infraestructura.",
+                    bg: "https://images.unsplash.com/photo-1519671482502-9759101d4561?auto=format&fit=crop&w=1600"
+                },
+                features: [
+                    { icon: "fa-wind", label: "Climatización", desc: "Aire Acondicionado Industrial" },
+                    { icon: "fa-music", label: "Sonido Hi-Fi", desc: "Sistema envolvente profesional" },
+                    { icon: "fa-layer-group", label: "Piso Flotante", desc: "Amortiguación para danza" },
+                    { icon: "fa-lightbulb", label: "Iluminación", desc: "Spots RGB Dimerizables" },
+                    { icon: "fa-wifi", label: "WiFi 6E", desc: "Fibra óptica dedicada" },
+                    { icon: "fa-martini-glass", label: "Bar Privado", desc: "Área de coctelería equipada" },
+                    { icon: "fa-chair", label: "Mobiliario", desc: "Sillas Tiffany y mesas" },
+                    { icon: "fa-shield-halved", label: "Seguridad", desc: "Circuito cerrado y oficial" }
+                ],
+                servicios: [
+                    // 1. SALÓN PRINCIPAL (BODAS)
+                    { 
+                        id: 1, 
+                        title: "Grand Ballroom", 
+                        shortDesc: "El escenario ideal para bodas de ensueño y galas inolvidables.",
+                        longDesc: "* AMBIENTE DE LUJO\n- Capacidad para 150 personas sentadas\n- Cielos altos con lámparas de cristal\n- Área exclusiva para DJ y orquesta en vivo\n* INCLUYE\n- Mantelería de base\n- Personal de limpieza durante el evento",
+                        img: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800",
+                        gallery: [
+                            "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=800"
+                        ],
+                        priceCRC: "350000",
+                        priceUSD: "650",
+                        priceType: "Evento",
+                        showPrice: true
+                    },
+                    // 2. CORPORATIVO
+                    { 
+                        id: 2, 
+                        title: "Auditorio Executive", 
+                        shortDesc: "Lanzamientos de marca, conferencias y capacitaciones de alto nivel.",
+                        longDesc: "* TECNOLOGÍA AVANZADA\n- Proyector 4K y Pantalla Gigante\n- Micrófonos inalámbricos (solapa y mano)\n- Puntero láser y atril digital\n* COMODIDAD\n- Sillas ergonómicas para largas sesiones\n- Estación de café permanente",
+                        img: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800",
+                        gallery: [
+                            "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1544531586-fde5298cdd40?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1475721027766-966970794326?auto=format&fit=crop&w=800"
+                        ],
+                        priceCRC: "45000",
+                        priceUSD: "85",
+                        priceType: "Hora",
+                        showPrice: true
+                    },
+                    // 3. MEDIA & PRODUCCIÓN
+                    { 
+                        id: 3, 
+                        title: "Studio Creativo", 
+                        shortDesc: "El set perfecto para videoclips, fotografía editorial y castings.",
+                        longDesc: "* VISUALES IMPECABLES\n- Paredes Infinitas (Ciclorama Blanco/Negro)\n- Espejos panorámicos cubribles\n- Parrilla de iluminación superior\n* PRIVACIDAD\n- Aislamiento acústico total\n- Vestidor privado para talento",
+                        img: "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=800",
+                        gallery: [
+                            "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?auto=format&fit=crop&w=800"
+                        ],
+                        priceCRC: "20000",
+                        priceUSD: "40",
+                        priceType: "Hora",
+                        showPrice: true
+                    },
+                    // 4. TERRAZA (SOCIAL)
+                    { 
+                        id: 4, 
+                        title: "Terraza Sunset", 
+                        shortDesc: "Cócteles al atardecer y eventos sociales al aire libre con vista.",
+                        longDesc: "* VIBRA CHILL-OUT\n- Vista panorámica de la ciudad\n- Barra iluminada LED\n- Sistema de sonido ambiental resistente a intemperie\n* IDEAL PARA\n- Cumpleaños, After-office y Networking",
+                        img: "https://images.unsplash.com/photo-1519225421980-715cb0202128?auto=format&fit=crop&w=800",
+                        gallery: [
+                            "https://images.unsplash.com/photo-1519225421980-715cb0202128?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1572917769975-538d38b00799?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=800"
+                        ],
+                        priceCRC: "125000",
+                        priceUSD: "230",
+                        priceType: "Evento",
+                        showPrice: true
+                    },
+                    // 5. AULA PRIVADA (ENSAYOS)
+                    { 
+                        id: 5, 
+                        title: "Studio B (Ensayo)", 
+                        shortDesc: "Espacio íntimo para clases privadas, ensayos one-on-one y yoga.",
+                        longDesc: "* CONCENTRACIÓN TOTAL\n- Piso flotante de madera certificada\n- Espejos de cuerpo entero\n- Sistema de sonido Bluetooth independiente\n* CAPACIDAD\n- Máximo 10 personas",
+                        img: "https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=800",
+                        gallery: [
+                            "https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=800"
+                        ],
+                        priceCRC: "10000",
+                        priceUSD: "20",
+                        priceType: "Hora",
+                        showPrice: true
+                    },
+                    // 6. BLACK BOX (TEATRO)
+                    { 
+                        id: 6, 
+                        title: "Black Box Theater", 
+                        shortDesc: "Caja negra experimental para obras de teatro, performance y stand-up.",
+                        longDesc: "* DRAMATISMO PURO\n- Paredes y piso totalmente negros\n- Parrilla de luces cenital\n- Gradería retráctil para 50 personas\n- Camerinos directos al escenario",
+                        img: "https://images.unsplash.com/photo-1503095392237-736240221e0f?auto=format&fit=crop&w=800",
+                        gallery: [
+                            "https://images.unsplash.com/photo-1503095392237-736240221e0f?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1478720568477-152d9b164e63?auto=format&fit=crop&w=800",
+                            "https://images.unsplash.com/photo-1514306191717-452ec28c7f42?auto=format&fit=crop&w=800"
+                        ],
+                        priceCRC: "200000",
+                        priceUSD: "380",
+                        priceType: "Día",
+                        showPrice: true
+                    }
+                ]
+            },
+            
             talento: [
                 { id: 1, name: "Georgzua", role: "Director Artístico", bio: "Campeón Nacional de Salsa 2022. 15 años de experiencia formando bailarines.", img: "https://images.unsplash.com/photo-1542596594-649edbc13630?auto=format&fit=crop&w=600" },
                 { id: 2, name: "Dania", role: "Instructora Senior", bio: "Especialista en Bachata Sensual y Lady Style. Coreógrafa internacional.", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600" },
@@ -2630,6 +2751,173 @@
                 }, 300);
             },
 
+            // --- VISTA ESPACIOS (CORREGIDO: BOTÓN SEGURO & DISEÑO) ---
+            renderEspacios() {
+                const data = DataManager.get().espacios;
+                const view = document.getElementById('view-alquiler');
+                if(!data || !view) return;
+
+                view.className = "app-view active w-full min-h-screen bg-void"; 
+                view.innerHTML = `
+                    <div class="relative w-full min-h-[70vh] flex flex-col items-center justify-center overflow-hidden pt-20 pb-10">
+                        <div class="absolute inset-0">
+                            <img src="${data.hero.bg}" class="w-full h-full object-cover opacity-50 animate-pulse-slow">
+                            <div class="absolute inset-0 bg-gradient-to-b from-void via-void/60 to-void"></div>
+                        </div>
+                        
+                        <div class="relative z-10 text-center px-6 w-full max-w-5xl mb-8">
+                            <span class="text-gold text-xs font-bold uppercase tracking-[0.6em] mb-6 block animate-slide-up">Event Venue</span>
+                            <h1 class="text-5xl md:text-8xl font-serif font-black text-white mb-6 leading-none animate-slide-up delay-100 drop-shadow-2xl">${data.hero.title}</h1>
+                            <p class="text-gray-200 text-base md:text-xl font-light leading-relaxed max-w-2xl mx-auto animate-slide-up delay-100 opacity-90">${data.hero.subtitle}</p>
+                        </div>
+
+                        <div class="relative z-30 mb-12 animate-slide-up delay-100">
+                            <button onclick="App.openModal('contacto', 'Cotizar Mi Evento')" class="btn-galaxy px-12 py-4 rounded-full text-xs font-bold shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:scale-105 transition-transform text-black uppercase tracking-widest">
+                                Cotizar Ahora
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="relative z-20 -mt-10 pb-20 w-full overflow-hidden">
+                        <div class="flex overflow-x-auto gap-6 px-6 pb-12 w-full no-scrollbar snap-x snap-mandatory">
+                            <div class="shrink-0 w-4 md:w-10"></div> 
+
+                            ${data.servicios.map(s => `
+                                <div onclick="App.openSpaceDetails(${s.id})" class="snap-center shrink-0 w-[85vw] md:w-[500px] h-[500px] rounded-[2rem] overflow-hidden relative group cursor-pointer border border-white/10 hover:border-gold transition-all duration-500 shadow-2xl hover:shadow-[0_0_50px_rgba(212,175,55,0.2)] transform hover:-translate-y-4 bg-black">
+                                    <img src="${s.img}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 filter brightness-75 group-hover:brightness-100">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
+                                    
+                                    <div class="absolute bottom-0 left-0 w-full p-8 md:p-12">
+                                        <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                            <span class="text-gold text-[10px] font-bold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity delay-100">Click para ver</span>
+                                            <h3 class="text-3xl md:text-4xl font-serif font-black text-white mb-2 leading-none group-hover:text-gold transition-colors">${s.title}</h3>
+                                            <p class="text-gray-300 text-sm leading-relaxed line-clamp-2 font-light">${s.shortDesc}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            
+                            <div class="shrink-0 w-4 md:w-10"></div>
+                        </div>
+                    </div>
+
+                    <div class="w-full bg-void border-t border-white/5 py-24 relative overflow-hidden">
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
+                        <div class="container mx-auto max-w-7xl px-6">
+                            <div class="text-center mb-16">
+                                <h2 class="text-3xl font-serif font-bold text-white mb-4">Especificaciones Técnicas</h2>
+                                <p class="text-gray-500 text-sm">Equipamiento profesional incluido en tu reserva.</p>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                                ${data.features.map(f => `
+                                    <div class="flex flex-col items-center text-center group">
+                                        <div class="w-20 h-20 rounded-2xl bg-[#08090B] border border-white/5 flex items-center justify-center mb-6 group-hover:border-gold/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.1)] transition-all duration-500 relative overflow-hidden">
+                                            <div class="absolute inset-0 bg-gold/5 transform scale-0 group-hover:scale-100 transition-transform duration-500 rounded-2xl"></div>
+                                            <i class="fa-solid ${f.icon} text-3xl text-gray-600 group-hover:text-gold transition-colors relative z-10"></i>
+                                        </div>
+                                        <h4 class="text-white font-bold uppercase text-xs tracking-widest mb-2">${f.label}</h4>
+                                        <p class="text-[10px] text-gray-500 max-w-[150px] leading-relaxed">${f.desc}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            // --- MODAL DE ESPACIOS (DISEÑO FUSIONADO & TICKET) ---
+            openSpaceDetails(id) {
+                const s = DataManager.get().espacios.servicios.find(x => x.id === id);
+                if(!s) return;
+                
+                const images = s.gallery || [s.img];
+                
+                const formatDetails = (text) => {
+                    if(!text) return '';
+                    return text.split('\n').map(line => {
+                        const l = line.trim();
+                        if(l.startsWith('*')) return `<h4 class="text-gold font-display font-bold text-lg mt-6 mb-3 uppercase tracking-widest">${l.substring(1)}</h4>`; // Sin borde lateral, mas limpio
+                        if(l.startsWith('-')) return `<li class="flex items-start gap-3 mb-2 ml-1"><i class="fa-solid fa-check text-gold mt-1 text-[10px]"></i> <span class="text-gray-300 font-light">${l.substring(1)}</span></li>`;
+                        return `<p class="mb-3 leading-relaxed text-gray-300 font-light">${line}</p>`;
+                    }).join('');
+                };
+
+                const modalHTML = `
+                    <div id="class-modal-overlay" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center p-0 md:p-8 transition-opacity duration-500 opacity-0" onclick="App.closeClassModal()">
+                        <div class="w-full h-full md:h-[85vh] md:max-w-6xl bg-[#08090B] md:border border-white/10 md:rounded-3xl overflow-hidden shadow-2xl relative transform transition-all duration-500 translate-y-10 md:scale-95 flex flex-col md:block" id="class-modal-card" onclick="event.stopPropagation()">
+                            
+                            <button onclick="App.closeClassModal()" class="absolute top-6 right-6 z-50 w-10 h-10 bg-black/50 text-white rounded-full hover:bg-gold hover:text-black transition-all flex items-center justify-center border border-white/10 backdrop-blur-md">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+                            <div class="flex flex-col md:grid md:grid-cols-2 h-full">
+                                
+                                <div class="h-[45%] md:h-full relative overflow-hidden group bg-black shrink-0">
+                                    <div id="modal-carousel" class="flex h-full transition-transform duration-500 ease-out">
+                                        ${images.map(img => `<img src="${img}" class="w-full h-full object-cover shrink-0">`).join('')}
+                                    </div>
+                                    
+                                    <div class="absolute inset-0 bg-gradient-to-t from-[#08090B] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-[#08090B] z-10 pointer-events-none"></div>
+
+                                    ${images.length > 1 ? `
+                                        <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+                                            ${images.map((_, i) => `<div class="w-1.5 h-1.5 rounded-full bg-white/50 transition-colors" id="dot-${i}"></div>`).join('')}
+                                        </div>
+                                        <button onclick="App.moveModalCarousel(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-3xl z-20 p-2"><i class="fa-solid fa-chevron-right"></i></button>
+                                    ` : ''}
+                                </div>
+
+                                <div class="h-[55%] md:h-full flex flex-col bg-[#08090B] relative z-20 overflow-hidden pl-0 md:pl-8">
+                                    
+                                    <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+                                        <h2 class="text-4xl md:text-6xl font-serif font-black text-white mb-2 leading-none">${s.title}</h2>
+                                        <p class="text-gray-500 text-sm mb-8 font-light italic border-b border-white/5 pb-4">${s.shortDesc}</p>
+                                        
+                                        <div class="prose prose-invert prose-sm max-w-none text-gray-300">
+                                            ${formatDetails(s.longDesc || s.desc)}
+                                        </div>
+                                    </div>
+
+                                    <div class="p-6 bg-[#05060b] shrink-0 border-t border-white/5">
+                                        ${s.showPrice ? `
+                                            <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-gold/10 border border-gold/30 p-4 rounded-xl mb-4 w-full">
+                                                <div class="text-center md:text-left">
+                                                    <p class="text-[10px] text-gold uppercase font-bold tracking-widest">Valor de Inversión</p>
+                                                    <div class="flex items-baseline gap-1 justify-center md:justify-start">
+                                                        <span class="text-2xl font-serif font-bold text-white currency-dynamic" 
+                                                              data-crc="${s.priceCRC || 0}" 
+                                                              data-usd="${s.priceUSD || 0}">
+                                                            ₡${parseInt(s.priceCRC || 0).toLocaleString()}
+                                                        </span>
+                                                        <span class="text-xs text-gray-400 uppercase">/ ${s.priceType}</span>
+                                                    </div>
+                                                </div>
+                                                <button onclick="window.open('https://wa.me/50670866080?text=Hola,%20deseo%20cotizar%20${encodeURIComponent(s.title)}', '_blank')" class="bg-gold hover:bg-white text-black px-6 py-3 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors shadow-lg">
+                                                    Consultar Fecha
+                                                </button>
+                                            </div>
+                                        ` : `
+                                            <button onclick="window.open('https://wa.me/50670866080', '_blank')" class="btn-galaxy w-full py-4 rounded-xl font-bold text-black uppercase tracking-widest">
+                                                Contactar Staff
+                                            </button>
+                                        `}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                this.modalImgIdx = 0;
+                this.modalImgMax = images.length;
+                setTimeout(() => {
+                    document.getElementById('class-modal-overlay').classList.remove('opacity-0');
+                    document.getElementById('class-modal-card').classList.remove('translate-y-10', 'md:scale-95');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            },
+
         };
 
         // 4. ROUTER
@@ -2680,6 +2968,8 @@
                         if (id === 'agenda') {
                             App.renderAgenda(); 
                         }
+
+                        if (id === 'alquiler') App.renderEspacios();
 
                         // Lógica de acento de color para el borde inferior
                         const activeBtn = document.getElementById(`nav-${id}`);
@@ -2838,6 +3128,7 @@
                         else if(tabId === 'membresias') this.renderMembresiasEditor(target);
                         else if(tabId === 'agenda') this.renderAgendaEditor(target);
                         else if(tabId === 'alumnos') this.renderAlumnosEditor(target);
+                        else if(tabId === 'espacios') this.renderEspaciosEditor(target);
                         else if(tabId === 'config') target.innerHTML = this.genConfig();
                         else target.innerHTML = this.genGenericTable(tabId);
                     } catch (e) {
@@ -4435,6 +4726,271 @@
                     Admin.closeModal();
                     Admin.renderAlumnosEditor(document.getElementById('admin-tab-alumnos'));
                 };
+            },
+            
+            // --- GESTIÓN DE ESPACIOS (CON DOBLE MONEDA) ---
+            renderEspaciosEditor(container) {
+                if(!container) return;
+                const d = DataManager.get().espacios;
+                const blackStyle = "width: 100%; background-color: #05060b !important; color: white !important; border: 1px solid rgba(255,255,255,0.2); padding: 10px; border-radius: 6px; outline: none; font-size: 0.85rem;";
+
+                container.innerHTML = `
+                    <div class="max-w-6xl mx-auto pb-20 fade-in">
+                        <div class="flex justify-between items-end mb-8">
+                            <div>
+                                <h1 class="text-3xl font-serif font-bold text-white">Espacios & Experiencias</h1>
+                                <p class="text-gray-400 text-sm mt-1">Configura la vitrina de servicios e infraestructura.</p>
+                            </div>
+                            <button onclick="Admin.saveEspaciosFinal()" class="btn-galaxy px-8 py-3 rounded-lg text-xs font-bold shadow-lg hover:scale-105 transition-transform order-last">GUARDAR CAMBIOS</button>
+                        </div>
+                        
+                        <div class="bg-panel p-6 rounded-2xl border border-white/10 mb-8 relative group">
+                            <div class="absolute -left-1 top-6 w-1 h-12 bg-gold rounded-r"></div>
+                            <h3 class="text-gold font-bold uppercase text-xs mb-4 pl-4">Portada Principal (Hero)</h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="admin-label">Título Principal</label>
+                                    <input type="text" id="esp-hero-tit" value="${d.hero.title}" style="${blackStyle}">
+                                </div>
+                                <div>
+                                    <label class="admin-label">Imagen de Fondo (URL)</label>
+                                    <input type="text" id="esp-hero-bg" value="${d.hero.bg}" style="${blackStyle}">
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <label class="admin-label">Subtítulo / Slogan</label>
+                                <textarea id="esp-hero-sub" style="${blackStyle} height: 80px;">${d.hero.subtitle}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="bg-panel p-6 rounded-2xl border border-white/10 mb-8">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-neon font-bold uppercase text-xs">Infraestructura (Iconos)</h3>
+                                <button onclick="Admin.addEspacioFeature()" class="text-[10px] bg-white/10 hover:bg-neon hover:text-black px-3 py-1 rounded transition-colors font-bold">+ ICONO</button>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="espacios-features-list">
+                                ${d.features.map((f, i) => `
+                                    <div class="bg-black/40 p-4 rounded-xl border border-white/5 relative group hover:border-neon/30 feature-card">
+                                        <button onclick="Admin.removeEspacioFeature(${i})" class="absolute top-2 right-2 text-gray-600 hover:text-rose"><i class="fa-solid fa-xmark"></i></button>
+                                        
+                                        <div class="mb-2">
+                                            <label class="text-[9px] text-gray-500 uppercase font-bold">Icono</label>
+                                            <select class="bg-[#05060b] text-xs text-white border border-white/10 rounded w-full p-1 outline-none feat-icon" onchange="Admin.saveEspaciosState()">
+                                                <option value="fa-wind" ${f.icon==='fa-wind'?'selected':''}>Aire Acondicionado</option>
+                                                <option value="fa-music" ${f.icon==='fa-music'?'selected':''}>Sonido / DJ</option>
+                                                <option value="fa-layer-group" ${f.icon==='fa-layer-group'?'selected':''}>Piso Flotante</option>
+                                                <option value="fa-lightbulb" ${f.icon==='fa-lightbulb'?'selected':''}>Iluminación</option>
+                                                <option value="fa-wifi" ${f.icon==='fa-wifi'?'selected':''}>WiFi Alta Velocidad</option>
+                                                <option value="fa-car" ${f.icon==='fa-car'?'selected':''}>Parqueo Privado</option>
+                                                <option value="fa-video" ${f.icon==='fa-video'?'selected':''}>Proyector / Video</option>
+                                                <option value="fa-martini-glass" ${f.icon==='fa-martini-glass'?'selected':''}>Bar / Coctelería</option>
+                                                <option value="fa-utensils" ${f.icon==='fa-utensils'?'selected':''}>Catering / Comida</option>
+                                                <option value="fa-wheelchair" ${f.icon==='fa-wheelchair'?'selected':''}>Accesible (Ley 7600)</option>
+                                                <option value="fa-shield-halved" ${f.icon==='fa-shield-halved'?'selected':''}>Seguridad</option>
+                                                <option value="fa-chair" ${f.icon==='fa-chair'?'selected':''}>Mobiliario</option>
+                                                <option value="fa-restroom" ${f.icon==='fa-restroom'?'selected':''}>Baños Privados</option>
+                                                <option value="fa-camera" ${f.icon==='fa-camera'?'selected':''}>Fotografía</option>
+                                                <option value="fa-microphone" ${f.icon==='fa-microphone'?'selected':''}>Micrófono</option>
+                                                <option value="fa-person-chalkboard" ${f.icon==='fa-person-chalkboard'?'selected':''}>Pizarra / Staff</option>
+                                            </select>
+                                        </div>
+                                        <input type="text" class="w-full bg-transparent border-b border-white/10 text-white text-xs font-bold mb-1 feat-label" value="${f.label}" oninput="Admin.saveEspaciosState()" placeholder="Título">
+                                        <input type="text" class="w-full bg-transparent border-none text-gray-500 text-[10px]" value="${f.desc}" oninput="Admin.saveEspaciosState()" placeholder="Descripción corta feat-desc">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold text-white">Catálogo de Servicios</h3>
+                            <button onclick="Admin.addEspacioService()" class="btn-galaxy px-4 py-2 rounded text-[10px] font-bold">+ NUEVA TARJETA</button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="espacios-list">
+                            ${d.servicios.map((s, i) => `
+                                <div class="bg-panel p-6 rounded-2xl border border-white/10 group hover:border-gold/30 transition-all relative service-card">
+                                    <button onclick="Admin.removeEspacioService(${i})" class="absolute top-4 right-4 text-gray-600 hover:text-rose bg-black/50 w-8 h-8 rounded-full flex items-center justify-center transition-colors z-20"><i class="fa-solid fa-trash text-xs"></i></button>
+                                    
+                                    <div class="mb-4">
+                                        <div class="w-full h-40 rounded-lg overflow-hidden border border-white/10 relative mb-2">
+                                            <img src="${s.img}" class="w-full h-full object-cover main-img-preview">
+                                            <div class="absolute bottom-0 left-0 bg-black/80 px-2 py-1 text-[9px] text-gold font-bold border-t border-r border-gold/20 rounded-tr">PORTADA</div>
+                                        </div>
+                                        
+                                        <div class="space-y-1 gallery-container bg-black/20 p-2 rounded border border-white/5">
+                                            <div class="flex justify-between items-center mb-1">
+                                                <label class="text-[9px] text-gray-500 uppercase font-bold">Galería de Fotos</label>
+                                                <button onclick="Admin.addEspacioGallery(${i})" class="text-[9px] bg-white/10 hover:text-gold px-2 rounded">+</button>
+                                            </div>
+                                            ${(s.gallery || [s.img]).map((g, gIdx) => `
+                                                <div class="flex gap-2 items-center group/gal">
+                                                    <img src="${g}" class="w-6 h-6 rounded object-cover border border-white/10">
+                                                    <input type="text" class="flex-1 bg-transparent text-[10px] text-gray-400 border-b border-white/5 focus:border-gold outline-none gal-input" value="${g}" oninput="this.previousElementSibling.src=this.value; Admin.saveEspaciosState()">
+                                                    <button onclick="Admin.removeEspacioGallery(${i}, ${gIdx})" class="text-gray-600 hover:text-rose"><i class="fa-solid fa-times text-[10px]"></i></button>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <input type="text" class="bg-transparent text-xl font-serif font-bold text-white w-full border-b border-transparent focus:border-gold outline-none s-title" value="${s.title}" oninput="Admin.saveEspaciosState()">
+                                        
+                                        <div class="grid grid-cols-3 gap-2">
+                                            <div>
+                                                <label class="admin-label">Precio CRC</label>
+                                                <input type="number" class="w-full bg-[#05060b] text-xs text-white p-2 rounded border border-white/10 outline-none s-price-crc" value="${s.priceCRC || 0}" oninput="Admin.saveEspaciosState()">
+                                            </div>
+                                            <div>
+                                                <label class="admin-label">Precio USD</label>
+                                                <input type="number" class="w-full bg-[#05060b] text-xs text-white p-2 rounded border border-white/10 outline-none s-price-usd" value="${s.priceUSD || 0}" oninput="Admin.saveEspaciosState()">
+                                            </div>
+                                            <div>
+                                                <label class="admin-label">Tipo Cobro</label>
+                                                <select class="w-full bg-[#05060b] text-xs text-white p-2 rounded border border-white/10 outline-none s-type" onchange="Admin.saveEspaciosState()">
+                                                    <option value="Hora" ${s.priceType==='Hora'?'selected':''}>Por Hora</option>
+                                                    <option value="Día" ${s.priceType==='Día'?'selected':''}>Por Día</option>
+                                                    <option value="Evento" ${s.priceType==='Evento'?'selected':''}>Por Evento</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-end">
+                                            <label class="flex items-center gap-2 cursor-pointer">
+                                                <span class="text-[9px] text-gray-500 uppercase font-bold">Mostrar Precio en Web</span>
+                                                <input type="checkbox" class="accent-gold w-3 h-3 s-show" ${s.showPrice ? 'checked' : ''} onchange="Admin.saveEspaciosState()">
+                                            </label>
+                                        </div>
+
+                                        <div>
+                                            <label class="admin-label">Descripción Corta (Hover Card)</label>
+                                            <textarea class="w-full bg-black/30 text-gray-400 text-xs p-2 rounded border border-white/5 outline-none resize-none h-16 s-short" oninput="Admin.saveEspaciosState()">${s.shortDesc || ''}</textarea>
+                                        </div>
+                                        <div>
+                                            <label class="admin-label text-gold">Descripción Extendida (Modal)</label>
+                                            <textarea class="w-full bg-black/50 text-gray-300 text-xs p-3 rounded border border-white/10 outline-none resize-y h-32 font-mono s-long" oninput="Admin.saveEspaciosState()" placeholder="* TITULO\n- Lista item">${s.longDesc || ''}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <button onclick="Admin.saveEspaciosFinal()" class="btn-galaxy w-full py-4 rounded-xl font-bold mt-8 uppercase tracking-widest shadow-lg">GUARDAR TODO</button>
+                    </div>
+                `;
+            },
+
+            // --- HELPERS ESPACIOS ---
+            addEspacioFeature() {
+                const d = DataManager.get();
+                d.espacios.features.push({ icon: "fa-star", label: "Nuevo", desc: "Descripción" });
+                DataManager.save(d);
+                this.renderEspaciosEditor(document.getElementById('admin-tab-espacios'));
+            },
+            removeEspacioFeature(i) {
+                const d = DataManager.get();
+                d.espacios.features.splice(i, 1);
+                DataManager.save(d);
+                this.renderEspaciosEditor(document.getElementById('admin-tab-espacios'));
+            },
+            addEspacioService() {
+                const d = DataManager.get();
+                d.espacios.servicios.push({
+                    id: Date.now(), title: "Nuevo Espacio", shortDesc: "Resumen...", longDesc: "* DETALLE\n- Info",
+                    img: "https://via.placeholder.com/800", gallery: ["https://via.placeholder.com/800"],
+                    priceCRC: 0, priceUSD: 0, priceType: "Hora", showPrice: true
+                });
+                DataManager.save(d);
+                this.renderEspaciosEditor(document.getElementById('admin-tab-espacios'));
+            },
+            removeEspacioService(i) {
+                const d = DataManager.get();
+                d.espacios.servicios.splice(i, 1);
+                DataManager.save(d);
+                this.renderEspaciosEditor(document.getElementById('admin-tab-espacios'));
+            },
+            addEspacioGallery(i) {
+                const d = DataManager.get();
+                if(!d.espacios.servicios[i].gallery) d.espacios.servicios[i].gallery = [];
+                d.espacios.servicios[i].gallery.push("https://via.placeholder.com/800");
+                DataManager.save(d);
+                this.renderEspaciosEditor(document.getElementById('admin-tab-espacios'));
+            },
+            removeEspacioGallery(svcIdx, imgIdx) {
+                const d = DataManager.get();
+                d.espacios.servicios[svcIdx].gallery.splice(imgIdx, 1);
+                if(d.espacios.servicios[svcIdx].gallery.length > 0) d.espacios.servicios[svcIdx].img = d.espacios.servicios[svcIdx].gallery[0];
+                DataManager.save(d);
+                this.renderEspaciosEditor(document.getElementById('admin-tab-espacios'));
+            },
+
+            saveEspaciosState() {
+                // Captura en tiempo real para mantener el estado en RAM mientras editas
+                const d = DataManager.get();
+                const container = document.getElementById('espacios-list');
+                const cards = container.querySelectorAll('.service-card');
+                
+                d.espacios.servicios = Array.from(cards).map((card, i) => {
+                    const galInputs = card.querySelectorAll('.gal-input');
+                    const gallery = Array.from(galInputs).map(inp => inp.value);
+                    const mainImg = gallery.length > 0 ? gallery[0] : "https://via.placeholder.com/800";
+
+                    return {
+                        id: d.espacios.servicios[i]?.id || Date.now(),
+                        title: card.querySelector('.s-title').value,
+                        shortDesc: card.querySelector('.s-short').value,
+                        longDesc: card.querySelector('.s-long').value,
+                        priceCRC: card.querySelector('.s-price-crc').value,
+                        priceUSD: card.querySelector('.s-price-usd').value,
+                        priceType: card.querySelector('.s-type').value,
+                        showPrice: card.querySelector('.s-show').checked,
+                        img: mainImg,
+                        gallery: gallery
+                    };
+                });
+            },
+
+            saveEspaciosFinal() {
+                const d = DataManager.get();
+                
+                // 1. Guardar Hero
+                d.espacios.hero.title = document.getElementById('esp-hero-tit').value;
+                d.espacios.hero.bg = document.getElementById('esp-hero-bg').value;
+                d.espacios.hero.subtitle = document.getElementById('esp-hero-sub').value;
+
+                // 2. Guardar Features
+                const featCards = document.querySelectorAll('.feature-card');
+                d.espacios.features = Array.from(featCards).map(card => ({
+                    icon: card.querySelector('.feat-icon').value,
+                    label: card.querySelector('.feat-label').value,
+                    desc: card.querySelector('.feat-desc') ? card.querySelector('.feat-desc').value : card.querySelectorAll('input')[2].value
+                }));
+
+                // 3. Guardar Servicios (CON DOBLE MONEDA)
+                const servCards = document.querySelectorAll('.service-card');
+                d.espacios.servicios = Array.from(servCards).map((card, i) => {
+                    const galInputs = card.querySelectorAll('.gal-input');
+                    const gallery = Array.from(galInputs).map(inp => inp.value);
+                    const mainImg = gallery.length > 0 ? gallery[0] : "https://via.placeholder.com/800";
+
+                    return {
+                        id: d.espacios.servicios[i]?.id || Date.now(),
+                        title: card.querySelector('.s-title').value,
+                        shortDesc: card.querySelector('.s-short').value,
+                        longDesc: card.querySelector('.s-long').value,
+                        
+                        // CAPTURA DE PRECIOS DOBLES
+                        priceCRC: card.querySelector('.s-price-crc').value,
+                        priceUSD: card.querySelector('.s-price-usd').value,
+                        
+                        priceType: card.querySelector('.s-type').value,
+                        showPrice: card.querySelector('.s-show').checked,
+                        img: mainImg,
+                        gallery: gallery
+                    };
+                });
+
+                DataManager.save(d);
+                App.renderEspacios(); 
+                Swal.fire({icon: 'success', title: 'Espacios Actualizados', background: '#000', color: '#fff', confirmButtonColor: '#D4AF37'});
             },
 
         };
